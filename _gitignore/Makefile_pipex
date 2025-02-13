@@ -5,28 +5,39 @@
 #                                                     +:+ +:+         +:+      #
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/02/13 16:50:57 by fschnorr         ###   ########.fr        #
+#    Created: 2024/10/07 14:06:23 by fschnorr          #+#    #+#              #
+#    Updated: 2025/01/20 17:00:07 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME = pipex
 
 INCLUDE = -I include $(LIBFT_INCLUDES)
 SRC =	$(addsuffix .c,							\
 		$(addprefix src/, 						\
-								main			\
-		))										\
-		$(addsuffix .c,							\
-		$(addprefix src/error/, 				\
-								error			\
-		))										\
-		$(addsuffix .c,							\
-		$(addprefix src/utils/, 				\
-								init			\
-								prompt			\
-		))															
+							childs				\
+							error				\
+							free				\
+							init				\
+							pipex				\
+							validate			\
+		))										
 OBJS := $(SRC:.c=.o)
+
+BONUS_INCLUDE = -I include/bonus -I include $(LIBFT_INCLUDES)
+BONUS_SRC =	$(addsuffix .c,							\
+			$(addprefix src/bonus/, 				\
+									error_bonus		\
+									free_bonus		\
+									init_bonus		\
+									pipex_bonus		\
+									validate_bonus	\
+			))
+BONUS_OBJS := $(BONUS_SRC:.c=.o)
+
+#FT_PRINTF_INCLUDES = -I $(FT_PRINTF_DIR)/includes
+#FT_PRINTF_DIR = lib/ft_printf
+#FT_PRINTF_AR = $(FT_PRINTF_DIR)/libftprintf.a
 
 LIBFT_INCLUDES = -I $(LIBFT_DIR)/includes
 LIBFT_DIR = lib/libft
@@ -41,18 +52,24 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -C $(LIBFT_DIR) $(MFLAGS)
-	@echo -n "run cc for minishell..."
+	@echo -n "run cc for pipex..."
 	@$(CC) $^ $(LIBFT_AR) -o $(NAME) $(CFLAGS) $(INCLUDE)
 	@echo "done"
 
+#bonus: CFLAGS += $(BONUS_CFLAGS)
+bonus: $(OBJS) $(BONUS_OBJS)
+	@make -C $(LIBFT_DIR) $(MFLAGS)
+	@echo -n "run cc for pipex with bonus..."
+	@$(CC) $(filter-out src/pipex.o, $(OBJS)) $(BONUS_OBJS) $(LIBFT_AR) -o $(NAME) $(CFLAGS) $(BONUS_INCLUDE)
+	@echo "done"
 %.o: %.c
-	@$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDE)
+	@$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDE) $(BONUS_INCLUDE)
 
 clean:
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) $(BONUS_OBJS)
 
 fclean: clean
-	@echo -n "run fclean for minishell..."
+	@echo -n "run fclean for pipex..."
 	@rm -f $(NAME)
 	@echo "done"
 	@make fclean -C $(LIBFT_DIR) $(MFLAGS)
@@ -70,6 +87,10 @@ valgrind: CFLAGS += -g -O0
 valgrind: re
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./$(NAME) $(ARG)
 
+bonus_valgrind: CFLAGS += -g -O0
+bonus_valgrind: fclean bonus
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./$(NAME) $(ARG)
+
 checkup: CFLAGS += -Werror
 checkup:
 	@echo "Checking for memory leaks..."
@@ -80,4 +101,4 @@ norm:
 	@echo "Checking for norm compliance..."
 	@norminette
 
-.PHONY: all setup clean fclean re debug run valgrind checkup norm
+.PHONY: all setup clean fclean re debug run valgrind checkup norm bonus

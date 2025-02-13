@@ -1,34 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   structs_pipex.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/13 16:55:01 by fschnorr         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/13 16:35:16 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
 
-# include "../lib/libft/includes/libft.h"
-# include "structs.h"
-# include <stdio.h>
-# include <errno.h>
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
-
-
-//Initialisation
-void	init_vars(t_prompt *prompt);
-
-//Prompt
-void	get_prompt(t_prompt *prompt, char **envp);
-
-
-
-//Validation, Handle errors & Free
-int	 	error(char *s);
+typedef struct s_vars
+{
+	char	*infile;
+	char	*cmd1;
+	char	*cmd2;
+	char	*outfile;
+	char	*bin1;
+	char	*bin2;
+	char	**envp;
+	char	**path;
+	char	**args;
+	int		fd_in;
+	int		fd_out;
+	int		fd_pipe[2];
+	int		pid1;
+	int		pid2;
+	int		i;
+	int		exit_status;
+	int		last_exit_code;
+	int		error_print;
+}		t_vars;
 
 #endif
