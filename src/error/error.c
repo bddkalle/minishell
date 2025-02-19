@@ -6,20 +6,22 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:40:30 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/13 14:55:19 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:08:35 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	 error(char *s)
+void	error_exit(t_vars *vars, char *s, int exit_code)
 {
 	if (errno == 0)
 	{
+		write(2, "Error: ", 7);
 		write(2, s, ft_strlen(s));
 		write(2, "\n", 1);
 	}
 	else
 	 	perror(s);
-	return (1);
+ 	free_all(vars);
+	exit (exit_code);
 }

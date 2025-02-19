@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/13 16:46:33 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/19 12:52:32 by fschnorr         ###   ########.fr       */
+/*   Created: 2025/02/18 16:45:51 by fschnorr          #+#    #+#             */
+/*   Updated: 2025/02/19 13:08:21 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	init_vars(t_vars *vars)
+void	free_null(void *ptr)
 {
-		*vars = (t_vars) {};
-		vars->prompt = (t_prompt *)malloc(sizeof(t_prompt));
-		if (!vars->prompt)
-			error_exit(vars, "Could not allocate memory for prompt struct", EXIT_FAILURE);
-		*vars->prompt = (t_prompt){};
+	free(ptr);
+	ptr = NULL;
+}
+
+void	free_all(t_vars *vars)
+{
+	if (!vars->prompt)
+		return ;
+	if (vars->prompt->prompt)
+		free_null(vars->prompt->prompt);
+	if (vars->prompt)
+		free_null(vars->prompt);
 }

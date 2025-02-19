@@ -6,7 +6,7 @@
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/02/13 16:50:57 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/02/19 15:05:44 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,13 @@ SRC =	$(addsuffix .c,							\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/utils/, 				\
+								free			\
 								init			\
 								prompt			\
 		))															
-OBJS := $(SRC:.c=.o)
+
+OBJS_DIR = obj
+OBJS := $(addprefix $(OBJS_DIR)/, $(notdir $(SRC:.c=.o)))
 
 LIBFT_INCLUDES = -I $(LIBFT_DIR)/includes
 LIBFT_DIR = lib/libft
@@ -37,6 +40,8 @@ CFLAGS = -Wall -Wextra
 MFLAGS = --no-print-directory
 VFLAGS = -g -O0
 
+vpath %.c src src/error src/utils
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
@@ -45,11 +50,14 @@ $(NAME): $(OBJS)
 	@$(CC) $^ $(LIBFT_AR) -o $(NAME) $(CFLAGS) $(INCLUDE)
 	@echo "done"
 
-%.o: %.c
+$(OBJS_DIR):
+	@mkdir -p $(OBJS_DIR)
+
+$(OBJS_DIR)/%.o: %.c | $(OBJS_DIR)
 	@$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDE)
 
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJS_DIR)
 
 fclean: clean
 	@echo -n "run fclean for minishell..."
@@ -80,4 +88,4 @@ norm:
 	@echo "Checking for norm compliance..."
 	@norminette
 
-.PHONY: all setup clean fclean re debug run valgrind checkup norm
+.PHONY: all clean fclean re debug run valgrind checkup norm

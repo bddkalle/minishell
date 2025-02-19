@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/13 16:55:01 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:07:59 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@
 
 
 //Initialisation
-void	init_vars(t_prompt *prompt);
+void	init_vars(t_vars *vars);
 
 //Prompt
-void	get_prompt(t_prompt *prompt, char **envp);
+void	get_prompt(t_vars *vars);
+void	build_prompt(t_vars *vars, char *s);
 
 
 
 //Validation, Handle errors & Free
-int	 	error(char *s);
+void	error_exit(t_vars *vars, char *s, int exit_code);
+void	free_all(t_vars *vars);
+void	free_null(void *ptr);
+
 
 #endif
