@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/19 16:29:03 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/02/20 10:13:46 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_prompt
 typedef struct s_vars
 {
 	t_prompt	*prompt;
+	char		*line;
 } 				t_vars;
 
 #endif

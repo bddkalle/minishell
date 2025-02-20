@@ -6,7 +6,7 @@
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/02/19 15:15:31 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/02/20 15:21:10 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@make -C $(LIBFT_DIR) $(MFLAGS)
 	@echo -n "run cc for minishell..."
-	@$(CC) $^ $(LIBFT_AR) -o $(NAME) $(CFLAGS) $(INCLUDE)
+	@$(CC) $^ $(LIBFT_AR) -o $(NAME) $(CFLAGS) $(INCLUDE) -lreadline
 	@echo "done"
 
 $(OBJS_DIR):
@@ -75,7 +75,7 @@ run: re
 
 valgrind: CFLAGS += -g -O0
 valgrind: re
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./$(NAME) $(ARG)
+	@valgrind --quiet --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-origins=yes --track-fds=yes -s ./$(NAME) $(ARG)
 
 checkup: CFLAGS += -Werror
 checkup:
