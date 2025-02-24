@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/19 17:03:38 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:40:46 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	minishell(void);
 
 //Initialisation
 void	init_vars(t_vars *vars);
+void	*Malloc(size_t size, t_vars *vars);
+
 
 //Prompt
 void	get_prompt(t_vars *vars);

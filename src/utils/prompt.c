@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/19 14:14:10 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:59:20 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ void	get_prompt(t_vars *vars)
 	build_prompt(vars, vars->prompt->hostname);
 	build_prompt(vars, ":~");
 	build_prompt(vars, vars->prompt->cwd);
-	build_prompt(vars, "$");
+	build_prompt(vars, "$ ");
 }

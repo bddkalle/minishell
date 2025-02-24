@@ -6,7 +6,7 @@
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/02/20 15:21:10 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/02/24 12:40:05 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC =	$(addsuffix .c,							\
 								free			\
 								init			\
 								prompt			\
+								utils			\
 		))															
 OBJS_DIR = obj
 OBJS := $(addprefix $(OBJS_DIR)/, $(notdir $(SRC:.c=.o)))
