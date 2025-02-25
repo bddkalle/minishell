@@ -6,7 +6,7 @@
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/02/24 12:40:05 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/02/25 12:57:52 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,10 @@ SRC =	$(addsuffix .c,							\
 		$(addsuffix .c,							\
 		$(addprefix src/error/, 				\
 								error			\
+		))										\
+		$(addsuffix .c,							\
+		$(addprefix src/parser/, 				\
+								lexer			\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/utils/, 				\
@@ -40,7 +44,7 @@ CFLAGS = -Wall -Wextra
 MFLAGS = --no-print-directory
 VFLAGS = -g -O0
 
-vpath %.c src src/error src/utils
+vpath %.c src src/error src/parser src/utils
 
 all: $(NAME)
 

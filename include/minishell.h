@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/24 12:40:46 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:53:18 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ void	error_exit(t_vars *vars, char *s, int exit_code);
 void	error_main(char *s, char **argv);
 void	free_all(t_vars *vars);
 void	free_null(void *ptr);
+
+
+//Parser
+void	lexer(t_vars *vars);
+void	fill_token(t_vars *vars, t_lexer_state state);
+
 
 
 

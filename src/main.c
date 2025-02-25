@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/24 12:57:02 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/02/25 10:47:59 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	minishell(void)
 		}
 		add_history(vars.line);
 		//do_stuff
+		lexer(&vars);
 		free_null(vars.line);
 	}
 	free_all(&vars);
