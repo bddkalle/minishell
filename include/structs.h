@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/25 12:38:18 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:44:44 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	struct s_token	*next;
 
 }					t_token;
 
@@ -57,7 +58,8 @@ typedef struct s_prompt
 typedef struct s_vars
 {
 	t_prompt	*prompt;
-	t_token		**token;
+	t_token		*token;
+	char		*curr_token;
 	char		*line;
 } 				t_vars;
 
