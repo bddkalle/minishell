@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/27 12:31:54 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/03 12:50:30 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_token	*create_token(t_token_type type, t_vars *vars)
 {
 	t_token	*node;
 
-	node = Malloc(sizeof(t_token), vars);
+	node = _malloc(sizeof(t_token), vars);
 	node->type = type;
 	node->value = strdup(vars->curr_token);
 	if (!node->value)
@@ -81,7 +81,7 @@ void	lexer(t_vars *vars)
 
 	state = NORMAL;
 	last_ptr = &vars->token;
-	vars->curr_token = Malloc((ft_strlen(vars->line) + 1) * sizeof(vars->curr_token), vars);
+	vars->curr_token = _malloc((ft_strlen(vars->line) + 1) * sizeof(vars->curr_token), vars);
 	i = 0;
 	token_pos = 0;
 	while (1)

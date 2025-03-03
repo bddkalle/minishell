@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:28:44 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/24 12:51:31 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/03 12:47:31 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	*Malloc(size_t size, t_vars *vars)
+void	*_malloc(size_t size, t_vars *vars)
 {
 	void	*ptr;
 

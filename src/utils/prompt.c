@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/24 12:59:20 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:46:37 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ void	build_prompt(t_vars *vars, char *s)
 		error_exit(vars, "Could not join strings for prompt creation", EXIT_FAILURE);
 }
 
+void	get_hostname(t_vars *vars)
+{
+	char	*hostname_end;
+
+	vars->prompt->fd_hostname = open("/etc/hostname", O_RDONLY);
+	if (vars->prompt->fd_hostname == -1)
+		error_exit(vars, "Could not open /etc/hostname", EXIT_FAILURE);
+	vars->prompt->hostname = get_next_line(vars->prompt->fd_hostname);
+	if (!vars->prompt->hostname)
+		error_exit(vars, "Could not read from /etc/hostname", EXIT_FAILURE);
+	if (ft_strchr(vars->prompt->hostname, '.'))
+	{
+		hostname_end = ft_strchr(vars->prompt->hostname, '.');
+		*hostname_end = '\0';
+	}
+}
+
 void	get_prompt(t_vars *vars)
 {
 	vars->prompt->user = getenv("USER");
@@ -34,7 +51,9 @@ void	get_prompt(t_vars *vars)
 		error_exit(vars, "Could not get $USER", EXIT_FAILURE);
 	vars->prompt->hostname = getenv("HOSTNAME");
 	if (!vars->prompt->hostname)
-		vars->prompt->hostname = "NO_HOSTNAME_IN_ENV"; // check if HOSTNAME is set in env on campus, if! -> trello/waiting prompt
+		get_hostname(vars);
+		/* if (!vars->prompt->hostname)
+			vars->prompt->hostname = "NO_HOSTNAME_IN_ENV"; // check if HOSTNAME is set in env on campus, if! -> trello/waiting prompt */
 	vars->prompt->pwd = getenv("PWD");
 	if (!vars->prompt->pwd)
 		error_exit(vars, "Could not get $PWD", EXIT_FAILURE);

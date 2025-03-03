@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:46:33 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/02/24 12:51:44 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/03 12:50:58 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 void	init_vars(t_vars *vars)
 {
 		*vars = (t_vars) {};
-		vars->prompt = Malloc(sizeof(*vars->prompt), vars);
+		vars->prompt = _malloc(sizeof(*vars->prompt), vars);
 		*vars->prompt = (t_prompt){};
 }
