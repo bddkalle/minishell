@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/03 13:46:37 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:55:20 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	get_hostname(t_vars *vars)
 		hostname_end = ft_strchr(vars->prompt->hostname, '.');
 		*hostname_end = '\0';
 	}
+	if (vars->prompt->hostname[ft_strlen(vars->prompt->hostname) - 1] == '\n')
+		vars->prompt->hostname[ft_strlen(vars->prompt->hostname) - 1] = '\0';
 }
 
 void	get_prompt(t_vars *vars)
