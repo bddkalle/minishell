@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/03 12:54:31 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:07:15 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void	minishell(void)
 {
 	t_vars		vars;
 	t_token		*tmp;
-	
+
 	init_vars(&vars);
+	printf("%d\n", vars.prompt->fd_hostname);
+	printf("%d\n", vars.lexer->token_pos);
 	get_prompt(&vars);
- 	while (1)
+	while (1)
 	{
 		vars.line = readline(vars.prompt->prompt);
 		if (!vars.line || !ft_strcmp(vars.line, "exit"))
@@ -37,7 +39,8 @@ void	minishell(void)
 			printf("%s\n", tmp->value);
 			tmp = tmp->next;
 		}
-		free_null(vars.line);
+		free_null_readline(&vars);
+		//free_null(vars.line);
 	}
 	free_all(&vars);
 }

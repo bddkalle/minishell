@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/03 12:48:56 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:38:41 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,20 @@ void	build_prompt(t_vars *vars, char *s);
 void	error_exit(t_vars *vars, char *s, int exit_code);
 void	error_main(char *s, char **argv);
 void	free_all(t_vars *vars);
-void	free_null(void *ptr);
+void	free_null(void **ptr);
+void	free_null_token(t_vars	*vars);
+void	free_null_readline(t_vars *vars);
 void	close_all(t_vars *vars);
 void	_close(int fd);
 
 
 
 //Parser
-void	lexer(t_vars *vars);
-t_token	*create_token(t_token_type type, t_vars *vars);
-int		is_whitespace(char c);
-void	fill_token(t_vars *vars, t_lexer_state state);
+void			lexer(t_vars *vars);
+t_lexer_state	lexer_state(t_vars *vars, char c, t_lexer_state state, int token_pos);
+t_token			*create_token(t_token_type type, t_vars *vars);
+int				is_whitespace(char c);
+void			fill_token(t_vars *vars, t_lexer_state state);
 
 
 

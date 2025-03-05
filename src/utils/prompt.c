@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/03 13:55:20 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/04 13:11:37 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	build_prompt(t_vars *vars, char *s)
 	else
 		vars->prompt->prompt = ft_strjoin(tmp, s);
 	if (tmp)
-		free_null(tmp);
+		free_null((void **)&tmp);
 	if (!vars->prompt->prompt)
 		error_exit(vars, "Could not join strings for prompt creation", EXIT_FAILURE);
 }

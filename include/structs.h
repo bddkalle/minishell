@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/03 12:41:30 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:58:36 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,15 @@ typedef struct s_token
 
 }					t_token;
 
+typedef struct s_lexer
+{
+	t_lexer_state	state;
+	t_token			**next_node;
+	char			*curr_token;
+	int				token_pos;	
+
+}			t_lexer;
+
 typedef struct s_prompt
 {
 	char		*user;
@@ -59,8 +68,8 @@ typedef struct s_prompt
 typedef struct s_vars
 {
 	t_prompt	*prompt;
+	t_lexer		*lexer;
 	t_token		*token;
-	char		*curr_token;
 	char		*line;
 } 				t_vars;
 
