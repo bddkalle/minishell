@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/04 16:38:41 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/05 14:29:39 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	_close(int fd);
 //Parser
 void			lexer(t_vars *vars);
 t_lexer_state	lexer_state(t_vars *vars, char c, t_lexer_state state, int token_pos);
-t_token			*create_token(t_token_type type, t_vars *vars);
+t_token			*create_token(t_vars *vars);
 int				is_whitespace(char c);
 void			fill_token(t_vars *vars, t_lexer_state state);
 

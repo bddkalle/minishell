@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/04 17:07:15 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:17:03 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	minishell(void)
 	t_token		*tmp;
 
 	init_vars(&vars);
-	printf("%d\n", vars.prompt->fd_hostname);
-	printf("%d\n", vars.lexer->token_pos);
 	get_prompt(&vars);
 	while (1)
 	{
@@ -37,10 +35,11 @@ void	minishell(void)
 		while (tmp)
 		{
 			printf("%s\n", tmp->value);
+			printf("%d\n", tmp->type);
 			tmp = tmp->next;
 		}
+		parser(&vars);
 		free_null_readline(&vars);
-		//free_null(vars.line);
 	}
 	free_all(&vars);
 }
