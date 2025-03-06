@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/05 17:05:21 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/06 09:22:33 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ typedef struct s_ast_node
 
 											//	PARSER	//
 
-typedef struct s_parser
+/* typedef struct s_parser
 {
 	t_token	curr_tok;
 }	t_parser;
 
-										//	LEXER	//
+ */										//	LEXER	//
 
 typedef enum e_lexer_state
 {
@@ -129,7 +129,7 @@ typedef struct s_vars
 	t_prompt	*prompt;
 	t_lexer		*lexer;
 	t_token		*token;
-	t_parser	*parser;
+//	t_parser	*parser;
 	char		*line;
 } 				t_vars;
 
