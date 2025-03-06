@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/04 13:11:37 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:43:31 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	get_prompt(t_vars *vars)
 	vars->prompt->hostname = getenv("HOSTNAME");
 	if (!vars->prompt->hostname)
 		get_hostname(vars);
-		/* if (!vars->prompt->hostname)
-			vars->prompt->hostname = "NO_HOSTNAME_IN_ENV"; // check if HOSTNAME is set in env on campus, if! -> trello/waiting prompt */
 	vars->prompt->pwd = getenv("PWD");
 	if (!vars->prompt->pwd)
 		error_exit(vars, "Could not get $PWD", EXIT_FAILURE);
