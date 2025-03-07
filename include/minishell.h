@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/05 14:29:39 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/07 10:54:47 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ t_lexer_state	lexer_state(t_vars *vars, char c, t_lexer_state state, int token_p
 t_token			*create_token(t_vars *vars);
 int				is_whitespace(char c);
 void			fill_token(t_vars *vars, t_lexer_state state);
+
+//builtins
+int	run_echo(int fd, char **argv);
+
+//executor
+void	executor(t_vars *vars);
 
 
 

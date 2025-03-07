@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/06 09:22:33 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/07 10:54:04 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_ast_node
 		{
 			struct s_ast_node	*left;
 			struct s_ast_node	*right;
-		}	s_operator;								//for operators "|" , "&&" and "||" 
+		}	s_operator;								//for operators "|" , "&&" and "||"
 		struct s_subshell
 		{
 			struct s_ast_node	*child;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/03/06 10:42:31 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/03/06 15:42:53 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,16 @@ SRC =	$(addsuffix .c,							\
 								main			\
 		))										\
 		$(addsuffix .c,							\
+		$(addprefix src/builtins/, 				\
+								echo			\
+		))										\
+		$(addsuffix .c,							\
 		$(addprefix src/error/, 				\
 								error			\
+		))										\
+		$(addsuffix .c,							\
+		$(addprefix src/executor/, 				\
+								executor		\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/parser/, 				\
@@ -31,7 +39,7 @@ SRC =	$(addsuffix .c,							\
 								init			\
 								prompt			\
 								utils			\
-		))															
+		))
 OBJS_DIR = obj
 OBJS := $(addprefix $(OBJS_DIR)/, $(notdir $(SRC:.c=.o)))
 
@@ -44,7 +52,7 @@ CFLAGS = -Wall -Wextra
 MFLAGS = --no-print-directory
 VFLAGS = -g -O0
 
-vpath %.c src src/error src/parser src/utils
+vpath %.c src src/builtins src/error src/executor src/parser src/utils
 
 all: $(NAME)
 
