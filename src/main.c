@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/06 10:19:17 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:51:34 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	minishell(void)
 			printf("%d\n", tmp->type);
 			tmp = tmp->next;
 		}
-	//	parser(&vars);
+		parser(&vars);
 		free_null_readline(&vars);
 	}
 	free_all(&vars);

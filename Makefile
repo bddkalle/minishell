@@ -6,7 +6,7 @@
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/03/06 10:42:31 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/03/11 16:49:57 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ SRC =	$(addsuffix .c,							\
 		$(addsuffix .c,							\
 		$(addprefix src/parser/, 				\
 								lexer			\
+								parser			\
+								p_utils	\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/utils/, 				\

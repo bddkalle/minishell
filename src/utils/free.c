@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:45:51 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/06 10:43:12 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:11:56 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	free_all(t_vars *vars)
 	free_null_token(vars);
 	free_null((void **)&vars->line);
 	free_null((void **)&vars->lexer);
+	free_null((void **)&vars->parser);
+	free_null((void **)&vars->ast);
 	if (vars->prompt)
 	{
 		free_null((void **)&vars->prompt->hostname);

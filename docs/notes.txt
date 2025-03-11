@@ -1,0 +1,9 @@
+Grammar:
+
+    Expression:
+    expr → factor { ( "&&" | "||" ) factor }
+    (This means an expression is a factor optionally followed by one or more logical operators and additional factors.)
+
+    Factor:
+    factor → command | "(" expr ")"
+    (A factor is either a command or a parenthesized expression.)

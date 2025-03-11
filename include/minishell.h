@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/05 14:29:39 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:19:08 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../lib/libft/includes/libft.h"
 # include "structs.h"
 # include <stdio.h>
+# include <stdlib.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/readline.h>
@@ -54,7 +55,9 @@ void			lexer(t_vars *vars);
 t_lexer_state	lexer_state(t_vars *vars, char c, t_lexer_state state, int token_pos);
 t_token			*create_token(t_vars *vars);
 int				is_whitespace(char c);
-void			fill_token(t_vars *vars, t_lexer_state state);
+void			parser(t_vars *vars);
+int				current_token_is(char *s, t_vars *vars);
+
 
 
 
