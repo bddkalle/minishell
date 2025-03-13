@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/13 17:33:24 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:55:02 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	executor(t_vars *vars)
 {
 	//t_ast_node	*ast;
 
-	printf("\n>>Minishell Output<<\n");
+	printf("\n###################### MINISHELL OUTPUT ######################\n");
 	//create a dummy
 	//ast = malloc(sizeof(t_ast_node));
 	//ast_dummy2(ast);
