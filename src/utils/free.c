@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:45:51 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/12 16:06:55 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:10:19 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ void	free_null_readline(t_vars *vars)
 	free_parser(vars);
 	free_null_token(vars);
 	free_null((void **)&vars->line);
+	free_null((void **)&vars->lexer);
+	free_null((void **)&vars->parser);
 }
 
 void	free_null_token(t_vars *vars)
 {
 	t_token	*tmp;
 
-	free_null((void **)&vars->lexer->curr_token);
+	if (vars->lexer)
+		free_null((void **)&vars->lexer->curr_token);
 
 	while (vars->token)
 	{
