@@ -6,12 +6,11 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/13 12:06:12 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:46:42 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <string.h>
 
 void	ast_dummy1(t_ast_node *ast)
 {
@@ -92,6 +91,8 @@ int	execute_command(char **argv)
 {
 	if (ft_strcmp(argv[0], "echo") == 0)
 		return (run_echo(1, argv));
+	if (ft_strcmp(argv[0], "pwd") == 0)
+		return (run_pwd(1, argv));
 	if (ft_strcmp(argv[0], "cd") == 0)
 		return (run_cd(1, argv));
 	return (-1);
@@ -99,6 +100,8 @@ int	execute_command(char **argv)
 
 int	execute_ast(t_ast_node *node)
 {
+	//int	left_status;
+	//int	right_status;
 	if (node->type == AST_COMMAND)
 		return (execute_command(node->u_data.s_command.argv));
 	else if (node->type == AST_PIPE)
@@ -116,6 +119,7 @@ void	executor(t_vars *vars)
 {
 	//t_ast_node	*ast;
 
+	printf("\n>>Minishell Output<<\n");
 	//create a dummy
 	//ast = malloc(sizeof(t_ast_node));
 	//ast_dummy2(ast);
@@ -129,23 +133,3 @@ void	executor(t_vars *vars)
 
 	return ;
 }
-
-/* void	executor(t_vars *vars)
-{
-	t_token *tmp;
-
-	while (tmp)
-	{
-		if (vars->token->type == 3)
-		{
-			redirect_out()
-		}
-	{
-
-	}
-	if (vars->token->value && ft_strcmp(vars->token->value, "echo") == 0)
-	{
-		echo(vars->token->next->value);
-	}
-	return ;
-} */

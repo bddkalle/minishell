@@ -6,13 +6,11 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:56 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/13 11:02:08 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:47:07 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <string.h>
-#include <unistd.h>
 
 void	chdir_error(char *path)
 {
@@ -21,17 +19,18 @@ void	chdir_error(char *path)
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, strerror(errno), ft_strlen(strerror(errno)));
 	write(STDERR_FILENO, "\n", 1);
-	// error_msg = ft_strjoin("minishell: cd:", *path);
-	// perror(error_msg);
-	// free(error_msg);
 	return ;
 }
 
 int	run_cd(int fd, char **argv)
 {
+	char	*path;
+	//char	*home;
+
+	(void)path;
 	(void)fd;
 	if (*(argv + 2) != NULL)
-		write(STDERR_FILENO, "minishell: cd: too many arguments", 33); // ungetestet. zuerst parser und executor verbinden
+		write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34); // eleganter in eine errorfunktion integrieren?
 	argv++;
 	if (**argv == '/')
 	{
@@ -41,5 +40,15 @@ int	run_cd(int fd, char **argv)
 			return (-1);
 		}
 	}
+	// else if (**argv == '~')
+	// {
+	// 	home = getenv("HOME"); // oder besser HOME aus vars->prompt beziehen?
+	// 	if (**(argv + 1) != '\0')
+	// 		path = ft_strjoin(home, *argv);
+	// }
+	// else
+	// {
+
+	// }
 	return (0);
 }

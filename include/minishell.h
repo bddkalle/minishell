@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/13 12:03:19 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:39:09 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define DEL " \t\n"
 
 # include "../lib/libft/includes/libft.h"
+# include "execution.h"
 # include "structs.h"
 # include <stdio.h>
 # include <stdlib.h>
@@ -62,16 +63,6 @@ t_ast_node		*parse_command(t_vars *vars);
 int				current_token_is(char *s, t_vars *vars);
 void			advance_token(t_vars *vars);
 void			free_parser(t_vars *vars);
-
-
-//executor
-void	executor(t_vars *vars);
-
-
-//builtins
-int	run_echo(int fd, char **argv);
-int	run_pwd(int fd, char **argv);
-int	run_cd(int fd, char **argv);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/13 12:06:06 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:49:37 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void	minishell(void)
 			printf("\n>>AST<<\n");
 			printf("command.argv[%d] = %s\n", i, vars.ast->u_data.s_command.argv[i]);
 		}
-		printf("\n>>Minishell Output<<\n");
-		executor(&vars);
+		//executor(&vars);
 		free_null_readline(&vars);
 	}
 	free_all(&vars);
