@@ -10,6 +10,6 @@ void	executor(t_vars *vars);
 //builtins
 int	run_echo(int fd, char **argv);
 int	run_pwd(int fd, char **argv);
-int	run_cd(int fd, char **argv);
+int	run_cd(t_vars *vars);
 
 #endif

@@ -6,11 +6,12 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:56 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/13 15:47:07 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:47:02 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <string.h>
 
 void	chdir_error(char *path)
 {
@@ -22,33 +23,54 @@ void	chdir_error(char *path)
 	return ;
 }
 
-int	run_cd(int fd, char **argv)
+int	run_cd(t_vars *vars)
 {
-	char	*path;
-	//char	*home;
+	char	path[PATH_MAX];
+	//char	**argv;
+	int		argc;
+	char	*tmp;
 
-	(void)path;
-	(void)fd;
-	if (*(argv + 2) != NULL)
-		write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34); // eleganter in eine errorfunktion integrieren?
-	argv++;
-	if (**argv == '/')
+	argc = 0;
+	//argv = vars->ast->u_data.s_command.argv;
+	//tmp = vars->ast->u_data.s_command.argv + 1;
+	while (*vars->ast->u_data.s_command.argv)
 	{
-		if (chdir(*argv) == -1)
+		argc++;
+		vars->ast->u_data.s_command.argv++;
+	}
+	if (argc == 1)
+	{
+		chdir(vars->prompt->home); // does it need to be error pretected?
+		return (0);
+	}
+	else if (argc > 2)
+	{
+		write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34); // eleganter in eine errorfunktion integrieren?
+		return (-1);
+	}
+	tmp = *(vars->ast->u_data.s_command.argv);
+	if (*tmp == '/')
+		ft_strlcpy(path, tmp, ft_strlen(tmp) + 1);
+	else if (*tmp == '~')
+	{
+		ft_strlcpy(path, vars->prompt->home, ft_strlen(vars->prompt->home) + 1);
+		tmp++;
+		if (*tmp)
+			ft_strlcat(path, tmp, ft_strlen(tmp));
+	}
+	else
+	{
+		if (!getcwd(path, PATH_MAX))
 		{
-			chdir_error(*argv);
+			chdir_error(tmp);
 			return (-1);
 		}
+		ft_strlcat(path, tmp, ft_strlen(tmp) + 1);
 	}
-	// else if (**argv == '~')
-	// {
-	// 	home = getenv("HOME"); // oder besser HOME aus vars->prompt beziehen?
-	// 	if (**(argv + 1) != '\0')
-	// 		path = ft_strjoin(home, *argv);
-	// }
-	// else
-	// {
-
-	// }
+	if (chdir(path) == -1)
+		{
+			chdir_error(tmp);
+			return (-1);
+		}
 	return (0);
 }

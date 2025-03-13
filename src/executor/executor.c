@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/13 15:46:42 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:33:24 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,30 +87,30 @@ void	free_dummy3(t_ast_node *ast)
 	return ;
 }
 
-int	execute_command(char **argv)
+int	execute_command(t_vars *vars)
 {
-	if (ft_strcmp(argv[0], "echo") == 0)
-		return (run_echo(1, argv));
-	if (ft_strcmp(argv[0], "pwd") == 0)
-		return (run_pwd(1, argv));
-	if (ft_strcmp(argv[0], "cd") == 0)
-		return (run_cd(1, argv));
+	if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "echo") == 0)
+		return (run_echo(1, vars->ast->u_data.s_command.argv));
+	if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "pwd") == 0)
+		return (run_pwd(1, vars->ast->u_data.s_command.argv));
+	if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "cd") == 0)
+		return (run_cd(vars));
 	return (-1);
 }
 
-int	execute_ast(t_ast_node *node)
+int	execute_ast(t_vars *vars)
 {
 	//int	left_status;
 	//int	right_status;
-	if (node->type == AST_COMMAND)
-		return (execute_command(node->u_data.s_command.argv));
-	else if (node->type == AST_PIPE)
+	if (vars->ast->type == AST_COMMAND)
+		return (execute_command(vars));
+	else if (vars->ast->type == AST_PIPE)
 		return (1);
-	else if (node->type == AST_AND)
+	else if (vars->ast->type == AST_AND)
 		return (1);
-	else if (node->type == AST_OR)
+	else if (vars->ast->type == AST_OR)
 		return (1);
-	else if (node->type == AST_SUBSHELL)
+	else if (vars->ast->type == AST_SUBSHELL)
 		return (1);
 	return (-1);
 }
@@ -124,7 +124,7 @@ void	executor(t_vars *vars)
 	//ast = malloc(sizeof(t_ast_node));
 	//ast_dummy2(ast);
 	//execute dummy
-	execute_ast(vars->ast);
+	execute_ast(vars);
 	// free dummy
 	//free_dummy1(ast);
 	//free(ast);
