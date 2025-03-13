@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/13 10:52:25 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:01:04 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../lib/libft/includes/libft.h"
 # include "structs.h"
 # include <stdio.h>
+# include <stdlib.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/readline.h>
@@ -54,15 +55,16 @@ void			lexer(t_vars *vars);
 t_lexer_state	lexer_state(t_vars *vars, char c, t_lexer_state state, int token_pos);
 t_token			*create_token(t_vars *vars);
 int				is_whitespace(char c);
-void			fill_token(t_vars *vars, t_lexer_state state);
+void			parser(t_vars *vars);
+t_ast_node		*parse_expression(t_vars *vars);
+t_ast_node		*parse_command(t_vars *vars);
 
-//builtins
-int	run_echo(int fd, char **argv);
-int	run_cd(int fd, char **argv);
-int	run_pwd(int fd, char **argv);
+int				current_token_is(char *s, t_vars *vars);
+void			advance_token(t_vars *vars);
+void			free_parser(t_vars *vars);
 
-//executor
-void	executor(t_vars *vars);
+
+
 
 
 

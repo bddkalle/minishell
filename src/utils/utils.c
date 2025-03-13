@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:28:44 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/03 12:47:31 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:24:59 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	*_malloc(size_t size, t_vars *vars)
 	void	*ptr;
 
 	ptr = NULL;
-	if(!size)
+	if (!size)
 		return (NULL);
 	ptr = malloc(size);
 	if (!ptr)
-		error_exit(vars, "Could not allocate memory", EXIT_FAILURE);	
+		error_exit(vars, "Could not allocate memory", EXIT_FAILURE);
 	return (ptr);
 }

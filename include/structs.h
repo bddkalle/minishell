@@ -6,69 +6,15 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/07 10:54:04 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:01:15 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-											//	AST	//
 
-typedef enum e_node_type
-{
-	NODE_COMMAND,
-	NODE_PIPE,
-	NODE_AND,
-	NODE_OR,
-	NODE_SUBSHELL,
-}	t_node_type;
-
-typedef enum e_redir_type
-{
-	REDIR_INPUT,
-	REDIR_OUTPUT,
-	REDIR_APPEND,
-	REDIR_HEREDOC,
-}	t_redir_type;
-
-typedef struct s_redir
-{
-	t_redir_type	type;
-	char			*target;						//filename or heredoc delimiter
-	struct s_redir	*next;							//next redirection in list if any
-}					t_redir;
-
-typedef struct s_ast_node
-{
-	t_node_type					type;
-	union u_data
-	{
-		struct s_command
-		{
-			char				**argv;				//array of command/args strings (At this stage, the tokens have been processed so that single/double quotes are respected, and environment variables or wildcards might be marked for expansion)
-			t_redir				*redirs;			//linked list of redirections
-		} 	s_command;
-		struct s_operator
-		{
-			struct s_ast_node	*left;
-			struct s_ast_node	*right;
-		}	s_operator;								//for operators "|" , "&&" and "||"
-		struct s_subshell
-		{
-			struct s_ast_node	*child;
-		} 	s_subshell;								//for parenthesized commands
-	} u_data;
-}								t_ast_node;
-
-											//	PARSER	//
-
-/* typedef struct s_parser
-{
-	t_token	curr_tok;
-}	t_parser;
-
- */										//	LEXER	//
+										//	LEXER	//
 
 typedef enum e_lexer_state
 {
@@ -112,6 +58,63 @@ typedef struct s_lexer
 	int				line_pos;
 }					t_lexer;
 
+											//	AST	//
+
+typedef enum e_node_type
+{
+	AST_COMMAND,
+	AST_PIPE,
+	AST_AND,
+	AST_OR,
+	AST_SUBSHELL,
+}	t_node_type;
+
+typedef enum e_redir_type
+{
+	REDIR_INPUT,
+	REDIR_OUTPUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC,
+}	t_redir_type;
+
+typedef struct s_redir
+{
+	t_redir_type	type;
+	char			*target;						//filename or heredoc delimiter
+	struct s_redir	*next;							//next redirection in list if any
+}					t_redir;
+
+typedef struct s_ast_node
+{
+	t_node_type					type;
+	union u_data
+	{
+		struct s_command
+		{
+			char				**argv;				//array of command/args strings (At this stage, the tokens have been processed so that single/double quotes are respected, and environment variables or wildcards might be marked for expansion)
+			t_redir				*redirs;			//linked list of redirections
+		} 	s_command;
+		struct s_operator
+		{
+			struct s_ast_node	*left;
+			struct s_ast_node	*right;
+		}	s_operator;								//for operators "|" , "&&" and "||"
+		struct s_subshell
+		{
+			struct s_ast_node	*child;
+		} 	s_subshell;								//for parenthesized commands
+	} u_data;
+}								t_ast_node;
+
+											//	PARSER	//
+
+typedef struct s_parser
+{
+	t_token		*curr_tok;
+	t_ast_node	*node;
+	int			tok_pos;
+}	t_parser;
+
 												//	MAIN  //
 typedef struct s_prompt
 {
@@ -129,8 +132,10 @@ typedef struct s_vars
 	t_prompt	*prompt;
 	t_lexer		*lexer;
 	t_token		*token;
-//	t_parser	*parser;
+	t_parser	*parser;
+	t_ast_node	*ast;
 	char		*line;
-} 				t_vars;
+}				t_vars;
+
 
 #endif

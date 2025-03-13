@@ -6,12 +6,11 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/07 11:08:19 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:00:39 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <readline/history.h>
 
 void	minishell(void)
 {
@@ -34,12 +33,17 @@ void	minishell(void)
 		tmp = vars.token;
 		while (tmp)
 		{
-			printf("%s\n", tmp->value);
-			printf("%d\n", tmp->type);
+			printf(">>Token<<\n");
+			printf("value: %s - ", tmp->value);
+			printf("type: %d\n", tmp->type);
 			tmp = tmp->next;
 		}
-	//	parser(&vars);
-		executor(&vars);
+		parser(&vars);
+		for (int i = 0; vars.ast && vars.ast->u_data.s_command.argv[i]; i++)
+		{
+			printf("\n>>AST<<\n");
+			printf("command.argv[%d] = %s\n", i, vars.ast->u_data.s_command.argv[i]);
+		}
 		free_null_readline(&vars);
 	}
 	free_all(&vars);
