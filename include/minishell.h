@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/07 10:54:47 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 10:52:25 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void			fill_token(t_vars *vars, t_lexer_state state);
 
 //builtins
 int	run_echo(int fd, char **argv);
+int	run_cd(int fd, char **argv);
+int	run_pwd(int fd, char **argv);
 
 //executor
 void	executor(t_vars *vars);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
+/*   Updated: 2025/03/13 10:51:49 by vboxuser         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 #include <string.h>
 
@@ -22,7 +34,7 @@ void	ast_dummy2(t_ast_node *ast)
 	ast->type = NODE_COMMAND;
 	ast->u_data.s_command.argv = malloc(3 * sizeof(char *));
 	ast->u_data.s_command.argv[0] = "cd";
-	ast->u_data.s_command.argv[1] = "../bashtests";
+	ast->u_data.s_command.argv[1] = "/root";
 	ast->u_data.s_command.argv[2] = NULL;
 	return ;
 }
@@ -82,7 +94,7 @@ int	execute_command(char **argv)
 		return (run_echo(1, argv));
 	if (ft_strcmp(argv[0], "cd") == 0)
 		return (run_cd(1, argv));
-	return (0);
+	return (-1);
 }
 
 int	execute_ast(t_ast_node *node)
@@ -107,7 +119,7 @@ void	executor(t_vars *vars)
 	printf("executor output:\n");
 	//create a dummy
 	ast = malloc(sizeof(t_ast_node));
-	ast_dummy1(ast);
+	ast_dummy2(ast);
 	//execute dummy
 	execute_ast(ast);
 	// free dummy
