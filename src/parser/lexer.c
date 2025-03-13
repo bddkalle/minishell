@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/05 16:25:08 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:02:00 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,7 @@ void	prepare_lexer(t_vars *vars)
 
 void	lexer(t_vars *vars)
 {
-	vars->lexer->line_pos = 0;
-	vars->lexer->token_pos = 0;
-	vars->lexer->next_node = &vars->token;
-	vars->lexer->curr_token = _malloc((ft_strlen(vars->line) + 1) * sizeof(vars->lexer->curr_token), vars);
+	init_lexer(vars);
 	while (1)
 	{
 		vars->lexer->c = vars->line[vars->lexer->line_pos];
@@ -120,8 +117,6 @@ void	lexer(t_vars *vars)
 		prepare_lexer(vars);
 		vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 		vars->lexer->line_pos++;
-	/* //	printf("%c\n", c);
-		if ((state = set_lexer_state(c, state)) == NORMAL)
-			fill_token(vars, c, state); */
 	}
+	debug_lexer(vars);
 }

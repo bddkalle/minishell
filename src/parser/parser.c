@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/12 16:32:23 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:12:23 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,10 @@ t_ast_node	*parse_command(t_vars *vars)
  */
 void	parser(t_vars *vars)
 {
-	vars->parser->curr_tok = vars->token;
+	init_parser(vars);
+	//vars->parser->curr_tok = vars->token;
 	vars->ast = parse_expression(vars);
-
+	debug_parser(vars);
 /* 	char	argv[20] = {};
 	int		i;
 
