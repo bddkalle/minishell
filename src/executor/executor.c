@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/13 10:51:49 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:06:12 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ast_dummy1(t_ast_node *ast)
 {
-	ast->type = NODE_COMMAND;
+	ast->type = AST_COMMAND;
 	ast->u_data.s_command.argv = malloc(5 * sizeof(char *));
 	ast->u_data.s_command.argv[0] = "echo";
 	ast->u_data.s_command.argv[1] = "";
@@ -31,7 +31,7 @@ void	free_dummy1(t_ast_node *ast)
 }
 void	ast_dummy2(t_ast_node *ast)
 {
-	ast->type = NODE_COMMAND;
+	ast->type = AST_COMMAND;
 	ast->u_data.s_command.argv = malloc(3 * sizeof(char *));
 	ast->u_data.s_command.argv[0] = "cd";
 	ast->u_data.s_command.argv[1] = "/root";
@@ -48,11 +48,11 @@ void	ast_dummy3(t_ast_node *ast)
 	char	*command5 = "-l";
 	char	*command6 = NULL;
 
-	ast->type = NODE_PIPE;
+	ast->type = AST_PIPE;
 	ast->u_data.s_operator.left = malloc(sizeof(t_ast_node));
 	ast->u_data.s_operator.right = malloc(sizeof(t_ast_node));
 
-	ast->u_data.s_operator.left->type = NODE_COMMAND;
+	ast->u_data.s_operator.left->type = AST_COMMAND;
 	ast->u_data.s_operator.left->u_data.s_command.argv = malloc(3 * sizeof(char*));
 	ast->u_data.s_operator.left->u_data.s_command.argv[0] = command1;
 	ast->u_data.s_operator.left->u_data.s_command.argv[1] = command2;
@@ -63,7 +63,7 @@ void	ast_dummy3(t_ast_node *ast)
 	ast->u_data.s_operator.left->u_data.s_command.redirs->target = "infile";
 	ast->u_data.s_operator.left->u_data.s_command.redirs->next = NULL;
 
-	ast->u_data.s_operator.right->type = NODE_COMMAND;
+	ast->u_data.s_operator.right->type = AST_COMMAND;
 	ast->u_data.s_operator.right->u_data.s_command.argv = malloc(3 * sizeof(char*));
 	ast->u_data.s_operator.right->u_data.s_command.argv[0] = command4;
 	ast->u_data.s_operator.right->u_data.s_command.argv[1] = command5;
@@ -99,34 +99,33 @@ int	execute_command(char **argv)
 
 int	execute_ast(t_ast_node *node)
 {
-	if (node->type == NODE_COMMAND)
+	if (node->type == AST_COMMAND)
 		return (execute_command(node->u_data.s_command.argv));
-	else if (node->type == NODE_PIPE)
+	else if (node->type == AST_PIPE)
 		return (1);
-	else if (node->type == NODE_AND)
+	else if (node->type == AST_AND)
 		return (1);
-	else if (node->type == NODE_OR)
+	else if (node->type == AST_OR)
 		return (1);
-	else if (node->type == NODE_SUBSHELL)
+	else if (node->type == AST_SUBSHELL)
 		return (1);
 	return (-1);
 }
 
 void	executor(t_vars *vars)
 {
-	t_ast_node	*ast;
+	//t_ast_node	*ast;
 
-	printf("executor output:\n");
 	//create a dummy
-	ast = malloc(sizeof(t_ast_node));
-	ast_dummy2(ast);
+	//ast = malloc(sizeof(t_ast_node));
+	//ast_dummy2(ast);
 	//execute dummy
-	execute_ast(ast);
+	execute_ast(vars->ast);
 	// free dummy
-	free_dummy1(ast);
-	free(ast);
+	//free_dummy1(ast);
+	//free(ast);
 
-	(void)vars;
+	//(void)vars;
 
 	return ;
 }
