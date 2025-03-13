@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:46:33 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/06 16:10:09 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:37:49 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,4 @@ void	init_vars(t_vars *vars)
 	vars->lexer->state = NORMAL;
 	vars->parser = _malloc(sizeof(*vars->parser), vars);
 	*vars->parser = (t_parser){};
-	vars->ast = _malloc(sizeof(*vars->ast), vars);
-	*vars->ast = (t_ast_node){};
 }

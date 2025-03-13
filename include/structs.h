@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/06 16:08:47 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:19:23 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ typedef struct s_lexer
 
 typedef enum e_node_type
 {
-	NODE_COMMAND,
-	NODE_PIPE,
-	NODE_AND,
-	NODE_OR,
-	NODE_SUBSHELL,
+	AST_COMMAND,
+	AST_PIPE,
+	AST_AND,
+	AST_OR,
+	AST_SUBSHELL,
 }	t_node_type;
 
 typedef enum e_redir_type
@@ -110,8 +110,9 @@ typedef struct s_ast_node
 
 typedef struct s_parser
 {
-	t_token	*curr_tok;
-	int		tok_pos;
+	t_token		*curr_tok;
+	t_ast_node	*node;
+	int			tok_pos;
 }	t_parser;
 
 												//	MAIN  //

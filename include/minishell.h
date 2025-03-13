@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/11 16:19:08 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:16:02 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,14 @@ t_lexer_state	lexer_state(t_vars *vars, char c, t_lexer_state state, int token_p
 t_token			*create_token(t_vars *vars);
 int				is_whitespace(char c);
 void			parser(t_vars *vars);
+t_ast_node		*parse_expression(t_vars *vars);
+t_ast_node		*parse_command(t_vars *vars);
+
 int				current_token_is(char *s, t_vars *vars);
+void			advance_token(t_vars *vars);
+void			free_parser(t_vars *vars);
+
+
 
 
 

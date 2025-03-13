@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:45:51 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/06 16:11:56 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:06:55 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	free_null(void **ptr)
 
 void	free_null_readline(t_vars *vars)
 {
+	free_parser(vars);
 	free_null_token(vars);
 	free_null((void **)&vars->line);
 }
@@ -46,6 +47,7 @@ void	free_all(t_vars *vars)
 {
 	close_all(vars);
 	rl_clear_history();
+	free_parser(vars);
 	free_null_token(vars);
 	free_null((void **)&vars->line);
 	free_null((void **)&vars->lexer);
