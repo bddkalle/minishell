@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/13 17:03:36 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:59:05 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 # define DEL " \t\n"
 
 # include "../lib/libft/includes/libft.h"
-# include "execution.h"
 # include "structs.h"
+# include "parser.h"
+# include "p_structs.h"
+# include "execution.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
@@ -31,46 +33,18 @@ void			minishell(void);
 void			init_vars(t_vars *vars);
 void			*_malloc(size_t size, t_vars *vars);
 
-
 //Prompt
 void			get_prompt(t_vars *vars);
 void			get_hostname(t_vars *vars);
 void			build_prompt(t_vars *vars, char *s);
-
-
 
 //Validation, Handle errors & Free
 void			error_exit(t_vars *vars, char *s, int exit_code);
 void			error_main(char *s, char **argv);
 void			free_all(t_vars *vars);
 void			free_null(void **ptr);
-void			free_null_token(t_vars	*vars);
 void			free_null_readline(t_vars *vars);
 void			close_all(t_vars *vars);
 void			_close(int fd);
-
-
-
-//Parser
-void			init_lexer(t_vars *vars);
-void			lexer(t_vars *vars);
-t_lexer_state	lexer_state(t_vars *vars, char c, t_lexer_state state, int token_pos);
-t_token			*create_token(t_vars *vars);
-int				is_whitespace(char c);
-void			parser(t_vars *vars);
-void			init_parser(t_vars *vars);
-t_ast_node		*parse_expression(t_vars *vars);
-t_ast_node		*parse_command(t_vars *vars);
-void			debug_lexer(t_vars *vars);
-void			debug_parser(t_vars *vars);
-int				current_token_is(char *s, t_vars *vars);
-void			advance_token(t_vars *vars);
-void			free_parser(t_vars *vars);
-
-
-
-
-
-
 
 #endif
