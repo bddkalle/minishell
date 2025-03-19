@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/19 13:30:45 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:57:13 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	debug_parser(t_vars *vars)
 					printf("command.redir_node%d.type = REDIR_APPEND\n", j);
 				if (tmp->type == REDIR_HEREDOC)
 					printf("command.redir_node%d.type = REDIR_HEREDOC\n", j);
-				printf("command.redir_node%d.taget = %s\n\n", j++, tmp->target);
+				printf("command.redir_node%d.target = %s\n\n", j++, tmp->target);
 			}
 		}
 	}
