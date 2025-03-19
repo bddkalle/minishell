@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/19 11:47:45 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:13:00 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ t_ast_node		*parse_expression(t_vars *vars);
 t_ast_node		*parse_command(t_vars *vars);
 int				current_token_is(char *s, t_vars *vars);
 void			advance_token(t_vars *vars);
-t_redir		*handle_redirs(t_vars *vars);
+t_redir			*handle_redirs(t_vars *vars);
+void			fill_cmd_argv(t_vars *vars);
+
 
 
 //Debugging

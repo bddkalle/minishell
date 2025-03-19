@@ -6,27 +6,43 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/19 13:10:02 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:43:40 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <fcntl.h>
 
-/* t_redir	*create_redir_node(t_vars *vars)
+void	fill_cmd_argv(t_vars *vars)
 {
-	t_redir	*node;
+	t_token	*tmp_token;
+	int		word_count;
+	int		i;
+	char	**argv;
 
-	node = _malloc(sizeof(t_redir), vars);
-
-	return (node);
-} */
+	tmp_token = vars->parser->curr_tok;
+	word_count = 0;
+	while (tmp_token && tmp_token->type == TOKEN_WORD)
+	{
+		word_count++;
+		tmp_token = tmp_token->next;
+	}
+	argv = _malloc((word_count + 1) * sizeof(char *), vars);
+	vars->parser->node->u_data.s_command.argv = argv;
+	i = 0;
+	while (vars->parser->curr_tok && vars->parser->curr_tok->type == TOKEN_WORD)
+	{
+		argv[i] = ft_strdup(vars->parser->curr_tok->value);
+		if (!argv[i++])
+			error_exit(vars, "strdup failed to fill nodes argv", EXIT_FAILURE);
+		advance_token(vars);
+	}
+	argv[i] = NULL;
+}
 
 t_redir	*handle_redirs(t_vars *vars)
 {
 	t_redir	*node;
 
-	//vars->parser->node->u_data.s_command.redirs = create_redir_node(vars);
 	node = _malloc(sizeof(t_redir), vars);
 	if (vars->parser->curr_tok->type == TOKEN_REDIRECT_IN)
 		node->type = REDIR_INPUT;
@@ -34,6 +50,8 @@ t_redir	*handle_redirs(t_vars *vars)
 		node->type = REDIR_OUTPUT;
 	else if (vars->parser->curr_tok->type == TOKEN_REDIRECT_APPEND)
 		node->type = REDIR_APPEND;
+	else if (vars->parser->curr_tok->type == TOKEN_HEREDOC)
+		node->type = REDIR_HEREDOC;
 	advance_token(vars);
 	node->target = vars->parser->curr_tok->value;
 	node->next = NULL;

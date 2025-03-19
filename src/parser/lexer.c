@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/18 15:41:29 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:39:44 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,20 @@ void	set_token_type(t_vars *vars)
 	else if (vars->lexer->c == '<')
 	{
 		if (vars->line[vars->lexer->line_pos + 1] == '<')
+		{
 			vars->lexer->curr_token_type = TOKEN_HEREDOC;
+			vars->lexer->line_pos++;
+		}
 		else
 			vars->lexer->curr_token_type = TOKEN_REDIRECT_IN;
 	}
 	else if (vars->lexer->c == '>')
 	{
 		if (vars->line[vars->lexer->line_pos + 1] == '>')
+		{
 			vars->lexer->curr_token_type = TOKEN_REDIRECT_APPEND;
+			vars->lexer->line_pos++;
+		}			
 		else
 			vars->lexer->curr_token_type = TOKEN_REDIRECT_OUT;
 	}
