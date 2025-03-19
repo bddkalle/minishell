@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   p_structs.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/14 14:08:36 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:57:40 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_AST_NODE_FWD
 
 typedef struct s_ast_node	t_ast_node;
+typedef struct s_redir 		t_redir;
 
 # define T_AST_NODE_FWD
 #endif
@@ -39,7 +40,7 @@ typedef enum e_token_type
 	TOKEN_PIPE,
 	TOKEN_REDIRECT_IN,
 	TOKEN_REDIRECT_OUT,
-	TOKEN_RIDIRECT_APPEND,
+	TOKEN_REDIRECT_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_AND,
 	TOKEN_OR,
@@ -73,6 +74,7 @@ typedef struct s_parser
 {
 	t_token		*curr_tok;
 	t_ast_node	*node;
+	t_redir		**next_redir_node;
 	int			tok_pos;
 }	t_parser;
 

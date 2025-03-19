@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_free.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:13:48 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/14 13:17:30 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:50:26 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	free_parser(t_vars *vars)
 {
-	int	i;
+	int		i;
+	t_redir	*tmp;
 
 	if (vars->ast && vars->ast->type == AST_COMMAND)
 	{
@@ -22,6 +23,12 @@ void	free_parser(t_vars *vars)
 		while (vars->ast->u_data.s_command.argv[i])
 			free_null((void **)&vars->ast->u_data.s_command.argv[i++]);
 		free_null((void **)&vars->ast->u_data.s_command.argv);
+		while (vars->ast->u_data.s_command.redirs)
+		{
+			tmp = vars->ast->u_data.s_command.redirs->next;
+			free_null((void **)&vars->ast->u_data.s_command.redirs);
+			vars->ast->u_data.s_command.redirs = tmp;
+		}
 		free_null((void **)&vars->ast);
 		vars->parser->node = NULL;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/14 13:59:05 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:15:44 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void			*_malloc(size_t size, t_vars *vars);
 void			get_prompt(t_vars *vars);
 void			get_hostname(t_vars *vars);
 void			build_prompt(t_vars *vars, char *s);
+void			update_prompt(t_vars *varsm, char *path);
 
 //Validation, Handle errors & Free
 void			error_exit(t_vars *vars, char *s, int exit_code);

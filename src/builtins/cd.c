@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:56 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/13 19:22:56 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:35:41 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ int	run_cd(t_vars *vars)
 			chdir_error(vars->ast->u_data.s_command.argv[1]);
 			return (-1);
 		}
+	update_prompt(vars, path);
 	return (0);
 }
