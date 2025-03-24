@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/24 11:58:14 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:59:44 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	debug_lexer(t_vars *vars)
 
 int	print_op_node(t_ast_node *curr_node, int nodenum)
 {
+	t_ast_node	*tmp_node;
+	int			opnodes;
+	
 	printf("\n>>AST NODE %d = OPERATOR NODE<<\n", nodenum++);
 	if (curr_node->type == AST_PIPE)
 			printf("\ttype = AST_PIPE\n");
@@ -62,7 +65,19 @@ int	print_op_node(t_ast_node *curr_node, int nodenum)
 	if (curr_node->type == AST_OR)
 			printf("\ttype = AST_OR\n");
 	printf("\tleft = AST NODE %d\n", nodenum);
-	printf("\tright = AST NODE %d\n", nodenum + 1);
+	if (curr_node->u_data.s_operator.left->type == AST_COMMAND)
+		printf("\tright = AST NODE %d\n", nodenum + 1);
+	else 
+	{
+		tmp_node = curr_node;
+		opnodes = 0;
+		while (tmp_node->u_data.s_operator.left->type != AST_COMMAND)
+		{
+			opnodes += 2;
+			tmp_node = tmp_node->u_data.s_operator.left;
+		}
+		printf("\tright = AST NODE %d\n", nodenum + 1 + opnodes);
+	}
 	nodenum = print_ast_node(curr_node->u_data.s_operator.left, nodenum);
 	nodenum = print_ast_node(curr_node->u_data.s_operator.right, nodenum);
 	return (nodenum);

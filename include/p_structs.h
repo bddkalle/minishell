@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/19 12:57:40 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:22:37 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ typedef enum e_token_type
 	TOKEN_REDIRECT_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_AND,
+	TOKEN_AND_SYNER,
 	TOKEN_OR,
+	TOKEN_OR_SYNER,
 	TOKEN_QUOTE,
 	TOKEN_PARENT_LEFT,
 	TOKEN_PARENT_RIGHT,
