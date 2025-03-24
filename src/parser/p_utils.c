@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/19 16:43:40 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:37:08 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_redir	*handle_redirs(t_vars *vars)
 	return (node);
 }
 
-int		current_token_is(char *s, t_vars *vars)
+int	current_token_is(char *s, t_vars *vars)
 {
 	if (strcmp(s, vars->parser->curr_tok->value) == 0)
 		return (1);

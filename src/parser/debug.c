@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/19 16:57:13 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:58:14 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,57 +23,120 @@ void	debug_lexer(t_vars *vars)
 	while (tmp)
 	{
 		printf("\n>>Token %d<<\n", i++);
-		printf("value: %s - ", tmp->value);
+		printf("\tvalue: %s\n", tmp->value);
 		if (tmp->type == TOKEN_WORD)
-			printf("type: TOKEN_WORD\n");
+			printf("\ttype: TOKEN_WORD\n");
 		else if (tmp->type == TOKEN_PIPE)
-			printf("type: TOKEN_PIPE\n");
+			printf("\ttype: TOKEN_PIPE\n");
 		else if (tmp->type == TOKEN_REDIRECT_IN)
-			printf("type: TOKEN_REDIRECT_IN\n");
+			printf("\ttype: TOKEN_REDIRECT_IN\n");
 		else if (tmp->type == TOKEN_REDIRECT_OUT)
-			printf("type: TOKEN_REDIRECT_OUT\n");
+			printf("\ttype: TOKEN_REDIRECT_OUT\n");
 		else if (tmp->type == TOKEN_REDIRECT_APPEND)
-			printf("type: TOKEN_REDIRECT_APPEND\n");
+			printf("\ttype: TOKEN_REDIRECT_APPEND\n");
 		else if (tmp->type == TOKEN_HEREDOC)
-			printf("type: TOKEN_HEREDOC\n");
+			printf("\ttype: TOKEN_HEREDOC\n");
 		else if (tmp->type == TOKEN_AND)
-			printf("type: TOKEN_AND\n");
+			printf("\ttype: TOKEN_AND\n");
 		else if (tmp->type == TOKEN_OR)
-			printf("type: TOKEN_OR\n");
+			printf("\ttype: TOKEN_OR\n");
 		else if (tmp->type == TOKEN_QUOTE)
-			printf("type: TOKEN_QUOTE\n");
+			printf("\ttype: TOKEN_QUOTE\n");
 		else if (tmp->type == TOKEN_PARENT_LEFT)
-			printf("type: TOKEN_PARENT_LEFT\n");
+			printf("\ttype: TOKEN_PARENT_LEFT\n");
 		else if (tmp->type == TOKEN_PARENT_RIGHT)
-			printf("type: TOKEN_PARENT_RIGHT\n");
+			printf("\ttype: TOKEN_PARENT_RIGHT\n");
 		else if (tmp->type == TOKEN_VAR)
-			printf("type: TOKEN_VAR\n");
+			printf("\ttype: TOKEN_VAR\n");
 		tmp = tmp->next;
 	}
 }
 
+int	print_op_node(t_ast_node *curr_node, int nodenum)
+{
+	printf("\n>>AST NODE %d = OPERATOR NODE<<\n", nodenum++);
+	if (curr_node->type == AST_PIPE)
+			printf("\ttype = AST_PIPE\n");
+	if (curr_node->type == AST_AND)
+			printf("\ttype = AST_AND\n");
+	if (curr_node->type == AST_OR)
+			printf("\ttype = AST_OR\n");
+	printf("\tleft = AST NODE %d\n", nodenum);
+	printf("\tright = AST NODE %d\n", nodenum + 1);
+	nodenum = print_ast_node(curr_node->u_data.s_operator.left, nodenum);
+	nodenum = print_ast_node(curr_node->u_data.s_operator.right, nodenum);
+	return (nodenum);
+}
+
+int	print_cmd_node(t_ast_node *curr_node, int nodenum)
+{
+	printf("\n>>AST NODE %d = COMMAND NODE<<\n", nodenum++);
+	for (int i = 0; curr_node && curr_node->u_data.s_command.argv[i]; i++)
+	{
+		printf("\targv[%d] = %s\n", i, curr_node->u_data.s_command.argv[i]);
+	}
+	if (curr_node->u_data.s_command.redirs)
+		{
+			int j = 0;
+			for (t_redir *tmp = curr_node->u_data.s_command.redirs; tmp; tmp = tmp->next)
+			{
+				if (tmp->type == REDIR_INPUT)
+					printf("\n\tredir_node%d.type =\tREDIR_INPUT\n", j);
+				if (tmp->type == REDIR_OUTPUT)
+					printf("\n\tredir_node%d.type =\tREDIR_OUTPUT\n", j);
+				if (tmp->type == REDIR_APPEND)
+					printf("\n\tredir_node%d.type =\tREDIR_APPEND\n", j);
+				if (tmp->type == REDIR_HEREDOC)
+					printf("\n\tredir_node%d.type =\tREDIR_HEREDOC\n", j);
+				printf("\tredir_node%d.target =\t%s\n", j++, tmp->target);
+				/* if (tmp->next)
+					printf("\n"); */
+			}
+		}
+	return (nodenum);
+}
+
+int	print_ast_node(t_ast_node *curr_node, int nodenum)
+{
+	if (curr_node && (curr_node->type == AST_PIPE || \
+			curr_node->type == AST_AND || \
+			curr_node->type == AST_OR))
+		nodenum = print_op_node(curr_node, nodenum);
+	else if (curr_node && curr_node->type == AST_COMMAND)
+		nodenum = print_cmd_node(curr_node, nodenum);
+	return (nodenum);
+}
+
 void	debug_parser(t_vars *vars)
 {
+	t_ast_node	*tmp_ast;
+	int	nodenum = 0;
+
+	tmp_ast = vars->ast;
 	printf("\n###################### DEBUG PARSER ######################\n");
-	printf("\n>>AST NODE 0<<\n");
+	print_ast_node(tmp_ast, nodenum);
+	
+
+	// COMMAND NODES
+/*  	printf("\n>>AST NODE %d<<\n", k++);
 	for (int i = 0; vars->ast && vars->ast->u_data.s_command.argv[i]; i++)
 	{
-		printf("command.argv[%d] = %s\n", i, vars->ast->u_data.s_command.argv[i]);
-		if (vars->ast->u_data.s_command.redirs)
+		printf("\tcommand.argv[%d] = %s\n", i, vars->ast->u_data.s_command.argv[i]);
+	}
+	if (vars->ast->u_data.s_command.redirs)
 		{
 			int j = 0;
 			for (t_redir *tmp = vars->ast->u_data.s_command.redirs; tmp; tmp = tmp->next)
 			{
 				if (tmp->type == REDIR_INPUT)
-					printf("command.redir_node%d.type = REDIR_INPUT\n", j);
+					printf("\n\tcommand.redir_node%d.type =\tREDIR_INPUT\n", j);
 				if (tmp->type == REDIR_OUTPUT)
-					printf("command.redir_node%d.type = REDIR_OUTPUT\n", j);
+					printf("\n\tcommand.redir_node%d.type =\tREDIR_OUTPUT\n", j);
 				if (tmp->type == REDIR_APPEND)
-					printf("command.redir_node%d.type = REDIR_APPEND\n", j);
+					printf("\n\tcommand.redir_node%d.type =\tREDIR_APPEND\n", j);
 				if (tmp->type == REDIR_HEREDOC)
-					printf("command.redir_node%d.type = REDIR_HEREDOC\n", j);
-				printf("command.redir_node%d.target = %s\n\n", j++, tmp->target);
+					printf("\n\tcommand.redir_node%d.type =\tREDIR_HEREDOC\n", j);
+				printf("\tcommand.redir_node%d.target =\t%s\n", j++, tmp->target);
 			}
 		}
-	}
-}
+ */}

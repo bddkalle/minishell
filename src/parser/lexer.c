@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/19 15:39:44 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:29:35 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,29 @@ int	is_whitespace(char c)
 		return (vars->lexer->state);
 }
  */
-t_token	*create_token(t_vars *vars)
+/* void	create_token(t_vars *vars)
+{
+
+	*vars->lexer->next_node = _malloc(sizeof(t_token), vars);
+	(*vars->lexer->next_node)->type = vars->lexer->curr_token_type;
+	//node->value = strdup(vars->lexer->curr_token);
+	node->value = NULL;
+	if (!node->value)
+		error_exit(vars, "strdup failed to create new token", EXIT_FAILURE);
+	node->next = NULL;
+} */
+void	create_token(t_vars *vars)
 {
 	t_token	*node;
 
 	node = _malloc(sizeof(t_token), vars);
+	*vars->lexer->next_node = node;
+	*node = (t_token){};
 	node->type = vars->lexer->curr_token_type;
 	node->value = strdup(vars->lexer->curr_token);
 	if (!node->value)
 		error_exit(vars, "strdup failed to create new token", EXIT_FAILURE);
 	node->next = NULL;
-	return (node);
 }
 
 void	set_token_type(t_vars *vars)
@@ -76,8 +88,6 @@ void	set_token_type(t_vars *vars)
 	vars->lexer->curr_token_type = TOKEN_WORD;
 	if (vars->lexer->c == '|')
 		vars->lexer->curr_token_type = TOKEN_PIPE;
-/* 	else if (vars->lexer->c == '<')
-		vars->lexer->curr_token_type = TOKEN_REDIRECT_IN; */
 	else if (vars->lexer->c == '<')
 	{
 		if (vars->line[vars->lexer->line_pos + 1] == '<')
@@ -118,7 +128,8 @@ void	lexer(t_vars *vars)
 			if (vars->lexer->token_pos > 0)
 			{
 				vars->lexer->curr_token[vars->lexer->token_pos] = '\0';
-				*vars->lexer->next_node = create_token(vars);
+				create_token(vars);
+				//*vars->lexer->next_node = create_token(vars);
 			}
 			break;
 		}
@@ -128,7 +139,7 @@ void	lexer(t_vars *vars)
 			if (vars->lexer->token_pos > 0)
 			{
 				vars->lexer->curr_token[vars->lexer->token_pos] = '\0';
-				*vars->lexer->next_node = create_token(vars);
+				create_token(vars);
 				vars->lexer->next_node = &(*vars->lexer->next_node)->next;
 				vars->lexer->token_pos = 0;
 			}
