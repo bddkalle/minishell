@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/20 14:37:08 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:41:44 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,11 @@ int	current_token_is(char *s, t_vars *vars)
 void	advance_token(t_vars *vars)
 {
 	vars->parser->curr_tok = vars->parser->curr_tok->next;
+}
+
+int	char_is(char *s, char c)
+{
+	if (ft_strchr(s, c))
+		return (1);
+	return (0);
 }

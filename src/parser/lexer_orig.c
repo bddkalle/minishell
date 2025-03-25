@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer_orig.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/25 16:57:11 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:45:07 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	set_token_type(t_vars *vars)
 		else
 			vars->lexer->curr_token_type = TOKEN_REDIRECT_OUT;
 	}
-	/* else if (vars->lexer->c == '&')
+	else if (vars->lexer->c == '&')
 	{
 		if (vars->line[vars->lexer->line_pos + 1] == '&')
 		{
@@ -107,7 +107,7 @@ void	set_token_type(t_vars *vars)
 		}
 		else
 			vars->lexer->curr_token_type = TOKEN_AND_SYNER;
-	} */
+	}
 }
 
 void	prepare_lexer(t_vars *vars)
@@ -122,7 +122,7 @@ void	lexer(t_vars *vars)
 	while (1)
 	{
 		vars->lexer->c = vars->line[vars->lexer->line_pos];
-		// #1 (End of input condition)
+		// End of input condition|
 		if (vars->lexer->c == '\0')
 		{
 			if (vars->lexer->token_pos > 0)
@@ -132,30 +132,11 @@ void	lexer(t_vars *vars)
 			}
 			break;
 		}
-		// #2 (operator)
-		else if (vars->lexer->token_pos && char_is(OPERATOR, vars->lexer->curr_token[vars->lexer->token_pos - 1])\
+/* 		if (vars->lexer->line_pos && is_op_char(vars->line[vars->lexer->line_pos - 1])\
 		&& vars->lexer->state != IN_SINGLE_QUOTE && vars->lexer->state != IN_DOUBLE_QUOTE \
 		&& is_valid_op(vars->lexer->c, vars))
-		{
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
-			continue;
-		}
-		// #3 (operator)
-		else if (vars->lexer->token_pos && char_is(OPERATOR, vars->lexer->curr_token[vars->lexer->token_pos - 1])\
-		&& !is_valid_op(vars->lexer->c, vars))
-		{
-			vars->lexer->curr_token[vars->lexer->token_pos] = '\0';
-			create_token(vars);
-			vars->lexer->next_node = &(*vars->lexer->next_node)->next;
-			vars->lexer->token_pos = 0;
-			continue;
-		}
-		// #4 (quotes)
-		else if (char_is(QUOTES, vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
-		&& vars->lexer->state != IN_DOUBLE_QUOTE)
-		
-		//state = lexer_state(vars, c, state, token_pos);
+			vars->lexer->curr_token[vars->lexer->token_pos] = vars->lexer->c;
+ */		//state = lexer_state(vars, c, state, token_pos);
 		if (is_whitespace(vars->lexer->c))
 		{
 			if (vars->lexer->token_pos > 0)
