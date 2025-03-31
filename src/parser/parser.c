@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/20 15:52:17 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:57:37 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_ast_node	*parse_command(t_vars *vars)
 {
 	t_token		*tmp_token;
 
+	if (!vars->parser->curr_tok)
+		return (NULL);
 	init_parse_command(vars);
 	vars->parser->next_redir_node = \
 							&vars->parser->node->u_data.s_command.redirs;
@@ -90,6 +92,7 @@ t_ast_node	*parse_command(t_vars *vars)
 void	parser(t_vars *vars)
 {
 	init_parser(vars);
+	//reclassification(vars);
 	vars->ast = parse_expression(vars);
 	debug_parser(vars);
 }

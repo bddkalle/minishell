@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/24 15:59:44 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:22:44 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	debug_lexer(t_vars *vars)
 	printf("\n###################### DEBUG LEXER ######################\n");
 	i = 0;
 	tmp = vars->token;
+	if (!tmp)
+		printf("\nvars->token = %p\n", vars->token);
 	while (tmp)
 	{
 		printf("\n>>Token %d<<\n", i++);
@@ -48,6 +50,10 @@ void	debug_lexer(t_vars *vars)
 			printf("\ttype: TOKEN_PARENT_RIGHT\n");
 		else if (tmp->type == TOKEN_VAR)
 			printf("\ttype: TOKEN_VAR\n");
+		else if (tmp->type == TOKEN_IO_NUMBER)
+			printf("\ttype: TOKEN_IO_NUMBER\n");
+		else if (tmp->type == TOKEN)
+			printf("\ttype: TOKEN\n");
 		tmp = tmp->next;
 	}
 }
@@ -129,6 +135,8 @@ void	debug_parser(t_vars *vars)
 
 	tmp_ast = vars->ast;
 	printf("\n###################### DEBUG PARSER ######################\n");
+	if (!vars->ast)
+		printf("\nvars->ast = %p\n", vars->ast);
 	print_ast_node(tmp_ast, nodenum);
 	
 
