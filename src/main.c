@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/27 15:24:59 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:45:35 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	minishell(void)
 		//do_stuff
 		lexer(&vars);
 		parser(&vars);
- 		//executor(&vars);
+ 		executor(&vars);
 		free_null_readline(&vars);
 	}
 	free_all(&vars);

@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/31 16:57:37 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:39:12 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_ast_node	*parse_command(t_vars *vars)
 void	parser(t_vars *vars)
 {
 	init_parser(vars);
-	//reclassification(vars);
+	reclassification(vars);
 	vars->ast = parse_expression(vars);
 	debug_parser(vars);
 }

@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/25 16:41:44 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:20:39 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	fill_cmd_argv(t_vars *vars)
 {
 	t_token	*tmp_token;
-	int		word_count;
-	int		i;
+	t_size	word_count;
+	t_size	i;
 	char	**argv;
 
 	tmp_token = vars->parser->curr_tok;
@@ -59,7 +59,7 @@ t_redir	*handle_redirs(t_vars *vars)
 	return (node);
 }
 
-int	current_token_is(char *s, t_vars *vars)
+t_size	current_token_is(char *s, t_vars *vars)
 {
 	if (strcmp(s, vars->parser->curr_tok->value) == 0)
 		return (1);
@@ -71,7 +71,7 @@ void	advance_token(t_vars *vars)
 	vars->parser->curr_tok = vars->parser->curr_tok->next;
 }
 
-int	char_is(char *s, char c)
+t_size	char_is(char *s, char c)
 {
 	if (ft_strchr(s, c))
 		return (1);

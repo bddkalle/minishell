@@ -6,12 +6,13 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/27 09:56:00 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:34:32 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define OPEN_MAX 1024
 
 # include "../lib/libft/includes/libft.h"
 # include "structs.h"

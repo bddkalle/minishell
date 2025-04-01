@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/27 14:10:39 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:28:51 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ typedef struct s_lexer
 	t_token			**next_node;
 	char			*curr_token;
 	char			c;
-	int				token_pos;
-	int				line_pos;
+	t_size			token_pos;
+	t_size			line_pos;
 }					t_lexer;
 
 											//	PARSER	//
@@ -79,7 +79,7 @@ typedef struct s_parser
 	t_token		*curr_tok;
 	t_ast_node	*node;
 	t_redir		**next_redir_node;
-	int			tok_pos;
+	t_size			tok_pos;
 }	t_parser;
 
 #endif

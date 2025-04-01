@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:13:48 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/24 12:54:11 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:14:41 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_op_node(t_ast_node **curr_node)
 
 void	free_cmd_node(t_ast_node **curr_node)
 {
-	int		i;
+	t_size	i;
 	t_redir	*tmp;
 
 	if (*curr_node && (*curr_node)->type == AST_COMMAND)
@@ -53,7 +53,7 @@ void	free_ast_node(t_ast_node **curr_node)
 
 void	free_parser(t_vars *vars)
 {
-	int		i;
+	t_size	i;
 
 	if (vars->ast)
 	{

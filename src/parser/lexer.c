@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/31 16:40:41 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:30:54 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ t_token_type	token_identifier(t_vars *vars)
 			return (TOKEN_PARENT_RIGHT);
 	}
 	if (token_cof_digits(vars->lexer->curr_token) && (vars->lexer->c == '<' \
-	|| vars->lexer->c == '>'))
+	|| vars->lexer->c == '>') && OPEN_MAX > atoi(vars->lexer->curr_token))
 		return (TOKEN_IO_NUMBER);
-	return (TOKEN_WORD);
+	return (TOKEN);
 }
 
 /* void	set_token_type(t_vars *vars)
