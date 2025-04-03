@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/20 17:26:29 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:38:22 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int	execute_ast(t_vars *vars)
 {
 	//int	left_status;
 	//int	right_status;
+	if (vars->ast == NULL)
+		return (0);
 	if (vars->ast->type == AST_COMMAND)
 		return (execute_command(vars));
 	else if (vars->ast->type == AST_PIPE)
