@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/03 15:42:29 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:24:37 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,16 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node)
 
 int	execute_ast(t_vars *vars, t_ast_node *current_node)
 {
-	int	left_status;
-	//int	right_status;
-
 	if (current_node == NULL)
 		return (0);
 	if (current_node->type == AST_COMMAND)
 		return (execute_command(vars, &current_node->u_data.s_command));
 	else if (current_node->type == AST_PIPE)
-		return (1);
+		return (operator_pipe(vars, current_node));
 	else if (current_node->type == AST_AND)
-	{
-		left_status = execute_ast(vars, current_node->u_data.s_operator.left);
-		if (left_status == EXIT_SUCCESS)
-			return (execute_ast(vars, current_node->u_data.s_operator.right));
-		else
-		 	return (left_status);
-	}
+		return (operator_and(vars, current_node));
 	else if (current_node->type == AST_OR)
-	{
-		left_status = execute_ast(vars, current_node->u_data.s_operator.left);
-		if (left_status != EXIT_SUCCESS)
-			return (execute_ast(vars, current_node->u_data.s_operator.right));
-		else
-			return (left_status);
-	}
+		return (operator_and(vars, current_node));
 	else if (current_node->type == AST_SUBSHELL)
 		return (1);
 	return (-1);

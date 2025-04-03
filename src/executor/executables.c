@@ -1,24 +1,4 @@
 #include "../../include/minishell.h"
-#include <stdlib.h>
-
-void	executable_error(char *command, char *errmsg)
-{
-	write(STDERR_FILENO, "minishell: ", 11);
-	write(STDERR_FILENO, command, ft_strlen(command));
-	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, errmsg, ft_strlen(errmsg));
-	write(STDERR_FILENO, "\n", 1);
-	return ;
-}
-
-void	fatal_error(t_vars *vars, char *errmsg)
-{
-	write(STDERR_FILENO, "minishell: ", 11);
-	write(STDERR_FILENO, errmsg, ft_strlen(errmsg));
-	write(STDERR_FILENO, "\n", 1);
-	free_all(vars);
-	exit(EXIT_FAILURE);
-}
 
 int	search_env_path(char *command, char *pathname)
 {
@@ -51,25 +31,18 @@ int	search_executable(t_vars *vars, char *command, char *pathname)
 {
 	int		found;
 
-	//command = vars->ast->u_data.s_command.argv[0];
 	if (ft_strchr(command, '/') != NULL)
 		ft_strlcpy(pathname, command, ft_strlen(command) + 1);
 	else
 	{
 		found = search_env_path(command, pathname);
 		if (found == -1)
-		{
-			executable_error(command, "No such file or directory");
-			return (-1);
-		}
+			return (execution_error(command, "No such file or directory"));
 		else if (found == -2)
 			fatal_error(vars, "cannot allocate memory");
 	}
 	if (access(pathname, X_OK) != 0)
-	{
-		executable_error(command, strerror(errno));
-		return (-1);
-	}
+		return (execution_error(command, strerror(errno)));
 	return (0);
 }
 
@@ -83,10 +56,7 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node)
 		return (-1);
 	pid = fork();
 	if (pid == -1)
-	{
-		executable_error(curr_command_node->argv[0], strerror(errno));
-		return (-1);
-	}
+		return (execution_error(curr_command_node->argv[0], strerror(errno)));
 	if (pid == 0)
 	{
 		// if (vars->ast->u_data.s_command.redirs != NULL)
@@ -101,7 +71,7 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node)
 		// 	}
 		// }
 		execve(pathname, curr_command_node->argv, vars->envp);
-		executable_error(curr_command_node->argv[0], strerror(errno));
+		execution_error(curr_command_node->argv[0], strerror(errno));
 		return (EXIT_FAILURE);
 	}
 	else
