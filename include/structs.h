@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/03 11:06:36 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:14:03 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "minishell.h"
 # include "p_structs.h"
+# include <linux/limits.h>
+
 
 											//	AST	//
 
@@ -84,6 +86,7 @@ typedef struct s_vars
 	t_token		*token;
 	t_parser	*parser;
 	t_ast_node	*ast;
+	char		path[PATH_MAX];
 	char		*line;
 	char		**envp;
 }				t_vars;
