@@ -1,4 +1,5 @@
 #include "../../include/minishell.h"
+#include <stdlib.h>
 
 void	executable_error(char *command, char *errmsg)
 {
@@ -46,12 +47,11 @@ int	search_env_path(char *command, char *pathname)
 	return (0);
 }
 
-int	search_executable(t_vars *vars, char *pathname)
+int	search_executable(t_vars *vars, char *command, char *pathname)
 {
-	char	*command;
 	int		found;
 
-	command = vars->ast->u_data.s_command.argv[0];
+	//command = vars->ast->u_data.s_command.argv[0];
 	if (ft_strchr(command, '/') != NULL)
 		ft_strlcpy(pathname, command, ft_strlen(command) + 1);
 	else
@@ -73,18 +73,18 @@ int	search_executable(t_vars *vars, char *pathname)
 	return (0);
 }
 
-int	run_executable(t_vars *vars)
+int	run_executable(t_vars *vars, struct s_command *curr_command_node)
 {
 	char	pathname[PATH_MAX];
 	pid_t	pid;
 	int		status;
 
-	if (search_executable(vars, pathname) != 0)
+	if (search_executable(vars, curr_command_node->argv[0], pathname) != 0)
 		return (-1);
 	pid = fork();
 	if (pid == -1)
 	{
-		executable_error(vars->ast->u_data.s_command.argv[0], strerror(errno));
+		executable_error(curr_command_node->argv[0], strerror(errno));
 		return (-1);
 	}
 	if (pid == 0)
@@ -100,8 +100,8 @@ int	run_executable(t_vars *vars)
 		// 		close(fd);
 		// 	}
 		// }
-		execve(pathname, vars->ast->u_data.s_command.argv, vars->envp);
-		executable_error(vars->ast->u_data.s_command.argv[0], strerror(errno));
+		execve(pathname, curr_command_node->argv, vars->envp);
+		executable_error(curr_command_node->argv[0], strerror(errno));
 		return (EXIT_FAILURE);
 	}
 	else
@@ -115,10 +115,12 @@ int	run_executable(t_vars *vars)
 		else if (WIFSIGNALED(status))
 		{
 			ft_printf("Child process was terminated by signal %d.\n", WTERMSIG(status));
+			return (WIFSIGNALED(status));
 		}
 		else
 		{
 			ft_printf("Child process terminated abnormaly.\n");
+			return (WIFEXITED(status));
 		}
 	}
 	return (-1);

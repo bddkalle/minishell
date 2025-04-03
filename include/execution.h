@@ -6,7 +6,7 @@
 
 //executor
 void	executor(t_vars *vars);
-int	run_executable(t_vars *vars);
+int	run_executable(t_vars *vars, struct s_command *curr_command_node);
 
 //builtins
 int	run_echo(int fd, char **argv);
