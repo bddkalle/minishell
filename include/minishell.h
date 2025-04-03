@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/03 11:04:44 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:19:59 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void			minishell(char **envp);
 
 //Initialisation
 void			init_vars(t_vars *vars);
-void			*_malloc(size_t size, t_vars *vars);
 
 //Prompt
 void			get_prompt(t_vars *vars);
@@ -48,5 +47,9 @@ void			free_null(void **ptr);
 void			free_null_readline(t_vars *vars);
 void			close_all(t_vars *vars);
 void			_close(int fd);
+
+//Utils
+void			*_malloc(size_t size, t_vars *vars);
+int				build_path(char *input, char *path, char *home);
 
 #endif

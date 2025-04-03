@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:56 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/18 12:35:41 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:37:49 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	chdir_error(char *path)
 	return ;
 }
 
-int	build_path(char *input, char *path, char *home)
+/* int	build_path(char *input, char *path, char *home)
 {
 	if (*input == '/') // absolute path
 		ft_strlcpy(path, input, ft_strlen(input) + 1);
@@ -53,11 +53,10 @@ int	build_path(char *input, char *path, char *home)
 		ft_strlcat(path, input, ft_strlen(path) + ft_strlen(input) + 1);
 	}
 	return (0);
-}
+} */
 
 int	run_cd(t_vars *vars)
 {
-	char	path[PATH_MAX];
 	int		argc;
 
 	argc = 0;
@@ -65,7 +64,9 @@ int	run_cd(t_vars *vars)
 		argc++;
 	if (argc == 1)
 	{
+		build_path("~", vars->path, vars->prompt->home);
 		chdir(vars->prompt->home); // does it need to be error pretected?
+		update_prompt(vars, vars->path);
 		return (0);
 	}
 	else if (argc > 2)
@@ -73,16 +74,16 @@ int	run_cd(t_vars *vars)
 		write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34); // eleganter in eine errorfunktion integrieren?
 		return (-1);
 	}
-	if (build_path(vars->ast->u_data.s_command.argv[1], path, vars->prompt->home) == -1)
+	if (build_path(vars->ast->u_data.s_command.argv[1], vars->path, vars->prompt->home) == -1)
 	{
 		chdir_error(vars->ast->u_data.s_command.argv[1]);
 		return (-1);
 	}
-	if (chdir(path) == -1)
+	if (chdir(vars->path) == -1)
 		{
 			chdir_error(vars->ast->u_data.s_command.argv[1]);
 			return (-1);
 		}
-	update_prompt(vars, path);
+	update_prompt(vars, vars->path);
 	return (0);
 }
