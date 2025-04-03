@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/13 17:55:02 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:26:29 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,20 @@ int	execute_command(t_vars *vars)
 {
 	if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "echo") == 0)
 		return (run_echo(1, vars->ast->u_data.s_command.argv));
-	if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "pwd") == 0)
+	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "pwd") == 0)
 		return (run_pwd(1, vars->ast->u_data.s_command.argv));
-	if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "cd") == 0)
+	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "cd") == 0)
 		return (run_cd(vars));
+	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "export") == 0)
+		return (1);
+	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "unset") == 0)
+		return (1);
+	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "env") == 0)
+		return (1);
+	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "exit") == 0)
+		return (1);
+	else
+		run_executable(vars);
 	return (-1);
 }
 

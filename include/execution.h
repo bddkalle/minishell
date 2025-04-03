@@ -6,6 +6,7 @@
 
 //executor
 void	executor(t_vars *vars);
+int	run_executable(t_vars *vars);
 
 //builtins
 int	run_echo(int fd, char **argv);

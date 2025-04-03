@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/01 15:46:28 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:06:36 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_vars
 	t_parser	*parser;
 	t_ast_node	*ast;
 	char		*line;
+	char		**envp;
 }				t_vars;
 
 
