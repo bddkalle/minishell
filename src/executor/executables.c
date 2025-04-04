@@ -1,4 +1,5 @@
 #include "../../include/minishell.h"
+#include <unistd.h>
 
 int	search_env_path(char *command, char *pathname)
 {
@@ -46,7 +47,7 @@ int	search_executable(t_vars *vars, char *command, char *pathname)
 	return (0);
 }
 
-int	run_executable(t_vars *vars, struct s_command *curr_command_node)
+int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd)
 {
 	char	pathname[PATH_MAX];
 	pid_t	pid;
@@ -59,7 +60,18 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node)
 		return (execution_error(curr_command_node->argv[0], strerror(errno)));
 	if (pid == 0)
 	{
-		// if (vars->ast->u_data.s_command.redirs != NULL)
+		ft_printf("calling executable %s reading from fd: %i and writing to fd: %i\n", curr_command_node->argv[0], in_fd, out_fd);
+		if (in_fd != STDIN_FILENO)
+		{
+			dup2(in_fd, STDIN_FILENO);
+			close(in_fd);
+		}
+		if (out_fd != STDOUT_FILENO)
+		{
+			dup2(out_fd, STDOUT_FILENO);
+			close(out_fd);
+		}
+			// if (vars->ast->u_data.s_command.redirs != NULL)
 		// {
 		// 	fd = open(vars->ast->u_data.s_command.redirs->target);
 		// 	if (fd == -1)
