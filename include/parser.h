@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/01 13:19:06 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:58:57 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ t_size			is_quo_char(char c);
 t_token_type	token_identifier(t_vars *vars);
 t_size			token_cof_digits(char *s);
 void			handle_quoted_input(t_vars *vars);
+void			expand_parameter(t_vars *vars);
+
 
 
 //Parser
