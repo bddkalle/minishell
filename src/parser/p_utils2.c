@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/04 16:44:40 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:00:39 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	reclassification(t_vars *vars)
 	char	redir_target[PATH_MAX];
 
 	tmp = vars->token;
-	//redir_target = NULL;
 	while (tmp)
 	{
 		// #1 if reserved cmd name (if, then, else, fi,...) [OUT OF SCOPE] else TOKEN -> TOKEN_WORD
@@ -104,26 +103,61 @@ void	expand_parameter(t_vars *vars)
 	size_t	brace;
 	size_t	i;
 	char	parameter[99];
+	char	*substitute;
 
 	vars->lexer->c = vars->line[++vars->lexer->line_pos];
-	if (char_is("{", vars->lexer->c))
+	i = 0;
+	if (char_is("?", vars->lexer->c))
+	{
+		parameter[i++] = vars->lexer->c;
+		vars->lexer->c = vars->line[++vars->lexer->line_pos];
+		parameter[i] = '\0';
+		//HIER WEITER - besser direkt in curr_token schreiben?
+	}
+	else if (char_is("{", vars->lexer->c))
 	{
 		brace = 1;
 		vars->lexer->c = vars->line[++vars->lexer->line_pos];
-		i = 0;
-		while (brace)
+		while (1)
 		{
 			if (char_is("{", vars->lexer->c))
 				brace++;
 			else if (char_is("}", vars->lexer->c))
 				brace--;
-			else
-				parameter[i++] = vars->lexer->c;
+			if (!brace)
+			{
+				++vars->lexer->line_pos;
+				break ;
+			}
+			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 			vars->lexer->c = vars->line[++vars->lexer->line_pos];
 		}
 		parameter[i] = '\0';
 	}
 	else if (vars->lexer->c)
-		while (is_valid_name(vars->lexer->c)) //hier weiter!
-	printf("parameter = %s\n", parameter);
-}
+	{
+		parameter[i++] = vars->lexer->c;
+		parameter[i] = '\0';
+		while (vars->lexer->c && is_valid_name(parameter, i - 1))
+		{
+//			printf("is valid name: %s\n", parameter);
+			vars->lexer->c = vars->line[++vars->lexer->line_pos];
+			parameter[i++] = vars->lexer->c;
+			parameter[i] = '\0';
+		}
+//		if (!is_valid_name(parameter, i - 1))
+//			printf("is invalid name: %c\n", parameter[i - 1]);
+		parameter[i - 1] = '\0';
+	}
+	substitute = getenv(parameter);
+//	printf("parameter = %s\n", parameter);
+//	printf("substitution = %s\n", substitute);
+	if (substitute)
+	{
+		vars->lexer->token_pos = ft_strlen(substitute);
+		ft_strlcpy(vars->lexer->curr_token, substitute, vars->lexer->token_pos + 1);
+		create_token(vars);
+		vars->lexer->next_node = &(*vars->lexer->next_node)->next;
+		vars->lexer->token_pos = 0;
+	}
+}	
