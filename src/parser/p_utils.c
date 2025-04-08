@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/01 13:20:39 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:19:14 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	fill_cmd_argv(t_vars *vars)
 
 	tmp_token = vars->parser->curr_tok;
 	word_count = 0;
-	while (tmp_token && tmp_token->type == TOKEN_WORD)
+	while (tmp_token && (tmp_token->type == TOKEN_WORD || tmp_token->type == TOKEN_EXIT_STATUS))
 	{
 		word_count++;
 		tmp_token = tmp_token->next;
@@ -29,7 +29,7 @@ void	fill_cmd_argv(t_vars *vars)
 	argv = _malloc((word_count + 1) * sizeof(char *), vars);
 	vars->parser->node->u_data.s_command.argv = argv;
 	i = 0;
-	while (vars->parser->curr_tok && vars->parser->curr_tok->type == TOKEN_WORD)
+	while (vars->parser->curr_tok && (vars->parser->curr_tok->type == TOKEN_WORD || vars->parser->curr_tok->type == TOKEN_EXIT_STATUS))
 	{
 		argv[i] = ft_strdup(vars->parser->curr_tok->value);
 		if (!argv[i++])

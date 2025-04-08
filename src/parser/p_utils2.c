@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/07 17:00:39 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:44:49 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,12 @@ void	expand_parameter(t_vars *vars)
 	i = 0;
 	if (char_is("?", vars->lexer->c))
 	{
-		parameter[i++] = vars->lexer->c;
+		vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 		vars->lexer->c = vars->line[++vars->lexer->line_pos];
-		parameter[i] = '\0';
-		//HIER WEITER - besser direkt in curr_token schreiben?
+		create_token(vars);
+		vars->lexer->next_node = &(*vars->lexer->next_node)->next;
+		vars->lexer->token_pos = 0;
+		return ;
 	}
 	else if (char_is("{", vars->lexer->c))
 	{
@@ -126,28 +128,26 @@ void	expand_parameter(t_vars *vars)
 				brace--;
 			if (!brace)
 			{
-				++vars->lexer->line_pos;
+				vars->lexer->line_pos++;
 				break ;
 			}
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
+			parameter[i++] = vars->lexer->c;
 			vars->lexer->c = vars->line[++vars->lexer->line_pos];
 		}
 		parameter[i] = '\0';
 	}
 	else if (vars->lexer->c)
 	{
-		parameter[i++] = vars->lexer->c;
-		parameter[i] = '\0';
-		while (vars->lexer->c && is_valid_name(parameter, i - 1))
+		while (vars->lexer->c && is_valid_name(vars->lexer->c))
 		{
-//			printf("is valid name: %s\n", parameter);
-			vars->lexer->c = vars->line[++vars->lexer->line_pos];
 			parameter[i++] = vars->lexer->c;
+			vars->lexer->c = vars->line[++vars->lexer->line_pos];
 			parameter[i] = '\0';
+//			printf("is valid name: %s\n", parameter);
 		}
 //		if (!is_valid_name(parameter, i - 1))
 //			printf("is invalid name: %c\n", parameter[i - 1]);
-		parameter[i - 1] = '\0';
+		parameter[i] = '\0';
 	}
 	substitute = getenv(parameter);
 //	printf("parameter = %s\n", parameter);

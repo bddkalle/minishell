@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   p_debug.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/01 15:25:56 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:26:39 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	debug_lexer(t_vars *vars)
 			printf("\ttype: TOKEN_VAR\n");
 		else if (tmp->type == TOKEN_IO_NUMBER)
 			printf("\ttype: TOKEN_IO_NUMBER\n");
+		else if (tmp->type == TOKEN_EXIT_STATUS)
+			printf("\ttype: TOKEN_EXIT_STATUS\n");
 		else if (tmp->type == TOKEN)
 			printf("\ttype: TOKEN\n");
 		tmp = tmp->next;

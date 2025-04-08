@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/04 15:55:48 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:45:14 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,11 @@ void	create_token(t_vars *vars)
 		error_exit(vars, "strdup failed to create new token", EXIT_FAILURE);
 	node->type = vars->lexer->curr_token_type;
 	node->type = token_identifier(vars);
-	//node->next = NULL;
+	if (node->type == TOKEN_EXIT_STATUS)
+	{
+		free_null((void **)&node->value);
+		node->value = ft_strjoin(vars->lexer->curr_token, "[SPECIAL]");
+	}
 }
 
 t_token_type	token_identifier(t_vars *vars)
@@ -94,6 +98,8 @@ t_token_type	token_identifier(t_vars *vars)
 	if (token_cof_digits(vars->lexer->curr_token) && (vars->lexer->c == '<' \
 	|| vars->lexer->c == '>') && OPEN_MAX > atoi(vars->lexer->curr_token))
 		return (TOKEN_IO_NUMBER);
+	if (char_is("?", vars->lexer->curr_token[vars->lexer->token_pos - 1]) && vars->line[vars->lexer->line_pos - 2] == '$')
+		return (TOKEN_EXIT_STATUS);
 	return (TOKEN);
 }
 
