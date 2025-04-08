@@ -6,7 +6,7 @@
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/03/13 16:41:28 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/04/08 12:25:26 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,14 +30,17 @@ SRC =	$(addsuffix .c,							\
 		$(addsuffix .c,							\
 		$(addprefix src/executor/, 				\
 								executor		\
+								executables		\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/parser/, 				\
-								debug			\
+								p_debug			\
 								lexer			\
 								p_free			\
 								p_init			\
 								p_utils			\
+								p_utils2		\
+								p_utils3		\
 								parser			\
 		))										\
 		$(addsuffix .c,							\

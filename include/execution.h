@@ -6,10 +6,15 @@
 
 //executor
 void	executor(t_vars *vars);
+int	run_executable(t_vars *vars);
 
 //builtins
 int	run_echo(int fd, char **argv);
 int	run_pwd(int fd, char **argv);
 int	run_cd(t_vars *vars);
+
+//error
+void	chdir_error(char *path);
+
 
 #endif

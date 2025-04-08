@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   p_structs.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/14 14:08:36 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/08 11:52:03 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_AST_NODE_FWD
 
 typedef struct s_ast_node	t_ast_node;
+typedef struct s_redir 		t_redir;
 
 # define T_AST_NODE_FWD
 #endif
@@ -39,14 +40,19 @@ typedef enum e_token_type
 	TOKEN_PIPE,
 	TOKEN_REDIRECT_IN,
 	TOKEN_REDIRECT_OUT,
-	TOKEN_RIDIRECT_APPEND,
+	TOKEN_REDIRECT_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_AND,
+	TOKEN_AND_SYNER,
 	TOKEN_OR,
+	TOKEN_OR_SYNER,
 	TOKEN_QUOTE,
 	TOKEN_PARENT_LEFT,
 	TOKEN_PARENT_RIGHT,
 	TOKEN_VAR,
+	TOKEN_IO_NUMBER,
+	TOKEN_EXIT_STATUS,
+	TOKEN,
 }	t_token_type;
 
 typedef struct s_token
@@ -63,8 +69,8 @@ typedef struct s_lexer
 	t_token			**next_node;
 	char			*curr_token;
 	char			c;
-	int				token_pos;
-	int				line_pos;
+	t_size			token_pos;
+	t_size			line_pos;
 }					t_lexer;
 
 											//	PARSER	//
@@ -73,7 +79,8 @@ typedef struct s_parser
 {
 	t_token		*curr_tok;
 	t_ast_node	*node;
-	int			tok_pos;
+	t_redir		**next_redir_node;
+	t_size			tok_pos;
 }	t_parser;
 
 #endif

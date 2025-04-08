@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/13 17:53:04 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:08:14 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	minishell(void)
+void	minishell(char **envp)
 {
 	t_vars		vars;
 
 	init_vars(&vars);
 	get_prompt(&vars);
+	vars.envp = envp;
 	while (1)
 	{
 		vars.line = readline(vars.prompt->prompt);
@@ -36,10 +37,10 @@ void	minishell(void)
 	free_all(&vars);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	if (argc == 1)
-		minishell();
+		minishell(envp);
 	else
 		error_main("Invalid argument count: ", argv);
 	return (0);

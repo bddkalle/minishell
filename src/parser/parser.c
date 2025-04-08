@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/13 17:12:23 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:39:55 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,60 @@
 t_ast_node	*parse_expression(t_vars *vars)
 {
 	t_ast_node	*left;
-	
+	t_ast_node	*right;
+	t_ast_node	*op_node;
+	t_node_type	op_type;
+
 	left = parse_command(vars);
+	while (vars->parser->curr_tok && \
+			(vars->parser->curr_tok->type == TOKEN_PIPE || \
+			vars->parser->curr_tok->type == TOKEN_AND || \
+			vars->parser->curr_tok->type == TOKEN_OR))
+	{
+		if (vars->parser->curr_tok->type == TOKEN_PIPE)
+			op_type = AST_PIPE;
+		else if (vars->parser->curr_tok->type == TOKEN_AND)
+			op_type = AST_AND;
+		else if (vars->parser->curr_tok->type == TOKEN_OR)
+			op_type = AST_OR;
+		advance_token(vars);
+		right = parse_command(vars);
+		op_node = _malloc(sizeof(t_ast_node), vars);
+		op_node->type = op_type;
+		op_node->u_data.s_operator.left = left;
+		op_node->u_data.s_operator.right = right;
+		left = op_node;
+	}
 	return (left);
 }
 
 t_ast_node	*parse_command(t_vars *vars)
 {
-	//t_ast_node	*node;
 	t_token		*tmp_token;
-	int			word_count;
-	int			i;
 
-	vars->parser->node = _malloc(sizeof(t_ast_node), vars);
-	vars->parser->node->type = AST_COMMAND;
-	tmp_token = vars->parser->curr_tok;
-	word_count = 0;
-	while (tmp_token && tmp_token->type == TOKEN_WORD)
+	if (!vars->parser->curr_tok)
+		return (NULL);
+	init_parse_command(vars);
+	vars->parser->next_redir_node = \
+							&vars->parser->node->u_data.s_command.redirs;
+	while (vars->parser->curr_tok)
 	{
-		word_count++;
-		tmp_token = tmp_token->next;
+		tmp_token = vars->parser->curr_tok;
+		if (tmp_token && (tmp_token->type == TOKEN_REDIRECT_IN || \
+                        	tmp_token->type == TOKEN_REDIRECT_OUT || \
+                        	tmp_token->type == TOKEN_REDIRECT_APPEND || \
+                            tmp_token->type == TOKEN_HEREDOC))
+		{
+			*vars->parser->next_redir_node = handle_redirs(vars);
+			vars->parser->next_redir_node = \
+							&(*vars->parser->next_redir_node)->next;
+			continue ;
+		}
+		else if (tmp_token && (tmp_token->type == TOKEN_WORD || tmp_token->type == TOKEN_EXIT_STATUS))
+			fill_cmd_argv(vars);
+		else
+			break ;
 	}
-	vars->parser->node->u_data.s_command.argv = _malloc((word_count + 1) * sizeof(char *), vars);
-	i = 0;
-	while (vars->parser->curr_tok && vars->parser->curr_tok->type == TOKEN_WORD)
-	{
-	//	vars->parser->node->u_data.s_command.argv[i] = NULL;
-		vars->parser->node->u_data.s_command.argv[i] = ft_strdup(vars->parser->curr_tok->value);
-		if (!vars->parser->node->u_data.s_command.argv[i++])
-			error_exit(vars, "strdup failed to fill nodes argv", EXIT_FAILURE);
-		advance_token(vars);
-	}
-	vars->parser->node->u_data.s_command.argv[i] = NULL;
-	vars->parser->node->u_data.s_command.redirs = NULL;
 	return (vars->parser->node);
 }
 
@@ -71,24 +92,7 @@ t_ast_node	*parse_command(t_vars *vars)
 void	parser(t_vars *vars)
 {
 	init_parser(vars);
-	//vars->parser->curr_tok = vars->token;
+	reclassification(vars);
 	vars->ast = parse_expression(vars);
 	debug_parser(vars);
-/* 	char	argv[20] = {};
-	int		i;
-
-	i = 0;
-	argv[0] = NULL;
-	while (vars->parser->curr_tok && vars->parser->curr_tok->type == TOKEN_WORD)
-	{
-		*argv[i++] = vars->parser->curr_tok->value;
-		vars->parser->curr_tok = vars->parser->curr_tok->next;
-	}
-	argv[i] = NULL;
-	// *vars->ast = parse_factor(vars);
-	//parse_expression(vars);
-	i = 0;
-	while (argv[i])
-		printf("%s\n", *argv[i++]);
- */
 }

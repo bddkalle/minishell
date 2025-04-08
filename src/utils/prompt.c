@@ -6,11 +6,40 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/06 10:43:31 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:48:55 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	update_prompt(t_vars *vars, char *path)
+{
+	free_null((void **)&vars->prompt->prompt);
+	printf("new path: %s\n", path);
+	vars->prompt->pwd = path;
+/* 	vars->prompt->home = getenv("HOME");
+	if (!vars->prompt->home)
+		error_exit(vars, "Could not get $HOME", EXIT_FAILURE);*/
+	build_prompt(vars, vars->prompt->user);
+	build_prompt(vars, "@");
+	build_prompt(vars, vars->prompt->hostname);
+	if (ft_strnstr(vars->prompt->pwd, vars->prompt->home, ft_strlen(vars->prompt->home)))
+	{
+		vars->prompt->cwd = vars->prompt->pwd + (ft_strlen(vars->prompt->home));
+		build_prompt(vars, ":~");
+	}
+	else
+	{
+		/* if (*vars->prompt->pwd == '/' && vars->prompt->pwd[1])
+			vars->prompt->pwd++;
+		else */ if (vars->prompt->pwd[1] && vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] == '/')
+			vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] = '\0';
+		vars->prompt->cwd = vars->prompt->pwd;
+		build_prompt(vars, ":");
+	}
+	build_prompt(vars, vars->prompt->cwd);
+	build_prompt(vars, "$ ");
+}
 
 void	build_prompt(t_vars *vars, char *s)
 {
