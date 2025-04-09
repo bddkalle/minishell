@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/08 12:39:55 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:03:51 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ t_ast_node	*parse_command(t_vars *vars)
 	while (vars->parser->curr_tok)
 	{
 		tmp_token = vars->parser->curr_tok;
-		if (tmp_token && (tmp_token->type == TOKEN_REDIRECT_IN || \
+		if (tmp_token && (tmp_token->type == TOKEN_IO_NUMBER || \
+							tmp_token->type == TOKEN_REDIRECT_IN || \
                         	tmp_token->type == TOKEN_REDIRECT_OUT || \
                         	tmp_token->type == TOKEN_REDIRECT_APPEND || \
                             tmp_token->type == TOKEN_HEREDOC))
