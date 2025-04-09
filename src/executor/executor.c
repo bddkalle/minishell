@@ -6,12 +6,11 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/04 14:45:55 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:25:38 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <unistd.h>
 
 int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd)
 {
@@ -64,19 +63,9 @@ int	execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd)
 
 void	executor(t_vars *vars)
 {
-	//t_ast_node	*ast;
-
+	//env_p;
 	printf("\n###################### MINISHELL OUTPUT ######################\n");
-	//create a dummy
-	//ast = malloc(sizeof(t_ast_node));
-	//ast_dummy2(ast);
-	//execute dummy
 	execute_ast(vars, vars->ast, STDIN_FILENO, STDOUT_FILENO);
-	// free dummy
-	//free_dummy1(ast);
-	//free(ast);
-
-	//(void)vars;
-
+	//free(env_p);
 	return ;
 }

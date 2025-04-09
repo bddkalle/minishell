@@ -1,5 +1,18 @@
 #include "../../include/minishell.h"
-#include <unistd.h>
+
+void	free_env_paths(char **env_paths)
+{
+	int	i;
+
+	i = 0;
+	while (env_paths[i])
+	{
+		free(env_paths[i]);
+		i++;
+	}
+	free(env_paths);
+	return ;
+}
 
 int	search_env_path(char *command, char *pathname)
 {
@@ -24,7 +37,7 @@ int	search_env_path(char *command, char *pathname)
 		i++;
 		ft_bzero(pathname, PATH_MAX);
 	}
-	free(env_paths);
+	free_env_paths(env_paths);
 	return (0);
 }
 
@@ -60,28 +73,19 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 		return (execution_error(curr_command_node->argv[0], strerror(errno)));
 	if (pid == 0)
 	{
-		ft_printf("calling executable %s reading from fd: %i and writing to fd: %i\n", curr_command_node->argv[0], in_fd, out_fd);
-		if (in_fd != STDIN_FILENO)
-		{
-			dup2(in_fd, STDIN_FILENO);
-			close(in_fd);
-		}
+		//ft_printf("calling executable %s reading from fd: %i and writing to fd: %i\n", curr_command_node->argv[0], in_fd, out_fd);
 		if (out_fd != STDOUT_FILENO)
 		{
+			//ft_printf("dup2 of fd: %i\n", out_fd);
 			dup2(out_fd, STDOUT_FILENO);
 			close(out_fd);
 		}
-			// if (vars->ast->u_data.s_command.redirs != NULL)
-		// {
-		// 	fd = open(vars->ast->u_data.s_command.redirs->target);
-		// 	if (fd == -1)
-		// 		return (-1);
-		// 	if (vars->ast->u_data.s_command.redirs->type == REDIR_OUTPUT)
-		// 	{
-		// 		dup2(fd, STDOUT_FILENO);
-		// 		close(fd);
-		// 	}
-		// }
+		if (in_fd != STDIN_FILENO)
+		{
+			//ft_printf("dup2 of fd: %i\n", in_fd);
+			dup2(in_fd, STDIN_FILENO);
+			close(in_fd);
+		}
 		execve(pathname, curr_command_node->argv, vars->envp);
 		execution_error(curr_command_node->argv[0], strerror(errno));
 		return (EXIT_FAILURE);
@@ -91,17 +95,17 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 		{
-			ft_printf("Child process terminated normally with exit code %d.\n", WEXITSTATUS(status));
+			//ft_printf("Child process terminated normally with exit code %d.\n", WEXITSTATUS(status));
 			return (WEXITSTATUS(status));
 		}
 		else if (WIFSIGNALED(status))
 		{
-			ft_printf("Child process was terminated by signal %d.\n", WTERMSIG(status));
+			//ft_printf("Child process was terminated by signal %d.\n", WTERMSIG(status));
 			return (WIFSIGNALED(status));
 		}
 		else
 		{
-			ft_printf("Child process terminated abnormaly.\n");
+			//ft_printf("Child process terminated abnormaly.\n");
 			return (WIFEXITED(status));
 		}
 	}
