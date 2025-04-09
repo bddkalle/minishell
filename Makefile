@@ -6,7 +6,7 @@
 #    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/03 16:08:54 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/04/09 11:25:59 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,13 @@ SRC =	$(addsuffix .c,							\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/parser/, 				\
-								debug			\
+								p_debug			\
 								lexer			\
 								p_free			\
 								p_init			\
 								p_utils			\
 								p_utils2		\
+								p_utils3		\
 								parser			\
 		))										\
 		$(addsuffix .c,							\

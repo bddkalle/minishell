@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/01 11:39:12 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:39:55 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_ast_node	*parse_command(t_vars *vars)
 							&(*vars->parser->next_redir_node)->next;
 			continue ;
 		}
-		else if (tmp_token && tmp_token->type == TOKEN_WORD)
+		else if (tmp_token && (tmp_token->type == TOKEN_WORD || tmp_token->type == TOKEN_EXIT_STATUS))
 			fill_cmd_argv(vars);
 		else
 			break ;

@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/01 15:30:54 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:45:14 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,11 @@ void	create_token(t_vars *vars)
 		error_exit(vars, "strdup failed to create new token", EXIT_FAILURE);
 	node->type = vars->lexer->curr_token_type;
 	node->type = token_identifier(vars);
-	//node->next = NULL;
+	if (node->type == TOKEN_EXIT_STATUS)
+	{
+		free_null((void **)&node->value);
+		node->value = ft_strjoin(vars->lexer->curr_token, "[SPECIAL]");
+	}
 }
 
 t_token_type	token_identifier(t_vars *vars)
@@ -94,44 +98,11 @@ t_token_type	token_identifier(t_vars *vars)
 	if (token_cof_digits(vars->lexer->curr_token) && (vars->lexer->c == '<' \
 	|| vars->lexer->c == '>') && OPEN_MAX > atoi(vars->lexer->curr_token))
 		return (TOKEN_IO_NUMBER);
+	if (char_is("?", vars->lexer->curr_token[vars->lexer->token_pos - 1]) && vars->line[vars->lexer->line_pos - 2] == '$')
+		return (TOKEN_EXIT_STATUS);
 	return (TOKEN);
 }
 
-/* void	set_token_type(t_vars *vars)
-{
-	vars->lexer->curr_token_type = TOKEN_WORD;
-	if (vars->lexer->c == '|')
-	{
-		if (vars->line[vars->lexer->line_pos + 1] == '|')
-		{
-			vars->lexer->curr_token_type = TOKEN_OR;
-			vars->lexer->line_pos++;
-		}
-		else
-			vars->lexer->curr_token_type = TOKEN_PIPE;
-	}
-	else if (vars->lexer->c == '<')
-	{
-		if (vars->line[vars->lexer->line_pos + 1] == '<')
-		{
-			vars->lexer->curr_token_type = TOKEN_HEREDOC;
-			vars->lexer->line_pos++;
-		}
-		else
-			vars->lexer->curr_token_type = TOKEN_REDIRECT_IN;
-	}
-	else if (vars->lexer->c == '>')
-	{
-		if (vars->line[vars->lexer->line_pos + 1] == '>')
-		{
-			vars->lexer->curr_token_type = TOKEN_REDIRECT_APPEND;
-			vars->lexer->line_pos++;
-		}			
-		else
-			vars->lexer->curr_token_type = TOKEN_REDIRECT_OUT;
-	}
-}
- */
 void	handle_quoted_input(t_vars *vars)
 {
 	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
@@ -184,12 +155,6 @@ void	handle_quoted_input(t_vars *vars)
 	vars->lexer->state = NORMAL;
 }
 
-void	prepare_lexer(t_vars *vars)
-{
-	//set_lexer_state(vars, c);
-	token_identifier(vars);
-}
-
 void	lexer(t_vars *vars)
 {
 	init_lexer(vars);
@@ -230,7 +195,11 @@ void	lexer(t_vars *vars)
 			handle_quoted_input(vars);
 		}
 		// #5 (parameter expansion)
-
+		else if (char_is("$", vars->lexer->c))
+		{
+			expand_parameter(vars);
+		}
+		
 		// #6 (delimit before operator & set operator token)
 		else if (char_is(OPERATOR, vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
 		&& vars->lexer->state != IN_DOUBLE_QUOTE)
@@ -273,8 +242,6 @@ void	lexer(t_vars *vars)
 			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 			vars->lexer->line_pos++;
 		}
-		//state = lexer_state(vars, c, state, token_pos);
-		//prepare_lexer(vars);
 	}
 	debug_lexer(vars);
 }
