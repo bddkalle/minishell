@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/09 14:23:50 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:58:14 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_redir	*handle_redirs(t_vars *vars)
 
 	node = _malloc(sizeof(t_redir), vars);
 	*node = (t_redir){};
+	node->fd = -1;
 	if (vars->parser->curr_tok->type == TOKEN_IO_NUMBER)
 	{
 		node->fd = ft_atoi(vars->parser->curr_tok->value);

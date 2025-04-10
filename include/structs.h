@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/03 13:14:03 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:46:52 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_redir_type
 
 typedef struct s_redir
 {
-	t_size			fd;
+	int				fd;
 	t_redir_type	type;
 	char			*target;						//filename or heredoc delimiter
 	struct s_redir	*next;							//next redirection in list if any
