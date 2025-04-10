@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/08 15:25:38 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:41:36 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd)
 {
-	//STDIN STDOUT durch Pipe überschreiben? dup2()
 	//redirections1 dup2()
 	//redirection2 dup2()
 	//redirection3 dup2()
-
-
-
+	//parse_redirections(vars, curr_command_node, in_fd, out_fd);
 	if (ft_strcmp(curr_command_node->argv[0], "echo") == 0)
 		return (run_echo(out_fd, curr_command_node->argv));
 	else if (ft_strcmp(curr_command_node->argv[0], "pwd") == 0)
