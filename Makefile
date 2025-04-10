@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/08 12:25:26 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/04/09 11:25:59 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SRC =	$(addsuffix .c,							\
 		$(addprefix src/executor/, 				\
 								executor		\
 								executables		\
+								operators		\
+								e_utils			\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/parser/, 				\

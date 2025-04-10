@@ -1,22 +1,17 @@
 #include "../../include/minishell.h"
 
-void	executable_error(char *command, char *errmsg)
+void	free_env_paths(char **env_paths)
 {
-	write(STDERR_FILENO, "minishell: ", 11);
-	write(STDERR_FILENO, command, ft_strlen(command));
-	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, errmsg, ft_strlen(errmsg));
-	write(STDERR_FILENO, "\n", 1);
-	return ;
-}
+	int	i;
 
-void	fatal_error(t_vars *vars, char *errmsg)
-{
-	write(STDERR_FILENO, "minishell: ", 11);
-	write(STDERR_FILENO, errmsg, ft_strlen(errmsg));
-	write(STDERR_FILENO, "\n", 1);
-	free_all(vars);
-	exit(EXIT_FAILURE);
+	i = 0;
+	while (env_paths[i])
+	{
+		free(env_paths[i]);
+		i++;
+	}
+	free(env_paths);
+	return ;
 }
 
 int	search_env_path(char *command, char *pathname)
@@ -42,66 +37,57 @@ int	search_env_path(char *command, char *pathname)
 		i++;
 		ft_bzero(pathname, PATH_MAX);
 	}
-	free(env_paths);
+	free_env_paths(env_paths);
 	return (0);
 }
 
-int	search_executable(t_vars *vars, char *pathname)
+int	search_executable(t_vars *vars, char *command, char *pathname)
 {
-	char	*command;
 	int		found;
 
-	command = vars->ast->u_data.s_command.argv[0];
 	if (ft_strchr(command, '/') != NULL)
 		ft_strlcpy(pathname, command, ft_strlen(command) + 1);
 	else
 	{
 		found = search_env_path(command, pathname);
 		if (found == -1)
-		{
-			executable_error(command, "No such file or directory");
-			return (-1);
-		}
+			return (execution_error(command, "No such file or directory"));
 		else if (found == -2)
 			fatal_error(vars, "cannot allocate memory");
 	}
 	if (access(pathname, X_OK) != 0)
-	{
-		executable_error(command, strerror(errno));
-		return (-1);
-	}
+		return (execution_error(command, strerror(errno)));
 	return (0);
 }
 
-int	run_executable(t_vars *vars)
+int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd)
 {
 	char	pathname[PATH_MAX];
 	pid_t	pid;
 	int		status;
 
-	if (search_executable(vars, pathname) != 0)
+	if (search_executable(vars, curr_command_node->argv[0], pathname) != 0)
 		return (-1);
 	pid = fork();
 	if (pid == -1)
-	{
-		executable_error(vars->ast->u_data.s_command.argv[0], strerror(errno));
-		return (-1);
-	}
+		return (execution_error(curr_command_node->argv[0], strerror(errno)));
 	if (pid == 0)
 	{
-		// if (vars->ast->u_data.s_command.redirs != NULL)
-		// {
-		// 	fd = open(vars->ast->u_data.s_command.redirs->target);
-		// 	if (fd == -1)
-		// 		return (-1);
-		// 	if (vars->ast->u_data.s_command.redirs->type == REDIR_OUTPUT)
-		// 	{
-		// 		dup2(fd, STDOUT_FILENO);
-		// 		close(fd);
-		// 	}
-		// }
-		execve(pathname, vars->ast->u_data.s_command.argv, vars->envp);
-		executable_error(vars->ast->u_data.s_command.argv[0], strerror(errno));
+		//ft_printf("calling executable %s reading from fd: %i and writing to fd: %i\n", curr_command_node->argv[0], in_fd, out_fd);
+		if (out_fd != STDOUT_FILENO)
+		{
+			//ft_printf("dup2 of fd: %i\n", out_fd);
+			dup2(out_fd, STDOUT_FILENO);
+			close(out_fd);
+		}
+		if (in_fd != STDIN_FILENO)
+		{
+			//ft_printf("dup2 of fd: %i\n", in_fd);
+			dup2(in_fd, STDIN_FILENO);
+			close(in_fd);
+		}
+		execve(pathname, curr_command_node->argv, vars->envp);
+		execution_error(curr_command_node->argv[0], strerror(errno));
 		return (EXIT_FAILURE);
 	}
 	else
@@ -109,16 +95,18 @@ int	run_executable(t_vars *vars)
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 		{
-			ft_printf("Child process terminated normally with exit code %d.\n", WEXITSTATUS(status));
+			//ft_printf("Child process terminated normally with exit code %d.\n", WEXITSTATUS(status));
 			return (WEXITSTATUS(status));
 		}
 		else if (WIFSIGNALED(status))
 		{
-			ft_printf("Child process was terminated by signal %d.\n", WTERMSIG(status));
+			//ft_printf("Child process was terminated by signal %d.\n", WTERMSIG(status));
+			return (WIFSIGNALED(status));
 		}
 		else
 		{
-			ft_printf("Child process terminated abnormaly.\n");
+			//ft_printf("Child process terminated abnormaly.\n");
+			return (WIFEXITED(status));
 		}
 	}
 	return (-1);

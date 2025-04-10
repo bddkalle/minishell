@@ -6,140 +6,66 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/03/20 17:26:29 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:25:38 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ast_dummy1(t_ast_node *ast)
+int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd)
 {
-	ast->type = AST_COMMAND;
-	ast->u_data.s_command.argv = malloc(5 * sizeof(char *));
-	ast->u_data.s_command.argv[0] = "echo";
-	ast->u_data.s_command.argv[1] = "";
-	ast->u_data.s_command.argv[2] = "Hallo";
-	ast->u_data.s_command.argv[3] = "Gallo";
-	ast->u_data.s_command.argv[4] = NULL;
-	return ;
-}
+	//STDIN STDOUT durch Pipe überschreiben? dup2()
+	//redirections1 dup2()
+	//redirection2 dup2()
+	//redirection3 dup2()
 
-void	free_dummy1(t_ast_node *ast)
-{
-	free(ast->u_data.s_command.argv);
-}
-void	ast_dummy2(t_ast_node *ast)
-{
-	ast->type = AST_COMMAND;
-	ast->u_data.s_command.argv = malloc(3 * sizeof(char *));
-	ast->u_data.s_command.argv[0] = "cd";
-	ast->u_data.s_command.argv[1] = "/root";
-	ast->u_data.s_command.argv[2] = NULL;
-	return ;
-}
 
-void	ast_dummy3(t_ast_node *ast)
-{
-	char	*command1 = "ls";
-	char	*command2 = "-l";
-	char	*command3 = NULL;
-	char	*command4 = "wc";
-	char	*command5 = "-l";
-	char	*command6 = NULL;
 
-	ast->type = AST_PIPE;
-	ast->u_data.s_operator.left = malloc(sizeof(t_ast_node));
-	ast->u_data.s_operator.right = malloc(sizeof(t_ast_node));
-
-	ast->u_data.s_operator.left->type = AST_COMMAND;
-	ast->u_data.s_operator.left->u_data.s_command.argv = malloc(3 * sizeof(char*));
-	ast->u_data.s_operator.left->u_data.s_command.argv[0] = command1;
-	ast->u_data.s_operator.left->u_data.s_command.argv[1] = command2;
-	ast->u_data.s_operator.left->u_data.s_command.argv[2] = command3;
-
-	ast->u_data.s_operator.left->u_data.s_command.redirs = malloc(sizeof(t_redir));
-	ast->u_data.s_operator.left->u_data.s_command.redirs->type = REDIR_INPUT;
-	ast->u_data.s_operator.left->u_data.s_command.redirs->target = "infile";
-	ast->u_data.s_operator.left->u_data.s_command.redirs->next = NULL;
-
-	ast->u_data.s_operator.right->type = AST_COMMAND;
-	ast->u_data.s_operator.right->u_data.s_command.argv = malloc(3 * sizeof(char*));
-	ast->u_data.s_operator.right->u_data.s_command.argv[0] = command4;
-	ast->u_data.s_operator.right->u_data.s_command.argv[1] = command5;
-	ast->u_data.s_operator.right->u_data.s_command.argv[2] = command6;
-
-	ast->u_data.s_operator.right->u_data.s_command.redirs = malloc(sizeof(t_redir));
-	ast->u_data.s_operator.right->u_data.s_command.redirs->type = REDIR_OUTPUT;
-	ast->u_data.s_operator.right->u_data.s_command.redirs->target = "outfile";
-	ast->u_data.s_operator.right->u_data.s_command.redirs->next = NULL;
-
-	return ;
-}
-
-void	free_dummy3(t_ast_node *ast)
-{
-	free(ast->u_data.s_operator.left->u_data.s_command.redirs);
-	free(ast->u_data.s_operator.right->u_data.s_command.redirs);
-	free(ast->u_data.s_operator.left->u_data.s_command.argv);
-	free(ast->u_data.s_operator.right->u_data.s_command.argv);
-	free(ast->u_data.s_operator.left);
-	free(ast->u_data.s_operator.right);
-	return ;
-}
-
-int	execute_command(t_vars *vars)
-{
-	if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "echo") == 0)
-		return (run_echo(1, vars->ast->u_data.s_command.argv));
-	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "pwd") == 0)
-		return (run_pwd(1, vars->ast->u_data.s_command.argv));
-	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "cd") == 0)
+	if (ft_strcmp(curr_command_node->argv[0], "echo") == 0)
+		return (run_echo(out_fd, curr_command_node->argv));
+	else if (ft_strcmp(curr_command_node->argv[0], "pwd") == 0)
+		return (run_pwd(out_fd, curr_command_node->argv));
+	else if (ft_strcmp(curr_command_node->argv[0], "cd") == 0)
 		return (run_cd(vars));
-	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "export") == 0)
+	else if (ft_strcmp(curr_command_node->argv[0], "export") == 0)
 		return (1);
-	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "unset") == 0)
+	else if (ft_strcmp(curr_command_node->argv[0], "unset") == 0)
 		return (1);
-	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "env") == 0)
+	else if (ft_strcmp(curr_command_node->argv[0], "env") == 0)
 		return (1);
-	else if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "exit") == 0)
+	else if (ft_strcmp(curr_command_node->argv[0], "exit") == 0)
 		return (1);
 	else
-		run_executable(vars);
+		return (run_executable(vars, curr_command_node, in_fd, out_fd));
 	return (-1);
 }
 
-int	execute_ast(t_vars *vars)
+int	execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd)
 {
-	//int	left_status;
-	//int	right_status;
-	if (vars->ast->type == AST_COMMAND)
-		return (execute_command(vars));
-	else if (vars->ast->type == AST_PIPE)
-		return (1);
-	else if (vars->ast->type == AST_AND)
-		return (1);
-	else if (vars->ast->type == AST_OR)
-		return (1);
-	else if (vars->ast->type == AST_SUBSHELL)
+	if (current_node == NULL)
+		return (0);
+	if (current_node->type == AST_COMMAND)
+		return (execute_command(vars, &current_node->u_data.s_command,\
+			in_fd, out_fd));
+	else if (current_node->type == AST_PIPE)
+		return (operator_pipe(vars, current_node,\
+			in_fd, out_fd));
+	else if (current_node->type == AST_AND)
+		return (operator_and(vars, current_node,\
+			STDIN_FILENO, STDOUT_FILENO));
+	else if (current_node->type == AST_OR)
+		return (operator_and(vars, current_node,\
+			STDIN_FILENO, STDOUT_FILENO));
+	else if (current_node->type == AST_SUBSHELL)
 		return (1);
 	return (-1);
 }
 
 void	executor(t_vars *vars)
 {
-	//t_ast_node	*ast;
-
+	//env_p;
 	printf("\n###################### MINISHELL OUTPUT ######################\n");
-	//create a dummy
-	//ast = malloc(sizeof(t_ast_node));
-	//ast_dummy2(ast);
-	//execute dummy
-	execute_ast(vars);
-	// free dummy
-	//free_dummy1(ast);
-	//free(ast);
-
-	//(void)vars;
-
+	execute_ast(vars, vars->ast, STDIN_FILENO, STDOUT_FILENO);
+	//free(env_p);
 	return ;
 }
