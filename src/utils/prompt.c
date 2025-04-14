@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/18 14:48:55 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/14 11:56:19 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ void	update_prompt(t_vars *vars, char *path)
 	{
 		/* if (*vars->prompt->pwd == '/' && vars->prompt->pwd[1])
 			vars->prompt->pwd++;
-		else */ if (vars->prompt->pwd[1] && vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] == '/')
-			vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] = '\0';
+		else */ 
 		vars->prompt->cwd = vars->prompt->pwd;
 		build_prompt(vars, ":");
 	}
+	//printf("vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] = %c\n", vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1]);
+	if (vars->prompt->pwd[1] && vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] == '/')
+		vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] = '\0';
 	build_prompt(vars, vars->prompt->cwd);
 	build_prompt(vars, "$ ");
 }

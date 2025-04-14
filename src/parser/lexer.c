@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/08 13:45:14 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/14 12:20:45 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,7 @@ t_token_type	token_identifier(t_vars *vars)
 void	handle_quoted_input(t_vars *vars)
 {
 	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-	vars->lexer->line_pos++;
-	vars->lexer->c = vars->line[vars->lexer->line_pos];	
+	vars->lexer->c = vars->line[++vars->lexer->line_pos];
 	if (vars->lexer->state == IN_SINGLE_QUOTE)
 	{
 		while (1)
@@ -145,6 +144,8 @@ void	handle_quoted_input(t_vars *vars)
 				vars->lexer->c = vars->line[vars->lexer->line_pos];
 				continue ;
 			}
+			/* else if (char_is("$", vars->lexer->c))
+				expand_parameter(vars); */
 			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 			vars->lexer->line_pos++;
 			vars->lexer->c = vars->line[vars->lexer->line_pos];
