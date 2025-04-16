@@ -13,6 +13,9 @@ int	operator_or(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
 int	operator_and(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
 int	operator_pipe(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
 
+//redirections
+int	parse_redirections(t_vars *vars, struct s_command *current_command_node, int *in_fd, int *out_fd);
+
 //builtins
 int	run_echo(int fd, char **argv);
 int	run_pwd(int fd, char **argv);

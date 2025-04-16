@@ -88,7 +88,8 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 		}
 		execve(pathname, curr_command_node->argv, vars->envp);
 		execution_error(curr_command_node->argv[0], strerror(errno));
-		return (EXIT_FAILURE);
+		free_all(vars);
+		exit (EXIT_FAILURE);
 	}
 	else
 	{

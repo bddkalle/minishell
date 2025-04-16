@@ -6,7 +6,7 @@
 #    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/09 11:25:59 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/04/10 10:47:02 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC =	$(addsuffix .c,							\
 								executor		\
 								executables		\
 								operators		\
+								redirections	\
 								e_utils			\
 		))										\
 		$(addsuffix .c,							\
