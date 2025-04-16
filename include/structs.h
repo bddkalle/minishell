@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/10 10:53:10 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:22:44 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_prompt
 
 typedef struct s_vars
 {
+	int			exit_status;
 	t_prompt	*prompt;
 	t_lexer		*lexer;
 	t_token		*token;

@@ -96,17 +96,17 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 		{
-			ft_printf("Child process terminated normally with exit code %d.\n", WEXITSTATUS(status));
+			//ft_printf("Child process terminated normally with exit code %d.\n", WEXITSTATUS(status));
 			return (WEXITSTATUS(status));
 		}
 		else if (WIFSIGNALED(status))
 		{
-			ft_printf("Child process was terminated by signal %d.\n", WTERMSIG(status));
+			//ft_printf("Child process was terminated by signal %d.\n", WTERMSIG(status));
 			return (WIFSIGNALED(status));
 		}
 		else
 		{
-			ft_printf("Child process terminated abnormaly.\n");
+			//ft_printf("Child process terminated abnormaly.\n");
 			return (WIFEXITED(status));
 		}
 	}
