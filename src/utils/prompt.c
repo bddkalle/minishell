@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/14 11:56:19 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/16 10:56:14 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	update_prompt(t_vars *vars, char *path)
 {
 	free_null((void **)&vars->prompt->prompt);
-	printf("new path: %s\n", path);
+	//printf("new path: %s\n", path);
 	vars->prompt->pwd = path;
 /* 	vars->prompt->home = getenv("HOME");
 	if (!vars->prompt->home)

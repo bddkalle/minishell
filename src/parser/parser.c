@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/14 12:21:17 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:04:24 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ t_ast_node	*parse_command(t_vars *vars)
 	while (vars->parser->curr_tok)
 	{
 		tmp_token = vars->parser->curr_tok;
-		if (tmp_token && (tmp_token->type == TOKEN_IO_NUMBER || \
-							tmp_token->type == TOKEN_REDIRECT_IN || \
+		if (tmp_token && (tmp_token->type == TOKEN_REDIRECT_IN || \
                         	tmp_token->type == TOKEN_REDIRECT_OUT || \
                         	tmp_token->type == TOKEN_REDIRECT_APPEND || \
                             tmp_token->type == TOKEN_HEREDOC))
@@ -65,7 +64,7 @@ t_ast_node	*parse_command(t_vars *vars)
 							&(*vars->parser->next_redir_node)->next;
 			continue ;
 		}
-		else if (tmp_token && (tmp_token->type == TOKEN_WORD || tmp_token->type == TOKEN_EXIT_STATUS))
+		else if (tmp_token && (tmp_token->type == TOKEN_WORD))
 			fill_cmd_argv(vars);
 		else
 			break ;
@@ -94,6 +93,7 @@ void	parser(t_vars *vars)
 {
 	init_parser(vars);
 	reclassification(vars);
+	remove_quotes(vars);
 	vars->ast = parse_expression(vars);
 	debug_parser(vars);
 }

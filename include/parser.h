@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/08 11:08:58 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/15 12:33:22 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void			advance_token(t_vars *vars);
 t_redir			*handle_redirs(t_vars *vars);
 void			fill_cmd_argv(t_vars *vars);
 void			reclassification(t_vars *vars);
-
+void			remove_quotes(t_vars *vars);
 
 //Debugging
 void			debug_lexer(t_vars *vars);
