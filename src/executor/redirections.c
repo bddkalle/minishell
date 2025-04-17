@@ -14,6 +14,12 @@ int	heredoc_redirection(char *delimiter, int old_in_fd)
 	while(1)
 	{
 		line = readline("> ");
+		if (!line)
+		{
+			// causes memory errors and error message is wrong.
+			execution_error("warning: ", strerror(errno));
+			break;
+		}
 		add_history(line);
 		if (ft_strcmp(line, delimiter) == 0)
 		{
