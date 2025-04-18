@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/16 16:51:58 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/18 18:02:19 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 {
 	int	exit_code;
 
-	//ft_printf("in_fd before redir: %i\n", in_fd);
-	//ft_printf("out_fd before redir: %i\n", out_fd);
+	ft_printf("in_fd before redir: %i\n", in_fd);
+	ft_printf("out_fd before redir: %i\n", out_fd);
 
 	if (parse_redirections(vars, curr_command_node, &in_fd, &out_fd) == -1)
 	{
 		close_fds(in_fd, out_fd);
 		return (-1);
 	}
-	//ft_printf("in_fd after redir: %i\n", in_fd);
-	//ft_printf("out_fd after redir: %i\n", out_fd);
+	ft_printf("in_fd after redir: %i\n", in_fd);
+	ft_printf("out_fd after redir: %i\n", out_fd);
 
 	if (ft_strcmp(curr_command_node->argv[0], "echo") == 0)
 		exit_code = run_echo(out_fd, curr_command_node->argv);

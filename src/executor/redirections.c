@@ -1,41 +1,67 @@
 #include "../../include/minishell.h"
 
-int	heredoc_redirection(char *delimiter, int old_in_fd)
+int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 {
 	int		temp_fd;
 	char	*line;
 	int		i;
+	int		pid;
+	int		status;
 
 	temp_fd = open("heredoc_temp", O_CREAT | O_EXCL | O_WRONLY, 0600);
 	if (temp_fd == -1)
 		return (execution_error("heredoc_temp", strerror(errno)));
 	if (old_in_fd != STDIN_FILENO)
 		close(old_in_fd);
-	while(1)
+	pid = fork();
+	if (pid == -1)
+		return (execution_error("fork", strerror(errno)));
+	if (pid == 0)
 	{
-		line = readline("> ");
-		if (!line)
+		signal_heredoc_setup();
+		while(1)
 		{
-			// causes memory errors and error message is wrong.
-			execution_error("warning: ", strerror(errno));
-			break;
-		}
-		add_history(line);
-		if (ft_strcmp(line, delimiter) == 0)
-		{
+			line = readline("> ");
+			if (!line)
+			{
+				ft_putstr_fd("bash: warning: here-document delimited by end-of-file (wanted '", STDERR_FILENO);
+				ft_putstr_fd(delimiter, STDERR_FILENO);
+				ft_putstr_fd("')\n", STDERR_FILENO);
+				break;
+			}
+			add_history(line);
+			if (ft_strcmp(line, delimiter) == 0)
+			{
+				free(line);
+				break;
+			}
+			i = 0;
+			while(line[i])
+				write(temp_fd, &line[i++], 1);
+			write(temp_fd, "\n", 1);
 			free(line);
-			break;
 		}
-		i = 0;
-		while(line[i])
-			write(temp_fd, &line[i++], 1);
-		write(temp_fd, "\n", 1);
-		free(line);
-		continue;
+		close(temp_fd);
+		free_all(vars);
+		exit (EXIT_SUCCESS);
 	}
-	close(temp_fd);
-	open("heredoc_temp", O_RDONLY);
-	unlink("heredoc_temp");
+	else
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+		{
+			ft_printf("Child process terminated normally with exit code %d.\n", WEXITSTATUS(status));
+			return (-1);
+		}
+		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			ft_printf("SIGINT in heredoc!\n");
+			return (-1);
+		}
+		close(temp_fd);
+		temp_fd = open("heredoc_temp", O_RDONLY);
+		unlink("heredoc_temp");
+	}
 	return (temp_fd);
 }
 
@@ -92,7 +118,7 @@ int	parse_redirections(t_vars *vars, struct s_command *curr_command_node, int *i
 		else if(curr_redir->type == REDIR_APPEND)
 			*out_fd = append_redirection(curr_redir->target, *out_fd);
 		else if (curr_redir->type == REDIR_HEREDOC)
-			*in_fd = heredoc_redirection(curr_redir->target, *in_fd);
+			*in_fd = heredoc_redirection(vars, curr_redir->target, *in_fd);
 		if (*in_fd == -1 || *out_fd == -1)
 			return (-1);
 		curr_redir = curr_redir->next;
