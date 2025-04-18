@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/17 12:55:49 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/17 13:57:21 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 
+//global variable
+extern volatile sig_atomic_t	global_received_signal;
 
+//minishell
 void			minishell(char **envp);
 
 //Initialisation

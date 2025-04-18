@@ -1,5 +1,10 @@
 #include "../../include/minishell.h"
 
+void	signal_handler(int signum)
+{
+	global_received_signal = signum;
+}
+
 void	sigint_handler(int signum)
 {
 	(void)signum;
