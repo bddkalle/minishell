@@ -1,4 +1,7 @@
 #include "../../include/minishell.h"
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 {
@@ -7,6 +10,7 @@ int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 	int		i;
 	int		pid;
 	int		status;
+	int		w;
 
 	temp_fd = open("heredoc_temp", O_CREAT | O_EXCL | O_WRONLY, 0600);
 	if (temp_fd == -1)
@@ -21,7 +25,18 @@ int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 		signal_heredoc_setup();
 		while(1)
 		{
+			global_received_signal = 0;
 			line = readline("> ");
+			if (global_received_signal == SIGINT)
+			{
+				global_received_signal = 0;
+				free_all(vars);
+				free(line);
+				close(temp_fd);
+				unlink("heredoc_temp");
+				ft_printf("signal received and exiting heredoc child.\n");
+				exit(130);
+			}
 			if (!line)
 			{
 				ft_putstr_fd("bash: warning: here-document delimited by end-of-file (wanted '", STDERR_FILENO);
@@ -47,22 +62,51 @@ int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
+		w = -1;
+		while (w == -1)
+			w = waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 		{
-			ft_printf("Child process terminated normally with exit code %d.\n", WEXITSTATUS(status));
-			return (-1);
+			ft_printf("Child process for heredoc terminated normally with exit code %d.\n", WEXITSTATUS(status));
+			close(temp_fd);
+			temp_fd = open("heredoc_temp", O_RDONLY);
+			unlink("heredoc_temp");
+			return (temp_fd);
 		}
-		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		{
-			ft_printf("SIGINT in heredoc!\n");
-			return (-1);
-		}
+		// else if (WIFSIGNALED(status))
+		// {
+		// 	ft_printf("child for heredoc killed by signal with code %d\n.", WTERMSIG(status));
+		// 	return(WTERMSIG(status));
+		// }
+
+		// if (waitpid(pid, &status, 0) == -1)
+		// {
+		// 	ft_printf("waitpid interrupted.\n");
+		// 	unlink("heredoc_temp");
+		// 	close(temp_fd);
+		// 	return (-1);
+		// }
+		// else
+		// {
+		// 	if (WIFEXITED(status))
+		// 	{
+		// 		ft_printf("Child process for heredoc terminated normally with exit code %d.\n", WEXITSTATUS(status));
+		// 		close(temp_fd);
+		// 		temp_fd = open("heredoc_temp", O_RDONLY);
+		// 		unlink("heredoc_temp");
+		// 		return (temp_fd);
+		// 	}
+		// 	else if (WIFSIGNALED(status))
+		// 	{
+		// 		ft_printf("child for heredoc killed by signal with code %d\n.", WTERMSIG(status));
+		// 		return(WTERMSIG(status));
+		// 	}
+		// }
 		close(temp_fd);
-		temp_fd = open("heredoc_temp", O_RDONLY);
+		//temp_fd = open("heredoc_temp", O_RDONLY);
 		unlink("heredoc_temp");
 	}
-	return (temp_fd);
+	return (-1);
 }
 
 int	append_redirection(char *target, int old_out_fd)
