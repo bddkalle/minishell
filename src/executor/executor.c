@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/19 14:39:43 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:33:21 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 		exit_code = run_executable(vars, curr_command_node, in_fd, out_fd);
 	close_fds(in_fd, out_fd);
 	vars->exit_status = exit_code;
-	return (0);
+	return (exit_code);
 }
 /*
 int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd)

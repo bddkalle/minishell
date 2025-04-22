@@ -1,4 +1,5 @@
 #include "../../include/minishell.h"
+#include <unistd.h>
 
 void	free_env_paths(char **env_paths)
 {
@@ -94,28 +95,25 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 	}
 	else
 	{
-		if (waitpid(pid, &status, 0) == -1 && errno == EINTR)
+		signal_ignore_setup();
+		// if (waitpid(pid, &status, 0) == -1 && errno == EINTR)
+		// {
+		// 	signal_shell_setup();
+		// 	write(1, "\n", 1);
+		// 	ft_printf("SIGINT:Child process for command %s was terminated by signal %i.\n", curr_command_node->argv[0], SIGINT);
+		// 	return (SIGINT);
+		// }
+		waitpid(pid, &status, 0);
+		signal_shell_setup();
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
 		{
-			ft_printf("Child process for command %s was terminated by signal %i.\n", curr_command_node->argv[0], SIGINT);
-			return (SIGINT);
-		}
-		else
-		{
-			if (WIFEXITED(status))
-			{
-				ft_printf("Child process for command %s terminated normally with exit code %d.\n", curr_command_node->argv[0], WEXITSTATUS(status));
-				return (WEXITSTATUS(status));
-			}
-			else if (WIFSIGNALED(status))
-			{
-				ft_printf("Child process for command %s was terminated by signal %d.\n", curr_command_node->argv[0], WTERMSIG(status));
-				return (WIFSIGNALED(status));
-			}
-			else
-			{
-				ft_printf("Child process for command %s terminated abnormaly.\n", curr_command_node->argv[0]);
-				return (WIFEXITED(status));
-			}
+			if (WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
+			else if (WTERMSIG(status) == SIGQUIT)
+				write(1, "Quit (core dumped)\n", 19);
+			return (WIFSIGNALED(status));
 		}
 	}
 	return (-1);

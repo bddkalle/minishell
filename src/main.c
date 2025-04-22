@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/18 16:37:44 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:19:34 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@ void	minishell(char **envp)
 			break ;
 		}
 		add_history(vars.line);
-		if(global_received_signal == SIGINT)
-		{
-			global_received_signal = 0;
-			continue;
-		}
 		lexer(&vars);
 		parser(&vars);
  		executor(&vars);
 		free_null_readline(&vars);
+		if(global_received_signal == SIGINT)
+			global_received_signal = 0;
 	}
 	free_all(&vars);
 }

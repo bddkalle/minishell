@@ -1,7 +1,26 @@
 #include "../../include/minishell.h"
 #include <stdlib.h>
+#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+// char	*custom_readline(const char *prompt)
+// {
+// 	char	buffer[1024];
+// 	int		len;
+
+// 	write(STDOUT_FILENO, prompt, ft_strlen(prompt));
+// 	len = read(STDIN_FILENO, buffer, 1023);
+// 	if (global_received_signal)
+// 	{
+// 		global_received_signal = 0;
+// 		return (NULL);
+// 	}
+// 	if (len <= 0)
+// 		return (NULL);
+// 	buffer[len] = '\n';
+// 	return (ft_strdup(buffer));
+// }
 
 int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 {
@@ -10,7 +29,6 @@ int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 	int		i;
 	int		pid;
 	int		status;
-	int		w;
 
 	temp_fd = open("heredoc_temp", O_CREAT | O_EXCL | O_WRONLY, 0600);
 	if (temp_fd == -1)
@@ -25,21 +43,20 @@ int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 		signal_heredoc_setup();
 		while(1)
 		{
-			global_received_signal = 0;
 			line = readline("> ");
+			//line = custom_readline("> ");
 			if (global_received_signal == SIGINT)
 			{
 				global_received_signal = 0;
+				unlink("heredoc_temp");
 				free_all(vars);
 				free(line);
 				close(temp_fd);
-				unlink("heredoc_temp");
-				ft_printf("signal received and exiting heredoc child.\n");
-				exit(130);
+				exit(SIGINT);
 			}
 			if (!line)
 			{
-				ft_putstr_fd("bash: warning: here-document delimited by end-of-file (wanted '", STDERR_FILENO);
+				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", STDERR_FILENO);
 				ft_putstr_fd(delimiter, STDERR_FILENO);
 				ft_putstr_fd("')\n", STDERR_FILENO);
 				break;
@@ -62,48 +79,16 @@ int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 	}
 	else
 	{
-		w = -1;
-		while (w == -1)
-			w = waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
+		signal_ignore_setup();
+		waitpid(pid, &status, 0);
+		signal_shell_setup();
+		close(temp_fd);
+		if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
 		{
-			ft_printf("Child process for heredoc terminated normally with exit code %d.\n", WEXITSTATUS(status));
-			close(temp_fd);
 			temp_fd = open("heredoc_temp", O_RDONLY);
 			unlink("heredoc_temp");
 			return (temp_fd);
 		}
-		// else if (WIFSIGNALED(status))
-		// {
-		// 	ft_printf("child for heredoc killed by signal with code %d\n.", WTERMSIG(status));
-		// 	return(WTERMSIG(status));
-		// }
-
-		// if (waitpid(pid, &status, 0) == -1)
-		// {
-		// 	ft_printf("waitpid interrupted.\n");
-		// 	unlink("heredoc_temp");
-		// 	close(temp_fd);
-		// 	return (-1);
-		// }
-		// else
-		// {
-		// 	if (WIFEXITED(status))
-		// 	{
-		// 		ft_printf("Child process for heredoc terminated normally with exit code %d.\n", WEXITSTATUS(status));
-		// 		close(temp_fd);
-		// 		temp_fd = open("heredoc_temp", O_RDONLY);
-		// 		unlink("heredoc_temp");
-		// 		return (temp_fd);
-		// 	}
-		// 	else if (WIFSIGNALED(status))
-		// 	{
-		// 		ft_printf("child for heredoc killed by signal with code %d\n.", WTERMSIG(status));
-		// 		return(WTERMSIG(status));
-		// 	}
-		// }
-		close(temp_fd);
-		//temp_fd = open("heredoc_temp", O_RDONLY);
 		unlink("heredoc_temp");
 	}
 	return (-1);

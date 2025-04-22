@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/19 16:24:24 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:15:09 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	signal_shell_setup(void);
 void	signal_heredoc_setup(void);
 void	sigint_shell_handler(int signum);
 void	signal_executable_setup(void);
+void	signal_pipe_setup(void);
+void	signal_ignore_setup(void);
 
 //Utils
 void			*_malloc(size_t size, t_vars *vars);

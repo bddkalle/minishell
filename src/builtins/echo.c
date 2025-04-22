@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:52 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/17 13:33:49 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:36:17 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	run_echo(int fd, char **argv)
 	int	linebreak;
 	char	*s;
 
-	sleep(10);
 	(void)fd;
 	linebreak = 1;
 	while (*++argv && ft_strcmp(*argv, "-n") == 0)

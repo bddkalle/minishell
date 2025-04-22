@@ -42,8 +42,7 @@ int	pipe_left(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd, int
 {
 	int	left_status;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal_pipe_setup();
 	close(pipe_fd[0]);
 	if (out_fd != STDOUT_FILENO)
 		close(out_fd);
@@ -59,8 +58,7 @@ int	pipe_right(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd, in
 {
 	int	right_status;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal_pipe_setup();
 	close(pipe_fd[1]);
 	if (in_fd != STDIN_FILENO)
 		close(in_fd);
