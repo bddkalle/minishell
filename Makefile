@@ -6,7 +6,7 @@
 #    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/17 13:04:14 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/04/22 18:49:52 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC =	$(addsuffix .c,							\
 								echo			\
 								cd				\
 								pwd				\
+								export			\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/error/, 				\
