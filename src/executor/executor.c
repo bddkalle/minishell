@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/22 19:54:10 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:21:29 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,11 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 {
 	int	exit_code;
 
-	// ft_printf("in_fd before redir: %i\n", in_fd);
-	// ft_printf("out_fd before redir: %i\n", out_fd);
-
 	if (parse_redirections(vars, curr_command_node, &in_fd, &out_fd) == -1)
 	{
 		close_fds(in_fd, out_fd);
 		return (-1);
 	}
-	// ft_printf("in_fd after redir: %i\n", in_fd);
-	// ft_printf("out_fd after redir: %i\n", out_fd);
-
 	if (ft_strcmp(curr_command_node->argv[0], "echo") == 0)
 		exit_code = run_echo(out_fd, curr_command_node->argv);
 	else if (ft_strcmp(curr_command_node->argv[0], "pwd") == 0)
@@ -38,7 +32,7 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 	else if (ft_strcmp(curr_command_node->argv[0], "unset") == 0)
 		exit_code = 666;
 	else if (ft_strcmp(curr_command_node->argv[0], "env") == 0)
-		exit_code = 666;
+		exit_code = run_env(out_fd, vars, curr_command_node->argv);
 	else if (ft_strcmp(curr_command_node->argv[0], "exit") == 0)
 		exit_code = 666;
 	else
@@ -47,36 +41,6 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 	vars->exit_status = exit_code;
 	return (exit_code);
 }
-/*
-int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd)
-{
-	ft_printf("in_fd before redir: %i\n", in_fd);
-	ft_printf("out_fd before redir: %i\n", out_fd);
-
-	if (parse_redirections(vars, curr_command_node, &in_fd, &out_fd) == -1)
-		return (-1);
-	ft_printf("in_fd after redir: %i\n", in_fd);
-	ft_printf("out_fd after redir: %i\n", out_fd);
-
-	if (ft_strcmp(curr_command_node->argv[0], "echo") == 0)
-		return (run_echo(out_fd, curr_command_node->argv));
-	else if (ft_strcmp(curr_command_node->argv[0], "pwd") == 0)
-		return (run_pwd(out_fd, curr_command_node->argv));
-	else if (ft_strcmp(curr_command_node->argv[0], "cd") == 0)
-		return (run_cd(vars));
-	else if (ft_strcmp(curr_command_node->argv[0], "export") == 0)
-		return (1);
-	else if (ft_strcmp(curr_command_node->argv[0], "unset") == 0)
-		return (1);
-	else if (ft_strcmp(curr_command_node->argv[0], "env") == 0)
-		return (1);
-	else if (ft_strcmp(curr_command_node->argv[0], "exit") == 0)
-		return (1);
-	else
-		return (run_executable(vars, curr_command_node, in_fd, out_fd));
-	return (-1);
-}
-*/
 
 int	execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd)
 {

@@ -5,22 +5,24 @@
 
 //executor
 void	executor(t_vars *vars);
-int	execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
-int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd);
-int	search_executable(t_vars *vars, char *command, char *pathname);
-int	search_env_path(char *command, char *pathname);
-int	operator_or(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
-int	operator_and(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
-int	operator_pipe(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
+int		execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
+int		execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd);
+int		run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd);
+int		search_executable(t_vars *vars, char *command, char *pathname);
+int		search_env_path(char *command, char *pathname);
+int		operator_or(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
+int		operator_and(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
+int		operator_pipe(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
 
 //redirections
-int	parse_redirections(t_vars *vars, struct s_command *current_command_node, int *in_fd, int *out_fd);
+int		parse_redirections(t_vars *vars, struct s_command *current_command_node, int *in_fd, int *out_fd);
 
 //builtins
-int	run_echo(int fd, char **argv);
-int	run_pwd(int fd, char **argv);
-int	run_cd(t_vars *vars);
-int	run_export(int fd, t_vars *vars);
+int		run_echo(int fd, char **argv);
+int		run_pwd(int fd, char **argv);
+int		run_cd(t_vars *vars);
+int		run_export(int fd, t_vars *vars);
+int		run_env(int fd, t_vars *vars);
 
 //utils
 void	close_fds(int in_fd, int out_fd);

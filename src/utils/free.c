@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:45:51 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/03/24 12:54:21 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/23 09:27:32 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	free_all(t_vars *vars)
 	close_all(vars);
 	rl_clear_history();
 	free_parser(vars);
+	free_envp(vars->envp_ll);
 	if (vars->prompt)
 	{
 		free_null((void **)&vars->prompt->hostname);

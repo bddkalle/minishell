@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/22 16:19:34 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/23 09:19:49 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	minishell(char **envp)
 	signal_shell_setup();
 	init_vars(&vars);
 	get_prompt(&vars);
-	vars.envp = envp;
+	vars.envp = envp; // keep only one of these
+	vars.envp_ll = init_envp(envp); // keep only one of these
 	while (1)
 	{
 		vars.line = readline(vars.prompt->prompt);
