@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/17 14:03:34 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:06:29 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 	//ft_printf("out_fd before redir: %i\n", out_fd);
 
 	if (parse_redirections(vars, curr_command_node, &in_fd, &out_fd) == -1)
+	{
+		close_fds(in_fd, out_fd);
 		return (-1);
+	}
 	//ft_printf("in_fd after redir: %i\n", in_fd);
 	//ft_printf("out_fd after redir: %i\n", out_fd);
 
@@ -40,10 +43,7 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 		exit_code = 666;
 	else
 		exit_code = run_executable(vars, curr_command_node, in_fd, out_fd);
-	if (in_fd != STDIN_FILENO)
-		close(in_fd);
-	if (out_fd != STDOUT_FILENO)
-		close(out_fd);
+	close_fds(in_fd, out_fd);
 	vars->exit_status = exit_code;
 	return (0);
 }

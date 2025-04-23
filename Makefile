@@ -6,7 +6,7 @@
 #    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/10 10:47:02 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/04/17 13:04:14 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,10 @@ SRC =	$(addsuffix .c,							\
 								parser			\
 		))										\
 		$(addsuffix .c,							\
+		$(addprefix src/signals/, 				\
+								signals			\
+		))										\
+		$(addsuffix .c,							\
 		$(addprefix src/utils/, 				\
 								free			\
 								init			\
@@ -65,7 +69,7 @@ CFLAGS = -Wall -Wextra
 MFLAGS = --no-print-directory
 VFLAGS = -g -O0
 
-vpath %.c src src/builtins src/error src/executor src/parser src/utils
+vpath %.c src src/builtins src/error src/executor src/parser src/signals src/utils
 
 all: $(NAME)
 

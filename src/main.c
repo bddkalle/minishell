@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/03 11:08:14 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/17 12:57:10 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	minishell(char **envp)
 {
 	t_vars		vars;
 
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 	init_vars(&vars);
 	get_prompt(&vars);
 	vars.envp = envp;

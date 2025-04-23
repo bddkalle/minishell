@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/15 16:18:44 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:57:01 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,26 @@ void remove_quotes(t_vars *vars)
 		}
 		tmp = tmp->next;
 	}
+}
+
+t_size	is_invalid_leading_op(t_token_type type)
+{
+	if (type == TOKEN_PIPE)
+		return (1);
+	if (type == TOKEN_AND)
+		return (1);
+	if (type == TOKEN_OR)
+		return (1);
+	return (0);
+}
+
+t_size	is_consecutive_op(t_token_type type)
+{
+	if (type == TOKEN_PIPE)
+		return (1);
+	if (type == TOKEN_AND)
+		return (1);
+	if (type == TOKEN_OR)
+		return (1);
+	return (0);
 }

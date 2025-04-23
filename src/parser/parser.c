@@ -6,11 +6,67 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/17 14:03:28 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:43:16 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	check_syntax(t_vars *vars)
+{
+	t_token	*curr_tok;
+	
+	if (!vars->token)
+		return ;
+
+	if (is_invalid_leading_op(vars->token->type))
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token »", 2);
+		ft_putstr_fd(vars->token->value, 2);
+		ft_putstr_fd("«\n", 2);
+		vars->exit_status = 2;
+		free_null_token(vars);
+	}
+	curr_tok = vars->token;
+	while (curr_tok)
+	{
+		if (curr_tok->type == TOKEN_REDIRECT_IN || \			//check redir syntax
+			curr_tok->type == TOKEN_REDIRECT_OUT || \
+			curr_tok->type == TOKEN_REDIRECT_APPEND || \
+			curr_tok->type == TOKEN_HEREDOC)
+		{
+			if (curr_tok->next && curr_tok->next->type != TOKEN)
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token »", 2);
+				ft_putstr_fd(curr_tok->next->value, 2);
+				ft_putstr_fd("«\n", 2);
+				vars->exit_status = 2;
+				free_null_token(vars);
+				return ;
+			}
+			if (!curr_tok->next)
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token »newline«\n", 2);
+				vars->exit_status = 2;
+				free_null_token(vars);
+				return ;
+			}
+		}
+		if (curr_tok && curr_tok->next) //handle consecutive operator
+		{
+			if (is_consecutive_op(curr_tok->type) && is_consecutive_op(curr_tok->next->type))
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token »", 2);
+				ft_putstr_fd(curr_tok->next->value, 2);
+				ft_putstr_fd("«\n", 2);
+				vars->exit_status = 2;
+				free_null_token(vars);
+				return ;
+			}
+		}
+		curr_tok = curr_tok->next;
+	}
+}
 
 t_ast_node	*parse_expression(t_vars *vars)
 {
@@ -91,9 +147,10 @@ t_ast_node	*parse_command(t_vars *vars)
  */
 void	parser(t_vars *vars)
 {
+	check_syntax(vars);
 	init_parser(vars);
 	reclassification(vars);
 	remove_quotes(vars);
 	vars->ast = parse_expression(vars);
-	//debug_parser(vars);
+	debug_parser(vars);
 }

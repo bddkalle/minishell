@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/15 12:33:22 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:58:42 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 # define OPERATOR "|<>&()"
 # define MULT_OP "|<>&"
+# define CONSEC_OP "|&"
 # define QUOTES "'\""
 # define DEL " \t\n"
 
@@ -57,6 +58,11 @@ t_redir			*handle_redirs(t_vars *vars);
 void			fill_cmd_argv(t_vars *vars);
 void			reclassification(t_vars *vars);
 void			remove_quotes(t_vars *vars);
+void			check_syntax(t_vars *vars);
+t_size			is_invalid_leading_op(t_token_type type);
+t_size			is_consecutive_op(t_token_type type);
+
+
 
 //Debugging
 void			debug_lexer(t_vars *vars);

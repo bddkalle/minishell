@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/03 13:19:59 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/17 12:55:49 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void			free_null(void **ptr);
 void			free_null_readline(t_vars *vars);
 void			close_all(t_vars *vars);
 void			_close(int fd);
+
+//signals
+void			sigint_handler(int signum);
 
 //Utils
 void			*_malloc(size_t size, t_vars *vars);
