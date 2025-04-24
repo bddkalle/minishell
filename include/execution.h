@@ -21,13 +21,16 @@ int		parse_redirections(t_vars *vars, struct s_command *current_command_node, in
 int		run_echo(int fd, char **argv);
 int		run_pwd(int fd, char **argv);
 int		run_cd(t_vars *vars);
-int		run_export(int fd, t_vars *vars);
+int		run_export(t_vars *vars, char **argv, int fd);
 int		run_env(t_vars *vars, char **argv, int fd);
+int		run_unset(t_vars *vars, char **argv);
 
 //utils
 void	close_fds(int in_fd, int out_fd);
 void	chdir_error(char *path);
 int		execution_error(char *command, char *errmsg);
 void	fatal_error(t_vars *vars, char *errmsg);
+int		env_error(char *command, char *errmsg);
+int		env_fatal_error(t_vars *vars, char *command, char *errmsg, int fd);
 
 #endif

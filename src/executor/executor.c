@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/24 09:52:01 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/24 21:36:59 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 	else if (ft_strcmp(curr_command_node->argv[0], "cd") == 0)
 		exit_code = run_cd(vars);
 	else if (ft_strcmp(curr_command_node->argv[0], "export") == 0)
-		exit_code = run_export(out_fd, vars);
+		exit_code = run_export(vars, curr_command_node->argv, out_fd);
 	else if (ft_strcmp(curr_command_node->argv[0], "unset") == 0)
-		exit_code = 666;
+		exit_code = run_unset(vars, curr_command_node->argv);
 	else if (ft_strcmp(curr_command_node->argv[0], "env") == 0)
 		exit_code = run_env(vars, curr_command_node->argv, out_fd);
 	else if (ft_strcmp(curr_command_node->argv[0], "exit") == 0)
