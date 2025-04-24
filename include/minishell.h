@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/17 12:55:49 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:16:13 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 
+//global variable
+extern volatile sig_atomic_t	global_received_signal;
 
+//minishell
 void			minishell(char **envp);
 
 //Initialisation
@@ -49,7 +52,14 @@ void			close_all(t_vars *vars);
 void			_close(int fd);
 
 //signals
-void			sigint_handler(int signum);
+void	signal_handler_global(int signum);
+void	signal_readline_setup(void);
+void	signal_shell_setup(void);
+void	signal_heredoc_setup(void);
+void	sigint_shell_handler(int signum);
+void	signal_executable_setup(void);
+void	signal_pipe_setup(void);
+void	signal_ignore_setup(void);
 
 //Utils
 void			*_malloc(size_t size, t_vars *vars);

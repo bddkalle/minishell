@@ -1,42 +1,97 @@
 #include "../../include/minishell.h"
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-int	heredoc_redirection(char *delimiter, int old_in_fd)
+// char	*custom_readline(const char *prompt)
+// {
+// 	char	buffer[1024];
+// 	int		len;
+
+// 	write(STDOUT_FILENO, prompt, ft_strlen(prompt));
+// 	len = read(STDIN_FILENO, buffer, 1023);
+// 	if (global_received_signal)
+// 	{
+// 		global_received_signal = 0;
+// 		return (NULL);
+// 	}
+// 	if (len <= 0)
+// 		return (NULL);
+// 	buffer[len] = '\n';
+// 	return (ft_strdup(buffer));
+// }
+
+int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 {
 	int		temp_fd;
 	char	*line;
 	int		i;
+	int		pid;
+	int		status;
 
 	temp_fd = open("heredoc_temp", O_CREAT | O_EXCL | O_WRONLY, 0600);
 	if (temp_fd == -1)
 		return (execution_error("heredoc_temp", strerror(errno)));
 	if (old_in_fd != STDIN_FILENO)
 		close(old_in_fd);
-	while(1)
+	pid = fork();
+	if (pid == -1)
+		return (execution_error("fork", strerror(errno)));
+	if (pid == 0)
 	{
-		line = readline("> ");
-		if (!line)
+		signal_heredoc_setup();
+		while(1)
 		{
-			// causes memory errors and error message is wrong.
-			execution_error("warning: ", strerror(errno));
-			break;
-		}
-		add_history(line);
-		if (ft_strcmp(line, delimiter) == 0)
-		{
+			line = readline("> ");
+			//line = custom_readline("> ");
+			if (global_received_signal == SIGINT)
+			{
+				global_received_signal = 0;
+				unlink("heredoc_temp");
+				free_all(vars);
+				free(line);
+				close(temp_fd);
+				exit(SIGINT);
+			}
+			if (!line)
+			{
+				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", STDERR_FILENO);
+				ft_putstr_fd(delimiter, STDERR_FILENO);
+				ft_putstr_fd("')\n", STDERR_FILENO);
+				break;
+			}
+			add_history(line);
+			if (ft_strcmp(line, delimiter) == 0)
+			{
+				free(line);
+				break;
+			}
+			i = 0;
+			while(line[i])
+				write(temp_fd, &line[i++], 1);
+			write(temp_fd, "\n", 1);
 			free(line);
-			break;
 		}
-		i = 0;
-		while(line[i])
-			write(temp_fd, &line[i++], 1);
-		write(temp_fd, "\n", 1);
-		free(line);
-		continue;
+		close(temp_fd);
+		free_all(vars);
+		exit (EXIT_SUCCESS);
 	}
-	close(temp_fd);
-	open("heredoc_temp", O_RDONLY);
-	unlink("heredoc_temp");
-	return (temp_fd);
+	else
+	{
+		signal_ignore_setup();
+		waitpid(pid, &status, 0);
+		signal_shell_setup();
+		close(temp_fd);
+		if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
+		{
+			temp_fd = open("heredoc_temp", O_RDONLY);
+			unlink("heredoc_temp");
+			return (temp_fd);
+		}
+		unlink("heredoc_temp");
+	}
+	return (-1);
 }
 
 int	append_redirection(char *target, int old_out_fd)
@@ -92,7 +147,7 @@ int	parse_redirections(t_vars *vars, struct s_command *curr_command_node, int *i
 		else if(curr_redir->type == REDIR_APPEND)
 			*out_fd = append_redirection(curr_redir->target, *out_fd);
 		else if (curr_redir->type == REDIR_HEREDOC)
-			*in_fd = heredoc_redirection(curr_redir->target, *in_fd);
+			*in_fd = heredoc_redirection(vars, curr_redir->target, *in_fd);
 		if (*in_fd == -1 || *out_fd == -1)
 			return (-1);
 		curr_redir = curr_redir->next;

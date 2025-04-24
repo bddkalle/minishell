@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/23 14:43:16 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:39:10 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	check_syntax(t_vars *vars)
 		free_null_token(vars);
 	}
 	curr_tok = vars->token;
-	while (curr_tok)
+	while (curr_tok)										//check redir syntax
 	{
-		if (curr_tok->type == TOKEN_REDIRECT_IN || \			//check redir syntax
+		if (curr_tok->type == TOKEN_REDIRECT_IN || \
 			curr_tok->type == TOKEN_REDIRECT_OUT || \
 			curr_tok->type == TOKEN_REDIRECT_APPEND || \
 			curr_tok->type == TOKEN_HEREDOC)
