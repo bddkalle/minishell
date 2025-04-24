@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/23 12:16:36 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/24 10:59:56 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void			minishell(char **envp);
 
 //Initialisation
 void			init_vars(t_vars *vars);
-t_envp			*init_envp(char **param);
+void			init_envp(t_vars *vars, char **param);
 
 //Prompt
 void			get_prompt(t_vars *vars);
@@ -65,7 +65,9 @@ void	signal_ignore_setup(void);
 //Utils
 void			*_malloc(size_t size, t_vars *vars);
 int				build_path(char *input, char *path, char *home);
-void			split_envp(t_envp *envp, char *param);
+t_envp			*create_envp_node(t_vars *vars, char *varvalue); //delete one of these
+void			split_envp(t_envp *envp, char *param); //delete one of these
 void			add_envp(t_envp *envp, char *varvalue);
+void			add_or_replace_envp(t_vars *vars, t_envp *envp_node);
 
 #endif

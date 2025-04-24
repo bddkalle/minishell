@@ -22,7 +22,7 @@ int		run_echo(int fd, char **argv);
 int		run_pwd(int fd, char **argv);
 int		run_cd(t_vars *vars);
 int		run_export(int fd, t_vars *vars);
-int		run_env(int fd, t_vars *vars);
+int		run_env(t_vars *vars, char **argv, int fd);
 
 //utils
 void	close_fds(int in_fd, int out_fd);

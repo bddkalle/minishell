@@ -1,6 +1,5 @@
 #include "../../include/minishell.h"
-#include <stdlib.h>
-#include <unistd.h>
+#include <string.h>
 
 int		env_error(char *command, char *errmsg)
 {
@@ -24,36 +23,31 @@ void	write_env(int fd, t_envp *envp)
 	}
 }
 
-struct s_command	*parse_env_commands(t_vars *vars)
+struct s_command	*parse_env_commands(t_vars *vars, char **argv)
 {
-	int	i;
-	char	*equal;
-	char	**argv;
-	struct s_command *command;
+	int					i;
+	char				*equal;
+	struct s_command	*command;
+	t_envp				*temp;
 
-	argv = vars->ast->u_data.s_command.argv;
-	ft_printf("argv[0]: %s", argv[0]);
-	ft_printf("argv[1]: %s", argv[1]);
 	i = 1;
 	command = NULL;
-	// while (argv[i])
-	// {
-	// 	ft_printf("%i\n", i);
-	// 	i++;
-	// }
-	// i = 1;
 	while (argv[i])
 	{
 		equal = ft_strchr(argv[i], '=');
 		if (!equal)
 			break;
-		//ft_printf("argv[%d]: %s\n", i, argv[i]);
-		add_envp(vars->envp_ll, argv[i]);
+		temp = create_envp_node(vars, argv[i]);
+		if (!temp)
+		{
+			env_error("malloc", strerror(errno)); // not finished
+			return (NULL);
+		}
+		add_or_replace_envp(vars, temp);
 		i++;
 	}
-	if(argv[i]) // fehler bei | && ||
+	if(argv[i])
 	{
-		ft_printf("try to run command %s\n", argv[i]);
 		command = malloc(sizeof(struct s_command));
 		command->argv = &argv[i];
 		command->redirs = NULL;
@@ -61,11 +55,59 @@ struct s_command	*parse_env_commands(t_vars *vars)
 	return (command);
 }
 
-int	run_env(int fd, t_vars *vars, struct s_command *curr_command_node)
+// struct s_command	*parse_env_commands(t_vars *vars, char **argv)
+// {
+// 	int					i;
+// 	char				*equal;
+// 	struct s_command	*command;
+// 	t_envp				*temp;
+
+// 	i = 1;
+// 	command = NULL;
+// 	while (argv[i])
+// 	{
+// 		equal = ft_strchr(argv[i], '=');
+// 		if (!equal)
+// 			break;
+// 		temp = create_envp_node(argv[i]);
+// 				replace_envp_if_existing(vars, *envp)
+// 		i++;
+// 	}
+// 	if(argv[i])
+// 	{
+// 		command = malloc(sizeof(struct s_command));
+// 		command->argv = &argv[i];
+// 		command->redirs = NULL;
+// 	}
+// 	return (command);
+// }
+
+int	env_childprocess(t_vars *vars, char **argv, int fd)
+{
+	struct s_command	*command;
+	int					exit_code;
+
+	command = parse_env_commands(vars, argv);
+	if (!command)
+	{
+		write_env(fd, vars->envp_ll);
+		exit_code = EXIT_SUCCESS;
+	}
+	else
+	{
+		exit_code = execute_command(vars, command, STDIN_FILENO, fd);
+		free(command);
+	}
+	free_all(vars);
+	close(fd);
+	exit(exit_code);
+
+}
+
+int	run_env(t_vars *vars, char **argv, int fd)
 {
 	int					pid;
 	int					status;
-	struct s_command	*command;
 
 	pid = fork();
 	if (pid < 0)
@@ -73,16 +115,7 @@ int	run_env(int fd, t_vars *vars, struct s_command *curr_command_node)
 	if (pid == 0)
 	{
 		//signal handling?
-		command = parse_env_commands(vars);
-		if (!command)
-			write_env(fd, vars->envp_ll);
-		else
-		{
-			execute_command(vars, command, STDIN_FILENO, fd);
-			free(command);
-		}
-		free_all(vars);
-		exit(EXIT_SUCCESS);
+		env_childprocess(vars, argv, fd);
 	}
 	else
 	{
