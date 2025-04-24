@@ -1,5 +1,4 @@
 #include "../../include/minishell.h"
-#include <unistd.h>
 
 void	free_env_paths(char **env_paths)
 {

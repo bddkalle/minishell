@@ -6,7 +6,11 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/24 12:16:13 by fschnorr         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/24 10:59:56 by vboxuser         ###   ########.fr       */
+>>>>>>> origin/dev_christian_builtins
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +39,7 @@ void			minishell(char **envp);
 
 //Initialisation
 void			init_vars(t_vars *vars);
+void			init_envp(t_vars *vars, char **param);
 
 //Prompt
 void			get_prompt(t_vars *vars);
@@ -50,6 +55,7 @@ void			free_null(void **ptr);
 void			free_null_readline(t_vars *vars);
 void			close_all(t_vars *vars);
 void			_close(int fd);
+void			free_envp(t_envp *envp);
 
 //signals
 void	signal_handler_global(int signum);
@@ -64,5 +70,9 @@ void	signal_ignore_setup(void);
 //Utils
 void			*_malloc(size_t size, t_vars *vars);
 int				build_path(char *input, char *path, char *home);
+t_envp			*create_envp_node(t_vars *vars, char *varvalue); //delete one of these
+void			split_envp(t_envp *envp, char *param); //delete one of these
+void			add_envp(t_envp *envp, char *varvalue);
+void			add_or_replace_envp(t_vars *vars, t_envp *envp_node);
 
 #endif

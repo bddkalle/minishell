@@ -6,7 +6,11 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/16 14:41:20 by fschnorr         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/23 09:36:58 by vboxuser         ###   ########.fr       */
+>>>>>>> origin/dev_christian_builtins
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +72,15 @@ typedef struct s_ast_node
 }								t_ast_node;
 
 												//	MAIN  //
+
+typedef struct s_envp
+{
+	char			*var;
+	char			*value;
+	int				exported;
+	struct s_envp	*next;
+}					t_envp;
+
 typedef struct s_prompt
 {
 	char		*user;
@@ -89,7 +102,8 @@ typedef struct s_vars
 	t_ast_node	*ast;
 	char		path[PATH_MAX];
 	char		*line;
-	char		**envp;
+	char		**envp; // one of these must be deleted later
+	t_envp		*envp_ll; // one of these must be deleted later
 }				t_vars;
 
 
