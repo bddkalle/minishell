@@ -11,6 +11,33 @@ int	unset_error(char *command, char *var, char *errmsg)
 	return (-1);
 }
 
+void	delete_envp_node(t_vars *vars, char *var)
+{
+	t_envp	*temp;
+	t_envp	*prev;
+	//t_envp	*next;
+
+	temp = vars->envp_ll;
+	prev = NULL;
+	//next = NULL;
+	while (temp)
+	{
+		if (ft_strcmp(temp->var, var) == 0)
+		{
+			if (!prev)
+				vars->envp_ll = temp->next;
+			else
+				prev->next = temp->next;
+			free(temp->var);
+			free(temp->value);
+			free(temp);
+			break;
+		}
+		prev = temp;
+		temp = temp->next;
+	}
+}
+
 int	run_unset(t_vars *vars, char **argv)
 {
 	int	i;
@@ -18,7 +45,7 @@ int	run_unset(t_vars *vars, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-
+		delete_envp_node(vars, argv[i]);
 		i++;
 	}
 	return (0);
