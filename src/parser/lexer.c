@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/08 13:45:14 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:42:26 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,6 @@ void	create_token(t_vars *vars)
 		error_exit(vars, "strdup failed to create new token", EXIT_FAILURE);
 	node->type = vars->lexer->curr_token_type;
 	node->type = token_identifier(vars);
-	if (node->type == TOKEN_EXIT_STATUS)
-	{
-		free_null((void **)&node->value);
-		node->value = ft_strjoin(vars->lexer->curr_token, "[SPECIAL]");
-	}
 }
 
 t_token_type	token_identifier(t_vars *vars)
@@ -98,16 +93,15 @@ t_token_type	token_identifier(t_vars *vars)
 	if (token_cof_digits(vars->lexer->curr_token) && (vars->lexer->c == '<' \
 	|| vars->lexer->c == '>') && OPEN_MAX > atoi(vars->lexer->curr_token))
 		return (TOKEN_IO_NUMBER);
-	if (char_is("?", vars->lexer->curr_token[vars->lexer->token_pos - 1]) && vars->line[vars->lexer->line_pos - 2] == '$')
+/* 	if (ft_strnstr(vars->lexer->curr_token, "$?", ft_strlen(vars->lexer->curr_token)))
 		return (TOKEN_EXIT_STATUS);
-	return (TOKEN);
+ */	return (TOKEN);
 }
 
 void	handle_quoted_input(t_vars *vars)
 {
-	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-	vars->lexer->line_pos++;
-	vars->lexer->c = vars->line[vars->lexer->line_pos];	
+	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c; //gitopening anfuehrungszeichen
+	vars->lexer->c = vars->line[++vars->lexer->line_pos];
 	if (vars->lexer->state == IN_SINGLE_QUOTE)
 	{
 		while (1)
@@ -125,8 +119,7 @@ void	handle_quoted_input(t_vars *vars)
 				continue ;
 			}
 			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
-			vars->lexer->c = vars->line[vars->lexer->line_pos];
+			vars->lexer->c = vars->line[++vars->lexer->line_pos];
 		}
 	}
 	else if (vars->lexer->state == IN_DOUBLE_QUOTE)
@@ -145,12 +138,18 @@ void	handle_quoted_input(t_vars *vars)
 				vars->lexer->c = vars->line[vars->lexer->line_pos];
 				continue ;
 			}
+			else if (char_is("$", vars->lexer->c) && !char_is(" ", \
+			vars->line[vars->lexer->line_pos + 1]) && !char_is("\"", vars->line[vars->lexer->line_pos + 1]))
+			{
+				expand_parameter(vars);
+				//vars->lexer->c = vars->line[++vars->lexer->line_pos];
+				continue ;
+			}
 			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
-			vars->lexer->c = vars->line[vars->lexer->line_pos];
+			vars->lexer->c = vars->line[++vars->lexer->line_pos];
 		}
 	}
-	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
+	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;  //closing anfuehrungszeichen
 	vars->lexer->line_pos++;
 	vars->lexer->state = NORMAL;
 }
@@ -183,6 +182,7 @@ void	lexer(t_vars *vars)
 			create_token(vars);
 			vars->lexer->next_node = &(*vars->lexer->next_node)->next;
 			vars->lexer->token_pos = 0;
+			vars->lexer->curr_token[0] = '\0';
 		}
 		// #4 (quotes)
 		else if (char_is(QUOTES, vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
@@ -195,7 +195,7 @@ void	lexer(t_vars *vars)
 			handle_quoted_input(vars);
 		}
 		// #5 (parameter expansion)
-		else if (char_is("$", vars->lexer->c))
+		else if (char_is("$", vars->lexer->c) && vars->line[vars->lexer->line_pos + 1])
 		{
 			expand_parameter(vars);
 		}
@@ -209,6 +209,7 @@ void	lexer(t_vars *vars)
 				create_token(vars);
 				vars->lexer->next_node = &(*vars->lexer->next_node)->next;
 				vars->lexer->token_pos = 0;
+				vars->lexer->curr_token[0] = '\0';
 			}
 			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 			vars->lexer->line_pos++;
@@ -225,6 +226,7 @@ void	lexer(t_vars *vars)
 				create_token(vars);
 				vars->lexer->next_node = &(*vars->lexer->next_node)->next;
 				vars->lexer->token_pos = 0;
+				vars->lexer->curr_token[0] = '\0';
 			}
 			vars->lexer->line_pos++;
 		}

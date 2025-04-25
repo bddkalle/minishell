@@ -73,7 +73,6 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 		return (execution_error(curr_command_node->argv[0], strerror(errno)));
 	if (pid == 0)
 	{
-		signal_executable_setup();
 		//ft_printf("calling executable %s reading from fd: %i and writing to fd: %i\n", curr_command_node->argv[0], in_fd, out_fd);
 		if (out_fd != STDOUT_FILENO)
 		{
@@ -87,8 +86,14 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 			dup2(in_fd, STDIN_FILENO);
 			close(in_fd);
 		}
-		execve(pathname, curr_command_node->argv, envp_to_array(vars->envp_ll));
-		execution_error(curr_command_node->argv[0], strerror(errno));
+		if (global_received_signal == 0)
+		{
+			signal_executable_setup();
+			execve(pathname, curr_command_node->argv, vars->envp);
+			execution_error(curr_command_node->argv[0], strerror(errno));
+		}
+		else if (global_received_signal == SIGINT)
+			global_received_signal = 0;
 		free_all(vars);
 		exit (EXIT_FAILURE);
 	}

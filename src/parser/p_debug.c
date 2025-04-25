@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/08 12:26:39 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:57:50 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,14 @@ int	print_cmd_node(t_ast_node *curr_node, int nodenum)
 			{
 				if (tmp->type == REDIR_INPUT)
 					printf("\n\tredir_node%d.type =\tREDIR_INPUT\n", j);
-				if (tmp->type == REDIR_OUTPUT)
+				else if (tmp->type == REDIR_OUTPUT)
 					printf("\n\tredir_node%d.type =\tREDIR_OUTPUT\n", j);
-				if (tmp->type == REDIR_APPEND)
+				else if (tmp->type == REDIR_APPEND)
 					printf("\n\tredir_node%d.type =\tREDIR_APPEND\n", j);
-				if (tmp->type == REDIR_HEREDOC)
+				else if (tmp->type == REDIR_HEREDOC)
 					printf("\n\tredir_node%d.type =\tREDIR_HEREDOC\n", j);
+				if (tmp->fd != -1)
+					printf("\tredir_node%d.fd =\t%d\n", j, tmp->fd);
 				printf("\tredir_node%d.target =\t%s\n", j++, tmp->target);
 				/* if (tmp->next)
 					printf("\n"); */

@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 10:58:08 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/25 10:44:17 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	minishell(char **envp)
 {
 	t_vars		vars;
 
-	signal_shell_setup();
+	signal_readline_setup();
 	init_vars(&vars);
 	get_prompt(&vars);
 	vars.envp = envp; // keep only one of these
@@ -31,6 +31,7 @@ void	minishell(char **envp)
 			printf("exit\n");
 			break ;
 		}
+		signal_shell_setup();
 		add_history(vars.line);
 		lexer(&vars);
 		parser(&vars);

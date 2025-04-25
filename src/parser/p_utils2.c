@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/08 13:44:49 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:53:54 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,15 @@ void	reclassification(t_vars *vars)
 			while (tmp->next->next)
 				tmp = tmp->next;
 		}
-	}
+	}	if (vars->lexer->state != IN_DOUBLE_QUOTE)
+		{
+			vars->lexer->token_pos = ft_strlen(substitute);
+			create_token(vars);
+			vars->lexer->next_node = &(*vars->lexer->next_node)->next;
+			vars->lexer->token_pos = 0;
+			vars->lexer->curr_token[0] = '\0';
+		}
+		else
 	if (tmp->type == type)
 		return (1);
 	return (0);
@@ -107,13 +115,28 @@ void	expand_parameter(t_vars *vars)
 
 	vars->lexer->c = vars->line[++vars->lexer->line_pos];
 	i = 0;
+	/* if (char_is("?", vars->lexer->c))
+	{
+		vars->lexer->curr_token[vars->lexer->token_pos++] = '$';
+		vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
+		vars->lexer->curr_token[vars->lexer->token_pos] = '\0';
+		ft_strlcat(vars->lexer->curr_token, "[SPECIAL]", ft_strlen(vars->lexer->curr_token) + 10);
+		vars->lexer->token_pos += 9;
+		vars->lexer->c = vars->line[++vars->lexer->line_pos];
+		return ;
+	} */
 	if (char_is("?", vars->lexer->c))
 	{
+		substitute = ft_itoa(vars->exit_status);
+		ft_strlcpy(vars->lexer->curr_token + vars->lexer->token_pos, substitute, ft_strlen(substitute) + 1);
+		vars->lexer->token_pos += ft_strlen(substitute);
+		free_null((void **)&substitute);
+		/* vars->lexer->curr_token[vars->lexer->token_pos++] = '$';
 		vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
+		vars->lexer->curr_token[vars->lexer->token_pos] = '\0';
+		ft_strlcat(vars->lexer->curr_token, "[SPECIAL]", ft_strlen(vars->lexer->curr_token) + 10);
+		vars->lexer->token_pos += 9; */
 		vars->lexer->c = vars->line[++vars->lexer->line_pos];
-		create_token(vars);
-		vars->lexer->next_node = &(*vars->lexer->next_node)->next;
-		vars->lexer->token_pos = 0;
 		return ;
 	}
 	else if (char_is("{", vars->lexer->c))
@@ -143,21 +166,27 @@ void	expand_parameter(t_vars *vars)
 			parameter[i++] = vars->lexer->c;
 			vars->lexer->c = vars->line[++vars->lexer->line_pos];
 			parameter[i] = '\0';
-//			printf("is valid name: %s\n", parameter);
+			//printf("is valid name: %s\n", parameter);
 		}
-//		if (!is_valid_name(parameter, i - 1))
-//			printf("is invalid name: %c\n", parameter[i - 1]);
+	//	if (!is_valid_name(vars->lexer->c))
+			//printf("is invalid name: %c\n", vars->lexer->c);
 		parameter[i] = '\0';
 	}
 	substitute = getenv(parameter);
-//	printf("parameter = %s\n", parameter);
-//	printf("substitution = %s\n", substitute);
+	//printf("parameter = %s\n", parameter);
+	//printf("substitution = %s\n", substitute);
 	if (substitute)
 	{
-		vars->lexer->token_pos = ft_strlen(substitute);
-		ft_strlcpy(vars->lexer->curr_token, substitute, vars->lexer->token_pos + 1);
-		create_token(vars);
-		vars->lexer->next_node = &(*vars->lexer->next_node)->next;
-		vars->lexer->token_pos = 0;
+		ft_strlcpy(vars->lexer->curr_token + vars->lexer->token_pos, substitute, ft_strlen(substitute) + 1);
+	/* 	if (vars->lexer->state != IN_DOUBLE_QUOTE)
+		{
+			vars->lexer->token_pos = ft_strlen(substitute);
+			create_token(vars);
+			vars->lexer->next_node = &(*vars->lexer->next_node)->next;
+			vars->lexer->token_pos = 0;
+			vars->lexer->curr_token[0] = '\0';
+		}
+		else */
+		vars->lexer->token_pos += ft_strlen(substitute);
 	}
-}	
+}

@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 21:31:30 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/25 10:47:09 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void			free_envp(t_envp *envp);
 
 //signals
 void	signal_handler_global(int signum);
+void	signal_readline_setup(void);
 void	signal_shell_setup(void);
 void	signal_heredoc_setup(void);
 void	sigint_shell_handler(int signum);

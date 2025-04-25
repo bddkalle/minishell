@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:28:44 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/03 15:37:16 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/16 10:56:55 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	build_path(char *input, char *path, char *home)
 			chdir_error(input);
 			return (-1);
 		}
-		printf("path: %s\n", path);
+		//printf("path: %s\n", path);
 		if (ft_strncmp(input, "..", 2) == 0) // path beginning with ../
 		{
 			ft_bzero(ft_strrchr(path, '/'), 1);
