@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 13:56:43 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:07:43 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	minishell(char **envp)
 	init_vars(&vars);
 	get_prompt(&vars);
 	vars.envp = envp; // keep only one of these
-	//init_envp(&vars, envp); // keep only one of these
+	init_envp(&vars, envp); // keep only one of these
 	while (1)
 	{
 		vars.line = readline(vars.prompt->prompt);

@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 11:39:10 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:45:27 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ t_ast_node	*parse_expression(t_vars *vars)
 	t_ast_node	*op_node;
 	t_node_type	op_type;
 
-	left = parse_command(vars);
+	//left = parse_command(vars);
+	left = parse_factor(vars);
 	while (vars->parser->curr_tok && \
 			(vars->parser->curr_tok->type == TOKEN_PIPE || \
 			vars->parser->curr_tok->type == TOKEN_AND || \
@@ -88,7 +89,7 @@ t_ast_node	*parse_expression(t_vars *vars)
 		else if (vars->parser->curr_tok->type == TOKEN_OR)
 			op_type = AST_OR;
 		advance_token(vars);
-		right = parse_command(vars);
+		right = parse_factor(vars);
 		op_node = _malloc(sizeof(t_ast_node), vars);
 		op_node->type = op_type;
 		op_node->u_data.s_operator.left = left;
@@ -128,23 +129,28 @@ t_ast_node	*parse_command(t_vars *vars)
 	return (vars->parser->node);
 }
 
-/* t_ast_node	*parse_factor(t_vars *vars)
+t_ast_node	*parse_factor(t_vars *vars)
 {
+	t_ast_node	*child;
 	t_ast_node	*node;
 	
-	 if (current_token_type_is("TOKEN_PARENT_LEFT", vars))
+	if (current_token_is("(", vars))
 	{
-		vars->parser->tok_pos++; // advance_token = *next
-		node = parse_expression(vars);
-		if (!current_token_is(")", vars)){
+		advance_token(vars); // advance_token = *next
+		child = parse_expression(vars);
+		if (!current_token_is(")", vars))
+		{
 			//Handle syntax error: missing closing paranthesis
 		}
-		vars->parser->tok_pos++;// advance_token = *next
+		advance_token(vars);
+		node = _malloc(sizeof(t_ast_node), vars);
+		node->type = AST_SUBSHELL;
+		node->u_data.s_subshell.child = child;
 		return (node);
 	} 
 	return (parse_command(vars));
 }
- */
+
 void	parser(t_vars *vars)
 {
 	check_syntax(vars);

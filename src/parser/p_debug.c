@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/10 09:57:50 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:27:42 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,17 @@
 void	debug_lexer(t_vars *vars)
 {
 	t_token	*tmp;
+//	t_envp	*tmpenv;
 	int		i;
 
 	printf("\n###################### DEBUG LEXER ######################\n");
-	i = 0;
+	/* tmpenv = vars->envp_ll; 
+	while (tmpenv)
+	{
+		printf("%s=%s %d\n", tmpenv->var, tmpenv->value, tmpenv->exported);
+		tmpenv = tmpenv->next;
+	} */
+		i = 0;
 	tmp = vars->token;
 	if (!tmp)
 		printf("\nvars->token = %p\n", vars->token);
@@ -129,6 +136,7 @@ int	print_ast_node(t_ast_node *curr_node, int nodenum)
 		nodenum = print_op_node(curr_node, nodenum);
 	else if (curr_node && curr_node->type == AST_COMMAND)
 		nodenum = print_cmd_node(curr_node, nodenum);
+	// if (curr_node)
 	return (nodenum);
 }
 
@@ -142,28 +150,4 @@ void	debug_parser(t_vars *vars)
 	if (!vars->ast)
 		printf("\nvars->ast = %p\n", vars->ast);
 	print_ast_node(tmp_ast, nodenum);
-	
-
-	// COMMAND NODES
-/*  	printf("\n>>AST NODE %d<<\n", k++);
-	for (int i = 0; vars->ast && vars->ast->u_data.s_command.argv[i]; i++)
-	{
-		printf("\tcommand.argv[%d] = %s\n", i, vars->ast->u_data.s_command.argv[i]);
-	}
-	if (vars->ast->u_data.s_command.redirs)
-		{
-			int j = 0;
-			for (t_redir *tmp = vars->ast->u_data.s_command.redirs; tmp; tmp = tmp->next)
-			{
-				if (tmp->type == REDIR_INPUT)
-					printf("\n\tcommand.redir_node%d.type =\tREDIR_INPUT\n", j);
-				if (tmp->type == REDIR_OUTPUT)
-					printf("\n\tcommand.redir_node%d.type =\tREDIR_OUTPUT\n", j);
-				if (tmp->type == REDIR_APPEND)
-					printf("\n\tcommand.redir_node%d.type =\tREDIR_APPEND\n", j);
-				if (tmp->type == REDIR_HEREDOC)
-					printf("\n\tcommand.redir_node%d.type =\tREDIR_HEREDOC\n", j);
-				printf("\tcommand.redir_node%d.target =\t%s\n", j++, tmp->target);
-			}
-		}
- */}
+}

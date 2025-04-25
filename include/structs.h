@@ -6,11 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/16 14:41:20 by fschnorr         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/23 09:36:58 by vboxuser         ###   ########.fr       */
->>>>>>> origin/dev_christian_builtins
+/*   Updated: 2025/04/24 13:59:37 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
