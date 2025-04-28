@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/22 14:58:42 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:51:52 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ size_t			is_valid_name(char c);
 //Parser
 void			parser(t_vars *vars);
 t_ast_node		*parse_expression(t_vars *vars);
+t_ast_node		*parse_factor(t_vars *vars);
 t_ast_node		*parse_command(t_vars *vars);
 t_size			current_token_is(char *s, t_vars *vars);
 void			advance_token(t_vars *vars);

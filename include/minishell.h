@@ -6,9 +6,10 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/25 10:47:09 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/28 09:24:12 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -75,5 +76,7 @@ void			free_envp_array(char **envp);
 int				count_nodes(t_envp *envp_ll);
 void			swap_envp(char **s1, char **s2);
 void			sort_envp(char **envp);
+char			*_getenv(t_vars *vars, char *var);
+
 
 #endif

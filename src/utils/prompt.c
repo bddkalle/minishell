@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/16 10:56:14 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:36:52 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	update_prompt(t_vars *vars, char *path)
 {
 	free_null((void **)&vars->prompt->prompt);
 	//printf("new path: %s\n", path);
+
+	//vars->prompt->pwd = _getenv(vars, "PWD");	//wenn run_export implementiert und run_cd PWD updated 
 	vars->prompt->pwd = path;
+
 /* 	vars->prompt->home = getenv("HOME");
 	if (!vars->prompt->home)
 		error_exit(vars, "Could not get $HOME", EXIT_FAILURE);*/

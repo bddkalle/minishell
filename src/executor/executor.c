@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/25 10:47:52 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/28 09:25:06 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	executor(t_vars *vars)
 		global_received_signal = 0;
 	}
 	//env_p;
-	//printf("\n###################### MINISHELL OUTPUT ######################\n");
+	printf("\n###################### MINISHELL OUTPUT ######################\n");
 	//printf("last exit code: %i\n", vars->exit_status);
 	execute_ast(vars, vars->ast, STDIN_FILENO, STDOUT_FILENO);
 	//free(env_p);

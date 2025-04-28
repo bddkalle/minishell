@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:28:44 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/16 10:56:55 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:19:41 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,20 @@ int	build_path(char *input, char *path, char *home)
 		ft_strlcat(path, input, ft_strlen(path) + ft_strlen(input) + 1);
 	}
 	return (0);
+}
+
+char	*_getenv(t_vars *vars, char *var)
+{
+	t_envp	*tmp;
+
+	tmp = vars->envp_ll;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->var, var))
+			break ;
+		tmp = tmp->next;
+	}
+	if (tmp)
+		return (tmp->value);
+	return (NULL);
 }
