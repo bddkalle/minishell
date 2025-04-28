@@ -96,5 +96,13 @@ int	operator_pipe(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd)
 		close(out_fd);
 	waitpid(pid_left, &left_status, 0);
 	waitpid(pid_right, &right_status, 0);
-	return (0);
+	if (WIFEXITED(right_status))
+	{
+		ft_printf("left status: %i\n", WEXITSTATUS(left_status));
+		ft_printf("right status: %i\n", WEXITSTATUS(right_status));
+		return (WEXITSTATUS(right_status));
+	}
+	if (WIFSIGNALED(right_status))
+		return (WTERMSIG(right_status));
+	return (-1);
 }
