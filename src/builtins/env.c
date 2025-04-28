@@ -1,15 +1,4 @@
 #include "../../include/minishell.h"
-#include <string.h>
-
-int		env_error(char *command, char *errmsg)
-{
-	write(STDERR_FILENO, "env: ", 5);
-	write(STDERR_FILENO, command, ft_strlen(command));
-	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, errmsg, ft_strlen(errmsg));
-	write(STDERR_FILENO, "\n", 1);
-	return (-1);
-}
 
 void	write_env(int fd, t_envp *envp)
 {
@@ -23,7 +12,7 @@ void	write_env(int fd, t_envp *envp)
 	}
 }
 
-struct s_command	*parse_env_commands(t_vars *vars, char **argv)
+struct s_command	*parse_env_commands(t_vars *vars, char **argv, int fd)
 {
 	int					i;
 	char				*equal;
@@ -37,12 +26,9 @@ struct s_command	*parse_env_commands(t_vars *vars, char **argv)
 		equal = ft_strchr(argv[i], '=');
 		if (!equal)
 			break;
-		temp = create_envp_node(vars, argv[i]);
+		temp = create_envp_node(argv[i]);
 		if (!temp)
-		{
-			env_error("malloc", strerror(errno)); // not finished
-			return (NULL);
-		}
+			env_fatal_error(vars, "malloc", strerror(errno), fd);
 		add_or_replace_envp(vars, temp);
 		i++;
 	}
@@ -55,39 +41,12 @@ struct s_command	*parse_env_commands(t_vars *vars, char **argv)
 	return (command);
 }
 
-// struct s_command	*parse_env_commands(t_vars *vars, char **argv)
-// {
-// 	int					i;
-// 	char				*equal;
-// 	struct s_command	*command;
-// 	t_envp				*temp;
-
-// 	i = 1;
-// 	command = NULL;
-// 	while (argv[i])
-// 	{
-// 		equal = ft_strchr(argv[i], '=');
-// 		if (!equal)
-// 			break;
-// 		temp = create_envp_node(argv[i]);
-// 				replace_envp_if_existing(vars, *envp)
-// 		i++;
-// 	}
-// 	if(argv[i])
-// 	{
-// 		command = malloc(sizeof(struct s_command));
-// 		command->argv = &argv[i];
-// 		command->redirs = NULL;
-// 	}
-// 	return (command);
-// }
-
 int	env_childprocess(t_vars *vars, char **argv, int fd)
 {
 	struct s_command	*command;
 	int					exit_code;
 
-	command = parse_env_commands(vars, argv);
+	command = parse_env_commands(vars, argv, fd);
 	if (!command)
 	{
 		write_env(fd, vars->envp_ll);

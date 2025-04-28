@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 19:25:15 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 21:00:57 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,26 @@
 
 void	update_prompt(t_vars *vars, char *path)
 {
+	char	pwd[PATH_MAX];
+	
 	free_null((void **)&vars->prompt->prompt);
 	//printf("new path: %s\n", path);
 
-	vars->prompt->pwd = _getenv(vars, "PWD");	//wenn run_export implementiert und run_cd PWD updated 
+	vars->prompt->pwd = _getenv(vars, "PWD");	//wenn run_export implementiert und run_cd PWD updated
+	if (!vars->prompt->pwd)
+	{
+		getcwd(pwd, (size_t)PATH_MAX);
+		vars->prompt->pwd = ft_strdup(pwd);
+	}
 	//vars->prompt->pwd = path;
 
 	vars->prompt->home = _getenv(vars, "HOME");
-	if (!vars->prompt->home)
+/* 	if (!vars->prompt->home)
 		error_exit(vars, "Could not get $HOME in update_prompt", EXIT_FAILURE);
-	build_prompt(vars, vars->prompt->user);
+ */	build_prompt(vars, vars->prompt->user);
 	build_prompt(vars, "@");
 	build_prompt(vars, vars->prompt->hostname);
-	if (ft_strnstr(vars->prompt->pwd, vars->prompt->home, ft_strlen(vars->prompt->home)))
+	if (vars->prompt->home && ft_strnstr(vars->prompt->pwd, vars->prompt->home, ft_strlen(vars->prompt->home)))
 	{
 		vars->prompt->cwd = vars->prompt->pwd + (ft_strlen(vars->prompt->home));
 		build_prompt(vars, ":~");
@@ -35,7 +42,7 @@ void	update_prompt(t_vars *vars, char *path)
 	{
 		/* if (*vars->prompt->pwd == '/' && vars->prompt->pwd[1])
 			vars->prompt->pwd++;
-		else */ 
+		else */
 		vars->prompt->cwd = vars->prompt->pwd;
 		build_prompt(vars, ":");
 	}
@@ -44,6 +51,11 @@ void	update_prompt(t_vars *vars, char *path)
 		vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] = '\0';
 	build_prompt(vars, vars->prompt->cwd);
 	build_prompt(vars, "$ ");
+
+	// if no PWD (in linked list) then getenv(PWD);
+	// prompt->pwd, getenv(PWD);
+
+	//if no HOME (in linked list) then "Tilde nicht auflösen"
 }
 
 void	build_prompt(t_vars *vars, char *s)

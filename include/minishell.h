@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 15:13:06 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:31:16 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -66,10 +67,16 @@ void	signal_ignore_setup(void);
 //Utils
 void			*_malloc(size_t size, t_vars *vars);
 int				build_path(char *input, char *path, char *home);
-t_envp			*create_envp_node(t_vars *vars, char *varvalue); //delete one of these
+t_envp			*create_envp_node(char *varvalue); //delete one of these
 void			split_envp(t_envp *envp, char *param); //delete one of these
 void			add_envp(t_envp *envp, char *varvalue);
 void			add_or_replace_envp(t_vars *vars, t_envp *envp_node);
+void			replace_value(t_envp *old, t_envp *new);
+char			**envp_to_array(t_envp *envp_ll);
+void			free_envp_array(char **envp);
+int				count_nodes(t_envp *envp_ll);
+void			swap_envp(char **s1, char **s2);
+void			sort_envp(char **envp);
 char			*_getenv(t_vars *vars, char *var);
 
 

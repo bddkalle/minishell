@@ -6,12 +6,11 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:42 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/16 11:40:30 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/28 14:25:34 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <linux/limits.h>
 
 int	run_pwd(int fd, char **argv)
 {

@@ -1,8 +1,4 @@
 #include "../../include/minishell.h"
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 // char	*custom_readline(const char *prompt)
 // {
@@ -32,12 +28,12 @@ int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 
 	temp_fd = open("heredoc_temp", O_CREAT | O_EXCL | O_WRONLY, 0600);
 	if (temp_fd == -1)
-		return (execution_error("heredoc_temp", strerror(errno)));
+		return (execution_error("heredoc_temp", strerror(errno), -1));
 	if (old_in_fd != STDIN_FILENO)
 		close(old_in_fd);
 	pid = fork();
 	if (pid == -1)
-		return (execution_error("fork", strerror(errno)));
+		return (execution_error("fork", strerror(errno), -1));
 	if (pid == 0)
 	{
 		signal_heredoc_setup();
@@ -102,7 +98,7 @@ int	append_redirection(char *target, int old_out_fd)
 	if (old_out_fd != STDOUT_FILENO)
 		close(old_out_fd);
 	if (new_out_fd == -1)
-		return(execution_error(target, strerror(errno)));
+		return(execution_error(target, strerror(errno), -1));
 	//ft_printf("opened fd: %i to append to.\n", new_out_fd);
 	return (new_out_fd);
 }
@@ -115,7 +111,7 @@ int	output_redirection(char *target, int old_out_fd)
 	if (old_out_fd != STDOUT_FILENO)
 		close(old_out_fd);
 	if (new_out_fd == -1)
-		return(execution_error(target, strerror(errno)));
+		return(execution_error(target, strerror(errno), -1));
 	return (new_out_fd);
 }
 
@@ -127,7 +123,7 @@ int	input_redirection(char *target, int old_in_fd)
 	if (old_in_fd != STDIN_FILENO)
 		close(old_in_fd);
 	if (new_in_fd == -1)
-		return(execution_error(target, strerror(errno)));
+		return(execution_error(target, strerror(errno), -1));
 	return (new_in_fd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 15:22:27 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:09:37 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	minishell(char **envp)
 	signal_readline_setup();
 	init_vars(&vars);
 	get_prompt(&vars);
-	vars.envp = envp; // keep only one of these
+	//vars.envp = envp; // keep only one of these
 	init_envp(&vars, envp); // keep only one of these
 	while (1)
 	{
