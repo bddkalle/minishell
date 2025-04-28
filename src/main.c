@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 16:34:10 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/28 22:27:54 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	minishell(char **envp)
 	while (1)
 	{
 		vars.line = readline(vars.prompt->prompt);
-		if (!vars.line || !ft_strcmp(vars.line, "exit"))
+		//if (!vars.line || !ft_strcmp(vars.line, "exit"))
+		if (!vars.line)
 		{
 			printf("exit\n");
 			break ;

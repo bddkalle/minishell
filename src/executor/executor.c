@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/28 20:05:12 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/28 22:34:00 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 		else if (ft_strcmp(curr_command_node->argv[0], "env") == 0)
 			return (run_env(vars, curr_command_node->argv, out_fd));
 		else if (ft_strcmp(curr_command_node->argv[0], "exit") == 0)
-			return (666);
+			return (run_exit(vars, curr_command_node->argv, in_fd, out_fd));
 		else
 			return (run_executable(vars, curr_command_node, in_fd, out_fd));
 	}
@@ -49,8 +49,8 @@ int	execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd)
 	int	exit_code;
 
 	if (current_node == NULL)
-		exit_code = 0;
-	if (current_node->type == AST_COMMAND)
+		return (vars->exit_status);
+	else if (current_node->type == AST_COMMAND)
 		exit_code = execute_command(vars, &current_node->u_data.s_command,\
 			in_fd, out_fd);
 	else if (current_node->type == AST_PIPE)
@@ -76,6 +76,7 @@ void	executor(t_vars *vars)
 		global_received_signal = 0;
 	}
 	printf("\n###################### MINISHELL OUTPUT ######################\n");
+	//exit handler
 	execute_ast(vars, vars->ast, STDIN_FILENO, STDOUT_FILENO);
 	return ;
 }

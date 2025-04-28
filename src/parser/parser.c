@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 16:45:27 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 22:35:08 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	check_syntax(t_vars *vars)
 {
 	t_token	*curr_tok;
-	
+
 	if (!vars->token)
 		return ;
 
@@ -103,8 +103,6 @@ t_ast_node	*parse_command(t_vars *vars)
 {
 	t_token		*tmp_token;
 
-	if (!vars->parser->curr_tok)
-		return (NULL);
 	init_parse_command(vars);
 	vars->parser->next_redir_node = \
 							&vars->parser->node->u_data.s_command.redirs;
@@ -133,7 +131,9 @@ t_ast_node	*parse_factor(t_vars *vars)
 {
 	t_ast_node	*child;
 	t_ast_node	*node;
-	
+
+	if (!vars->parser->curr_tok)
+		return (NULL);
 	if (current_token_is("(", vars))
 	{
 		advance_token(vars); // advance_token = *next
@@ -147,7 +147,7 @@ t_ast_node	*parse_factor(t_vars *vars)
 		node->type = AST_SUBSHELL;
 		node->u_data.s_subshell.child = child;
 		return (node);
-	} 
+	}
 	return (parse_command(vars));
 }
 

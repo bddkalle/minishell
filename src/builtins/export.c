@@ -19,7 +19,7 @@ int	parse_export_command(t_vars *vars, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		if (!is_valid_name(argv[i][0]))
+		if (!is_valid_name(argv[i][0])) // den gesamten string checken!
 			return (execution_error("export", strerror(errno), -1));
 		new_envp_node = create_envp_node(argv[i]);
 		if (!new_envp_node)

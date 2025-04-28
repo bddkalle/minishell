@@ -6,7 +6,7 @@
 #    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/28 14:50:50 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/04/28 20:26:04 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC =	$(addsuffix .c,							\
 								env				\
 								export			\
 								unset			\
+								exit			\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/error/, 				\
