@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 15:32:57 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 19:25:15 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	update_prompt(t_vars *vars, char *path)
 	free_null((void **)&vars->prompt->prompt);
 	//printf("new path: %s\n", path);
 
-	//vars->prompt->pwd = _getenv(vars, "PWD");	//wenn run_export implementiert und run_cd PWD updated 
-	vars->prompt->pwd = path;
+	vars->prompt->pwd = _getenv(vars, "PWD");	//wenn run_export implementiert und run_cd PWD updated 
+	//vars->prompt->pwd = path;
 
 	vars->prompt->home = _getenv(vars, "HOME");
 	if (!vars->prompt->home)
-		error_exit(vars, "Could not get $HOME", EXIT_FAILURE);
+		error_exit(vars, "Could not get $HOME in update_prompt", EXIT_FAILURE);
 	build_prompt(vars, vars->prompt->user);
 	build_prompt(vars, "@");
 	build_prompt(vars, vars->prompt->hostname);
@@ -94,7 +94,7 @@ void	get_prompt(t_vars *vars)
 		error_exit(vars, "Could not get $PWD", EXIT_FAILURE);
 	vars->prompt->home = getenv("HOME");
 	if (!vars->prompt->home)
-		error_exit(vars, "Could not get $HOME", EXIT_FAILURE);
+		error_exit(vars, "Could not get $HOME in get_prompt", EXIT_FAILURE);
 	vars->prompt->cwd = vars->prompt->pwd + (ft_strlen(vars->prompt->home));
 	build_prompt(vars, vars->prompt->user);
 	build_prompt(vars, "@");

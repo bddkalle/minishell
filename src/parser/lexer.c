@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 17:08:33 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 17:11:42 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,5 +300,5 @@ void	handle_quoted_input(t_vars *vars)
 			vars->lexer->line_pos++;
 		}
 	}
-	debug_lexer(vars);
+	//debug_lexer(vars);
 }
