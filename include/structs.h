@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 09:24:38 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:14:27 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ typedef struct s_vars
 	t_token		*token;
 	t_parser	*parser;
 	t_ast_node	*ast;
-	char		path[PATH_MAX];
+	//char		path[PATH_MAX];
 	char		*line;
-	char		**envp; // one of these must be deleted later
+	//char		**envp; // one of these must be deleted later
 	t_envp		*envp_ll; // one of these must be deleted later
 }				t_vars;
 

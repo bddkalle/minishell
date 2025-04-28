@@ -48,5 +48,6 @@ int	run_unset(t_vars *vars, char **argv)
 		delete_envp_node(vars, argv[i]);
 		i++;
 	}
+	//update prompt
 	return (0);
 }

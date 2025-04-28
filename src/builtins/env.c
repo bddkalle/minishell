@@ -1,5 +1,4 @@
 #include "../../include/minishell.h"
-#include <string.h>
 
 void	write_env(int fd, t_envp *envp)
 {
