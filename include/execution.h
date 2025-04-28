@@ -35,8 +35,8 @@ int		run_unset(t_vars *vars, char **argv);
 
 //utils
 void	close_fds(int in_fd, int out_fd);
-int		chdir_error(char *path);
-int		execution_error(char *command, char *errmsg);
+int		chdir_error(char *path, int errornumber);
+int		execution_error(char *command, char *errmsg, int errornumber);
 void	fatal_error(t_vars *vars, char *errmsg);
 int		env_error(char *command, char *errmsg);
 int		env_fatal_error(t_vars *vars, char *command, char *errmsg, int fd);

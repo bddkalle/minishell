@@ -20,10 +20,10 @@ int	parse_export_command(t_vars *vars, char **argv)
 	while (argv[i])
 	{
 		if (!is_valid_name(argv[i][0]))
-			return (execution_error("export", strerror(errno)));
+			return (execution_error("export", strerror(errno), -1));
 		new_envp_node = create_envp_node(argv[i]);
 		if (!new_envp_node)
-			return (execution_error("export", strerror(errno)));
+			return (execution_error("export", strerror(errno), -1));
 		add_or_replace_envp(vars, new_envp_node);
 		i++;
 	}
