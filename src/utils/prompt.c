@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 15:36:52 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:32:57 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	update_prompt(t_vars *vars, char *path)
 	//vars->prompt->pwd = _getenv(vars, "PWD");	//wenn run_export implementiert und run_cd PWD updated 
 	vars->prompt->pwd = path;
 
-/* 	vars->prompt->home = getenv("HOME");
+	vars->prompt->home = _getenv(vars, "HOME");
 	if (!vars->prompt->home)
-		error_exit(vars, "Could not get $HOME", EXIT_FAILURE);*/
+		error_exit(vars, "Could not get $HOME", EXIT_FAILURE);
 	build_prompt(vars, vars->prompt->user);
 	build_prompt(vars, "@");
 	build_prompt(vars, vars->prompt->hostname);
@@ -58,7 +58,8 @@ void	build_prompt(t_vars *vars, char *s)
 	if (tmp)
 		free_null((void **)&tmp);
 	if (!vars->prompt->prompt)
-		error_exit(vars, "Could not join strings for prompt creation", EXIT_FAILURE);
+		error_exit(vars, "Could not join strings for prompt creation", \
+		EXIT_FAILURE);
 }
 
 void	get_hostname(t_vars *vars)

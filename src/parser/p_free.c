@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:13:48 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/01 13:14:41 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:28:50 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	free_op_node(t_ast_node **curr_node)
 {
 	free_ast_node(&(*curr_node)->u_data.s_operator.left);
 	free_ast_node(&(*curr_node)->u_data.s_operator.right);
+	free_null((void **)curr_node);
+}
+
+void	free_subshell_node(t_ast_node **curr_node)
+{
+	free_ast_node(&(*curr_node)->u_data.s_subshell.child);
 	free_null((void **)curr_node);
 }
 
@@ -49,6 +55,8 @@ void	free_ast_node(t_ast_node **curr_node)
 		free_op_node(curr_node);
 	else if (curr_node && (*curr_node)->type == AST_COMMAND)
 		free_cmd_node(curr_node);
+	else if (curr_node && (*curr_node)->type == AST_SUBSHELL)
+		free_subshell_node(curr_node);
 }
 
 void	free_parser(t_vars *vars)

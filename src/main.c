@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 14:07:43 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:22:27 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	minishell(char **envp)
 		add_history(vars.line);
 		lexer(&vars);
 		parser(&vars);
- 		executor(&vars);
+		executor(&vars);
 		free_null_readline(&vars);
-		if(global_received_signal == SIGINT)
+		if (global_received_signal == SIGINT)
 			global_received_signal = 0;
 	}
 	free_all(&vars);

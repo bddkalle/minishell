@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 15:51:52 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:04:03 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ t_size			is_consecutive_op(t_token_type type);
 void			debug_lexer(t_vars *vars);
 void			debug_parser(t_vars *vars);
 int				print_ast_node(t_ast_node *curr_node, int nodenum);
+int				print_subshell_node(t_ast_node *curr_node, int nodenum);
 
 #endif

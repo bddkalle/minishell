@@ -6,19 +6,21 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/08 11:52:03 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:58:31 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_AST_NODE_FWD
+#ifndef T_AST_NODE_H
 
 typedef struct s_ast_node	t_ast_node;
-typedef struct s_redir 		t_redir;
+typedef struct s_redir		t_redir;
 
-# define T_AST_NODE_FWD
+#define T_AST_NODE_H
+
 #endif
 
 #ifndef P_STRUCTS_H
+
 # define P_STRUCTS_H
 
 # include "minishell.h"
