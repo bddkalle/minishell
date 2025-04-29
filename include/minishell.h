@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 16:48:14 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/04/29 23:55:16 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void			init_pwd_oldpwd(t_vars *vars);
 void			get_prompt(t_vars *vars);
 void			get_hostname(t_vars *vars);
 void			build_prompt(t_vars *vars, char *s);
-void			update_prompt(t_vars *varsm, char *path);
+void			update_prompt(t_vars *vars);
 
 //Validation, Handle errors & Free
 void			error_exit(t_vars *vars, char *s, int exit_code);

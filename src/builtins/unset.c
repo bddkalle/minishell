@@ -55,6 +55,6 @@ int	run_unset(t_vars *vars, char **argv)
 	}
 	ft_printf("vars->pwd: %s\n", vars->pwd);
 	ft_printf("vars->oldpwd: %s\n", vars->oldpwd);
-	update_prompt(vars, NULL);
+	update_prompt(vars);
 	return (0);
 }

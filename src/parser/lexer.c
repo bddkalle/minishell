@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 20:07:50 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/29 23:24:47 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,56 +59,13 @@ t_token_type	token_identifier(t_vars *vars)
 
 void	handle_quoted_input(t_vars *vars)
 {
-	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c; //gitopening anfuehrungszeichen
+	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 	vars->lexer->c = vars->line[++vars->lexer->line_pos];
 	if (vars->lexer->state == IN_SINGLE_QUOTE)
-	{
-		while (1)
-		{
-			if (vars->lexer->c && char_is("'", vars->lexer->c))
-				break ;
-			if (!vars->lexer->c)
-			{
-				vars->lexer->curr_token[vars->lexer->token_pos++] = '\n';
-				free_null((void **)&vars->line);
-				vars->lexer->line_pos = 0;
-				vars->line = readline("> ");
-				add_history(vars->line);
-				vars->lexer->c = vars->line[vars->lexer->line_pos];
-				continue ;
-			}
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->c = vars->line[++vars->lexer->line_pos];
-		}
-	}
+		handle_single_qt(vars);
 	else if (vars->lexer->state == IN_DOUBLE_QUOTE)
-	{
-		while (1)
-		{
-			if (vars->lexer->c && char_is("\"", vars->lexer->c))
-				break ;
-			if (!vars->lexer->c)
-			{
-				vars->lexer->curr_token[vars->lexer->token_pos++] = '\n';
-				free_null((void **)&vars->line);
-				vars->lexer->line_pos = 0;
-				vars->line = readline("> ");
-				add_history(vars->line);
-				vars->lexer->c = vars->line[vars->lexer->line_pos];
-				continue ;
-			}
-			else if (char_is("$", vars->lexer->c) && !char_is(" ", \
-			vars->line[vars->lexer->line_pos + 1]) && !char_is("\"", vars->line[vars->lexer->line_pos + 1]))
-			{
-				expand_parameter(vars);
-				//vars->lexer->c = vars->line[++vars->lexer->line_pos];
-				continue ;
-			}
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->c = vars->line[++vars->lexer->line_pos];
-		}
-	}
-	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;  //closing anfuehrungszeichen
+		handle_double_qt(vars);
+	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 	vars->lexer->line_pos++;
 	vars->lexer->state = NORMAL;
 }
@@ -208,44 +165,31 @@ void	handle_quoted_input(t_vars *vars)
 }
  */
 
- void	lexer(t_vars *vars)
+void	lexer(t_vars *vars)
 {
 	init_lexer(vars);
 	while (1)
 	{
 		vars->lexer->c = vars->line[vars->lexer->line_pos];
 		if (vars->lexer->c == '\0')
-		{	
-			handle_eoi(vars);
-			break;
-		}
-		else if (vars->lexer->token_pos == 1 && char_is(MULT_OP, vars->lexer->curr_token[vars->lexer->token_pos - 1])\
-				&& is_valid_mult_op(vars->lexer->c, vars))
 		{
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
+			handle_eoi(vars);
+			break ;
 		}
-		else if (vars->lexer->token_pos && char_is(OPERATOR, vars->lexer->curr_token[vars->lexer->token_pos - 1])\
-				&& !is_valid_mult_op(vars->lexer->c, vars))
+		else if (is_mult_op(vars))
+			fill_token(vars);
+		else if (is_op(vars))
 			delimit_operator(vars);
 		else if (char_is(QUOTES, vars->lexer->c))
 			handle_quotes(vars);
-		else if (char_is("$", vars->lexer->c) && vars->line[vars->lexer->line_pos + 1])
+		else if (is_parameter(vars))
 			expand_parameter(vars);
 		else if (char_is(OPERATOR, vars->lexer->c))
 			handle_operator(vars);
 		else if (is_whitespace(vars->lexer->c))
 			handle_whitespace(vars);
-		else if (vars->lexer->token_pos && !char_is(OPERATOR, vars->lexer->curr_token[vars->lexer->token_pos - 1]))
-		{
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
-		}
 		else
-		{
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
-		}
+			fill_token(vars);
 	}
 	debug_lexer(vars);
 }

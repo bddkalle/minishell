@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 23:52:48 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/29 20:24:11 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,31 @@ void	expand_parameter(t_vars *vars)
 
 	vars->lexer->c = vars->line[++vars->lexer->line_pos];
 	i = 0;
+	/* if (char_is("?", vars->lexer->c))
+	{
+		vars->lexer->curr_token[vars->lexer->token_pos++] = '$';
+		vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
+		vars->lexer->curr_token[vars->lexer->token_pos] = '\0';
+		ft_strlcat(vars->lexer->curr_token, "[SPECIAL]", ft_strlen(vars->lexer->curr_token) + 10);
+		vars->lexer->token_pos += 9;
+		vars->lexer->c = vars->line[++vars->lexer->line_pos];
+		return ;
+	} */
 	if (char_is("?", vars->lexer->c))
-		return (expand_exit_status(vars));
-	else if (char_is("{", vars->lexer->c))	//hier weiter && handle unclosed variables
+	{
+		substitute = ft_itoa(vars->exit_status);
+		ft_strlcpy(vars->lexer->curr_token + vars->lexer->token_pos, substitute, ft_strlen(substitute) + 1);
+		vars->lexer->token_pos += ft_strlen(substitute);
+		free_null((void **)&substitute);
+		/* vars->lexer->curr_token[vars->lexer->token_pos++] = '$';
+		vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
+		vars->lexer->curr_token[vars->lexer->token_pos] = '\0';
+		ft_strlcat(vars->lexer->curr_token, "[SPECIAL]", ft_strlen(vars->lexer->curr_token) + 10);
+		vars->lexer->token_pos += 9; */
+		vars->lexer->c = vars->line[++vars->lexer->line_pos];
+		return ;
+	}
+	else if (char_is("{", vars->lexer->c))
 	{
 		brace = 1;
 		vars->lexer->c = vars->line[++vars->lexer->line_pos];

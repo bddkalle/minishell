@@ -6,27 +6,20 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 21:00:57 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/29 23:54:52 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	update_prompt(t_vars *vars, char *path)
+void	update_prompt(t_vars *vars)
 {
-	char	pwd[PATH_MAX];
-	
+	char	buf[PATH_MAX];
+
 	free_null((void **)&vars->prompt->prompt);
-	//printf("new path: %s\n", path);
-
-	vars->prompt->pwd = _getenv(vars, "PWD");	//wenn run_export implementiert und run_cd PWD updated
+	vars->prompt->pwd = getcwd(buf, (size_t)PATH_MAX);
 	if (!vars->prompt->pwd)
-	{
-		getcwd(pwd, (size_t)PATH_MAX);
-		vars->prompt->pwd = ft_strdup(pwd);
-	}
-	//vars->prompt->pwd = path;
-
+		error_exit(vars, "Could not get $PWD", EXIT_FAILURE);
 	vars->prompt->home = _getenv(vars, "HOME");
 /* 	if (!vars->prompt->home)
 		error_exit(vars, "Could not get $HOME in update_prompt", EXIT_FAILURE);

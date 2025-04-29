@@ -6,13 +6,13 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/22 14:57:01 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/29 23:06:24 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-size_t	is_valid_name(char c)
+t_size	is_valid_name(char c)
 {
 	if (ft_isdigit(c))
 		return (0);
