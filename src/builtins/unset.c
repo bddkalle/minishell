@@ -1,4 +1,5 @@
 #include "../../include/minishell.h"
+#include <linux/limits.h>
 
 int	unset_error(char *command, char *var, char *errmsg)
 {
@@ -46,8 +47,14 @@ int	run_unset(t_vars *vars, char **argv)
 	while (argv[i])
 	{
 		delete_envp_node(vars, argv[i]);
+		if (ft_strcmp(argv[i], "PWD") == 0)
+			ft_bzero(vars->pwd, PATH_MAX);
+		if (ft_strcmp(argv[i], "OLDPWD") == 0)
+			ft_bzero(vars->oldpwd, PATH_MAX);
 		i++;
 	}
+	ft_printf("vars->pwd: %s\n", vars->pwd);
+	ft_printf("vars->oldpwd: %s\n", vars->oldpwd);
 	update_prompt(vars, NULL);
 	return (0);
 }

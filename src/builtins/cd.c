@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:56 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/28 19:42:33 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:02:48 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <linux/limits.h>
 
 int	chdir_error(char *path, int errornumber)
 {
@@ -36,11 +37,12 @@ void	update_oldpwd(t_vars *vars)
 	}
 	if (temp)
 	{
-		old_pwd = _getenv(vars, "PWD");
+		old_pwd = ft_strdup(vars->pwd);
+		//old_pwd = _getenv(vars, "PWD");
 		if (!old_pwd)
-			return;
+			return; // ??
 		free(temp->value);
-		temp->value = ft_strdup(old_pwd);
+		temp->value = old_pwd;
 	}
 	return;
 }
@@ -62,6 +64,7 @@ void	update_pwd(t_vars *vars)
 		getcwd(pwd, (size_t)PATH_MAX);
 		free(temp->value);
 		temp->value = ft_strdup(pwd);
+		ft_strlcpy(vars->pwd, pwd, PATH_MAX);
 	}
 }
 

@@ -76,7 +76,7 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 		return (execution_error(curr_command_node->argv[0], "command not found", 127));
 	else if (found == -2)
 		fatal_error(vars, "out of memory");
-		pid = fork();
+	pid = fork();
 	if (pid == -1)
 		return (execution_error(curr_command_node->argv[0], strerror(errno), -1));
 	if (pid == 0)
