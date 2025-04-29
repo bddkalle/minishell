@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+         #
+#    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/29 13:33:52 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/04/29 20:09:44 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC =	$(addsuffix .c,							\
 								env				\
 								export			\
 								unset			\
+								exit			\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/error/, 				\

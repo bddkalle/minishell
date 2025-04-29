@@ -69,9 +69,13 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 {
 	char	pathname[PATH_MAX];
 	pid_t	pid;
+	int		found;
 
-	if (search_executable(vars, curr_command_node->argv[0], pathname) == -1)
+	found = search_executable(vars, curr_command_node->argv[0], pathname);
+	if (found == -1)
 		return (execution_error(curr_command_node->argv[0], "command not found", 127));
+	else if (found == -2)
+		fatal_error(vars, "out of memory");
 	pid = fork();
 	if (pid == -1)
 		return (execution_error(curr_command_node->argv[0], strerror(errno), -1));

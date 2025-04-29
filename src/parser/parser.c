@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 13:21:10 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/29 20:08:39 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	check_syntax(t_vars *vars)
 {
 	t_token	*curr_tok;
-	
+
 	if (!vars->token)
 		return ;
 
@@ -146,7 +146,7 @@ t_ast_node	*parse_factor(t_vars *vars)
 		node->type = AST_SUBSHELL;
 		node->u_data.s_subshell.child = child;
 		return (node);
-	} 
+	}
 	return (parse_command(vars));
 }
 

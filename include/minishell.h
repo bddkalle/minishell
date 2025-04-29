@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 11:31:16 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:48:14 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void			minishell(char **envp);
 //Initialisation
 void			init_vars(t_vars *vars);
 void			init_envp(t_vars *vars, char **param);
+void			init_pwd_oldpwd(t_vars *vars);
 
 //Prompt
 void			get_prompt(t_vars *vars);

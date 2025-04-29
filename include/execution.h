@@ -32,6 +32,8 @@ int		run_cd(t_vars *vars, char **argv);
 int		run_export(t_vars *vars, char **argv, int fd);
 int		run_env(t_vars *vars, char **argv, int fd);
 int		run_unset(t_vars *vars, char **argv);
+int		run_exit(t_vars *vars, char **argv, int in_fd, int out_fd, int parent);
+int		check_exit_parent(t_vars *vars);
 
 //utils
 void	close_fds(int in_fd, int out_fd);
