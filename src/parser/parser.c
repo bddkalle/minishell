@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 22:35:08 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:31:38 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ t_ast_node	*parse_expression(t_vars *vars)
 	t_ast_node	*op_node;
 	t_node_type	op_type;
 
-	//left = parse_command(vars);
 	left = parse_factor(vars);
 	while (vars->parser->curr_tok && \
 			(vars->parser->curr_tok->type == TOKEN_PIPE || \
@@ -136,7 +135,7 @@ t_ast_node	*parse_factor(t_vars *vars)
 		return (NULL);
 	if (current_token_is("(", vars))
 	{
-		advance_token(vars); // advance_token = *next
+		advance_token(vars);
 		child = parse_expression(vars);
 		if (!current_token_is(")", vars))
 		{
@@ -158,5 +157,5 @@ void	parser(t_vars *vars)
 	reclassification(vars);
 	remove_quotes(vars);
 	vars->ast = parse_expression(vars);
-	debug_parser(vars);
+	//debug_parser(vars);
 }

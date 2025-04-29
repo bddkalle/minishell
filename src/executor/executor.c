@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/28 22:34:00 by vboxuser         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/28 22:42:38 by fschnorr         ###   ########.fr       */
+>>>>>>> parsing
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +79,12 @@ void	executor(t_vars *vars)
 		free_null_readline(vars);
 		global_received_signal = 0;
 	}
+<<<<<<< HEAD
 	printf("\n###################### MINISHELL OUTPUT ######################\n");
 	//exit handler
+=======
+	//printf("\n###################### MINISHELL OUTPUT ######################\n");
+>>>>>>> parsing
 	execute_ast(vars, vars->ast, STDIN_FILENO, STDOUT_FILENO);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/25 13:27:42 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:12:06 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ int	print_op_node(t_ast_node *curr_node, int nodenum)
 		opnodes = 0;
 		while (tmp_node->u_data.s_operator.left->type != AST_COMMAND)
 		{
-			opnodes += 2;
+			if (tmp_node->u_data.s_operator.left->type == AST_SUBSHELL)
+				opnodes++;
+			else
+				opnodes += 2;
 			tmp_node = tmp_node->u_data.s_operator.left;
 		}
 		printf("\tright = AST NODE %d\n", nodenum + 1 + opnodes);
@@ -128,15 +131,26 @@ int	print_cmd_node(t_ast_node *curr_node, int nodenum)
 	return (nodenum);
 }
 
+int	print_subshell_node(t_ast_node *curr_node, int nodenum)
+{
+	printf("\n>>AST NODE %d = SUBSHELL NODE<<\n", nodenum++);
+	printf("\tchild = AST NODE %d\n", nodenum);
+	nodenum = print_ast_node(curr_node->u_data.s_subshell.child, nodenum);
+	return (nodenum);
+}
+
 int	print_ast_node(t_ast_node *curr_node, int nodenum)
 {
-	if (curr_node && (curr_node->type == AST_PIPE || \
+	if (! curr_node)
+		return (nodenum);
+	if (curr_node->type == AST_PIPE || \
 			curr_node->type == AST_AND || \
-			curr_node->type == AST_OR))
+			curr_node->type == AST_OR)
 		nodenum = print_op_node(curr_node, nodenum);
-	else if (curr_node && curr_node->type == AST_COMMAND)
+	else if (curr_node->type == AST_COMMAND)
 		nodenum = print_cmd_node(curr_node, nodenum);
-	// if (curr_node)
+	else if (curr_node->type == AST_SUBSHELL)
+		nodenum = print_subshell_node(curr_node, nodenum);
 	return (nodenum);
 }
 

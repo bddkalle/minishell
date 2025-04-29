@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/24 15:12:29 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/28 22:41:15 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ void	expand_parameter(t_vars *vars)
 			if (!brace)
 			{
 				vars->lexer->line_pos++;
+				vars->exit_status = 0;
 				break ;
 			}
 			parameter[i++] = vars->lexer->c;
@@ -161,6 +162,7 @@ void	expand_parameter(t_vars *vars)
 	}
 	else if (vars->lexer->c)
 	{
+		vars->exit_status = 0;
 		while (vars->lexer->c && is_valid_name(vars->lexer->c))
 		{
 			parameter[i++] = vars->lexer->c;
@@ -172,6 +174,7 @@ void	expand_parameter(t_vars *vars)
 			//printf("is invalid name: %c\n", vars->lexer->c);
 		parameter[i] = '\0';
 	}
+	//substitute = getenv(parameter);
 	substitute = _getenv(vars, parameter);
 	//printf("parameter = %s\n", parameter);
 	//printf("substitution = %s\n", substitute);

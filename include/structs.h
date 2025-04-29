@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 12:14:27 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/28 21:57:57 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ typedef struct s_vars
 	t_token		*token;
 	t_parser	*parser;
 	t_ast_node	*ast;
-	//char		path[PATH_MAX];
+	char		pwd[PATH_MAX];
+	char		oldpwd[PATH_MAX];
 	char		*line;
 	//char		**envp; // one of these must be deleted later
 	t_envp		*envp_ll; // one of these must be deleted later
