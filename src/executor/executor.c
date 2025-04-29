@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/29 17:49:21 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/04/29 20:47:02 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd)
 
 	exit_code = vars->exit_status;
 	if (current_node == NULL)
-		return (vars->exit_status);
+		return (exit_code);
 	else if (current_node->type == AST_COMMAND)
 		exit_code = execute_command(vars, &current_node->u_data.s_command,\
 			in_fd, out_fd);
@@ -77,7 +77,7 @@ void	executor(t_vars *vars)
 		global_received_signal = 0;
 	}
 	//printf("\n###################### MINISHELL OUTPUT ######################\n");
-	check_exit_parent(vars);
-	execute_ast(vars, vars->ast, STDIN_FILENO, STDOUT_FILENO);
+	if (!check_exit_parent(vars))
+		execute_ast(vars, vars->ast, STDIN_FILENO, STDOUT_FILENO);
 	return ;
 }

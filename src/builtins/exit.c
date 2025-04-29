@@ -1,5 +1,4 @@
 #include "../../include/minishell.h"
-#include <unistd.h>
 
 void	exit_error(char *arg, char *errmsg)
 {
@@ -12,14 +11,22 @@ void	exit_error(char *arg, char *errmsg)
 
 int	check_exit_parent(t_vars *vars)
 {
-	if (vars->ast->type == AST_COMMAND)
+	int	exit_code;
+
+	if (vars->ast && vars->ast->type == AST_COMMAND)
 		if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "exit") == 0)
-			return (run_exit(vars, vars->ast->u_data.s_command.argv, STDIN_FILENO, STDOUT_FILENO, 1));
+		{
+			exit_code = run_exit(vars, vars->ast->u_data.s_command.argv, STDIN_FILENO, STDOUT_FILENO, 1);
+			vars->exit_status = exit_code;
+			return (exit_code);
+		}
 	return (0);
 }
 
 int	string_is_numeric(char *s)
 {
+	while(*s && (*s == '+' || *s == '-'))
+		s++;
 	while(*s)
 	{
 		if (!ft_isdigit(*s))
@@ -47,7 +54,7 @@ int	run_exit(t_vars *vars, char **argv, int in_fd, int out_fd, int parent)
 			exit_code = ft_atoi(argv[1]);
 	}
 	else
-	 	return (execution_error("exit", strerror(errno), 1));
+	 	return (execution_error("exit", "too many arguments", 1));
 	if (parent)
 		write(STDOUT_FILENO, "exit\n", 5);
 	if (exit_code == 2)
