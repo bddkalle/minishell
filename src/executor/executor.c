@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/29 20:47:02 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/29 22:00:12 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, int in_fd
 	if (parse_redirections(vars, curr_command_node, &in_fd, &out_fd) == -1)
 	{
 		close_fds(in_fd, out_fd);
-		return (-1);
+		return (1);
 	}
 	if (global_received_signal == 0)
 	{

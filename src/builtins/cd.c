@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:56 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/29 17:02:48 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/04/29 21:27:52 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,6 @@ int	run_cd(t_vars *vars, char **argv)
 		return (execution_error("cd", "too many arguments\n", 1));
 	update_oldpwd(vars);
 	update_pwd(vars);
-	update_prompt(vars, _getenv(vars, "PWD"));
+	update_prompt(vars, NULL);
 	return (0);
 }

@@ -17,7 +17,7 @@ int	search_executable(t_vars *vars, char *command, char *pathname)
 		// 	fatal_error(vars, "cannot allocate memory");
 	}
 	if (access(pathname, X_OK) != 0)
-		return (execution_error(command, strerror(errno), -1));
+		return (-3);
 	return (0);
 }
 
@@ -37,7 +37,7 @@ void	run_executable_child(t_vars *vars, char *pathname, struct s_command *curr_c
 	{
 		signal_executable_setup();
 		execve(pathname, curr_command_node->argv, envp_to_array(vars->envp_ll));
-		execution_error(curr_command_node->argv[0], strerror(errno), -1);
+		execution_error(curr_command_node->argv[0], strerror(errno), 1);
 	}
 	else if (global_received_signal == SIGINT)
 		global_received_signal = 0;
@@ -76,9 +76,11 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 		return (execution_error(curr_command_node->argv[0], "command not found", 127));
 	else if (found == -2)
 		fatal_error(vars, "out of memory");
+	else if (found == -3)
+		return (execution_error(curr_command_node->argv[0], strerror(errno), errno));
 	pid = fork();
 	if (pid == -1)
-		return (execution_error(curr_command_node->argv[0], strerror(errno), -1));
+		return (execution_error(curr_command_node->argv[0], strerror(errno), errno));
 	if (pid == 0)
 		run_executable_child(vars, pathname, curr_command_node, in_fd, out_fd);
 	else

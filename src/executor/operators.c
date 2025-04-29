@@ -23,8 +23,8 @@ int	operator_and(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd)
 {
 	int	left_status;
 
-	(void)in_fd;
-	(void)out_fd;
+	(void)in_fd; // das kann nicht sein!
+	(void)out_fd; //
 	left_status = execute_ast(vars,\
 		current_node->u_data.s_operator.left,\
 		STDIN_FILENO,\
