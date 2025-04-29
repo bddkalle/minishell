@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 22:55:22 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:30:21 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	handle_quoted_input(t_vars *vars)
 		{
 			expand_parameter(vars);
 		}
-		
+
 		// #6 (delimit before operator & set operator token)
 		else if (char_is(OPERATOR, vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
 		&& vars->lexer->state != IN_DOUBLE_QUOTE)
@@ -177,7 +177,7 @@ void	handle_quoted_input(t_vars *vars)
 		}
 
 		// #7 AFAIK: CAN BE SKIPPED FOR INTERACTIVE MODE ONLY (delimit if <newline> - readline removes final newline, so unclear when/if lexer will ever get <newline>)
-		
+
 		// #8 (delimit if <blank>)
 		else if (is_whitespace(vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
 		&& vars->lexer->state != IN_DOUBLE_QUOTE)
@@ -193,7 +193,7 @@ void	handle_quoted_input(t_vars *vars)
 		}
 		// #9 (if previous char = part of word > append char)
 		else if (vars->lexer->token_pos && !char_is(OPERATOR, vars->lexer->curr_token[vars->lexer->token_pos - 1]))
-		{	
+		{
 			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 			vars->lexer->line_pos++;
 		}
@@ -254,7 +254,7 @@ void	handle_quoted_input(t_vars *vars)
 		{
 			expand_parameter(vars);
 		}
-		
+
 		// #6 (delimit before operator & set operator token)
 		else if (char_is(OPERATOR, vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
 		&& vars->lexer->state != IN_DOUBLE_QUOTE)
@@ -271,7 +271,7 @@ void	handle_quoted_input(t_vars *vars)
 		}
 
 		// #7 AFAIK: CAN BE SKIPPED FOR INTERACTIVE MODE ONLY (delimit if <newline> - readline removes final newline, so unclear when/if lexer will ever get <newline>)
-		
+
 		// #8 (delimit if <blank>)
 		else if (is_whitespace(vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
 		&& vars->lexer->state != IN_DOUBLE_QUOTE)
@@ -287,7 +287,7 @@ void	handle_quoted_input(t_vars *vars)
 		}
 		// #9 (if previous char = part of word > append char)
 		else if (vars->lexer->token_pos && !char_is(OPERATOR, vars->lexer->curr_token[vars->lexer->token_pos - 1]))
-		{	
+		{
 			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 			vars->lexer->line_pos++;
 		}

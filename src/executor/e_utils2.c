@@ -23,7 +23,8 @@ int	search_env_path(t_vars *vars, char *command, char *pathname)
 	env_p = _getenv(vars, "PATH");
 	if (!env_p)
 		return (-1);
-	env_paths = ft_split(env_p, ':');
+	//env_paths = ft_split(env_p, ':');
+	env_paths = NULL;
 	if (!env_paths)
 		return (-2);
 	i = 0;
