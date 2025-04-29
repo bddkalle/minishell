@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 11:04:03 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:01:08 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,17 @@ void			create_token(t_vars *vars);
 t_size			is_whitespace(char c);
 t_size			char_is(char *s, char c);
 t_size			is_valid_mult_op(char c, t_vars *vars);
-t_size			is_quo_char(char c);
 t_token_type	token_identifier(t_vars *vars);
 t_size			token_cof_digits(char *s);
 void			handle_quoted_input(t_vars *vars);
 void			expand_parameter(t_vars *vars);
 size_t			is_valid_name(char c);
+void			handle_operator(t_vars *vars);
+void			handle_whitespace(t_vars *vars);
+void			handle_quotes(t_vars *vars);
+void			delimit_operator(t_vars *vars);
+void			handle_eoi(t_vars *vars);
+
 
 //Parser
 void			parser(t_vars *vars);

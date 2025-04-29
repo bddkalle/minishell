@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 22:55:18 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:21:10 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,5 @@ void	parser(t_vars *vars)
 	reclassification(vars);
 	remove_quotes(vars);
 	vars->ast = parse_expression(vars);
-	//debug_parser(vars);
+	debug_parser(vars);
 }
