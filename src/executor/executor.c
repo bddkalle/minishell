@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/28 22:34:00 by vboxuser         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/28 22:42:38 by fschnorr         ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2025/04/29 10:32:19 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +51,8 @@ int	execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd)
 	if (current_node == NULL)
 		return (vars->exit_status);
 	else if (current_node->type == AST_COMMAND)
+		return (vars->exit_status);
+	else if (current_node->type == AST_COMMAND)
 		exit_code = execute_command(vars, &current_node->u_data.s_command,\
 			in_fd, out_fd);
 	else if (current_node->type == AST_PIPE)
@@ -79,12 +77,8 @@ void	executor(t_vars *vars)
 		free_null_readline(vars);
 		global_received_signal = 0;
 	}
-<<<<<<< HEAD
 	printf("\n###################### MINISHELL OUTPUT ######################\n");
 	//exit handler
-=======
-	//printf("\n###################### MINISHELL OUTPUT ######################\n");
->>>>>>> parsing
 	execute_ast(vars, vars->ast, STDIN_FILENO, STDOUT_FILENO);
 	return ;
 }
