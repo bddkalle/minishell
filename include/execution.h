@@ -20,6 +20,7 @@ int		search_env_path(t_vars *vars, char *command, char *pathname);
 int		operator_or(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
 int		operator_and(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
 int		operator_pipe(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
+int		operator_subshell(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
 int		search_env_path(t_vars *vars, char *command, char *pathname);
 
 //redirections

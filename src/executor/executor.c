@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/30 09:07:09 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/30 09:45:30 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int	execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd)
 		exit_code = operator_or(vars, current_node,\
 			in_fd, out_fd);
 	else if (current_node->type == AST_SUBSHELL)
-		exit_code = 1;
+		exit_code = operator_subshell(vars, current_node,\
+			in_fd, out_fd);
 	vars->exit_status = exit_code;
 	close_fds(in_fd, out_fd);
 	return (exit_code);

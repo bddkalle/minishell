@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/29 23:22:56 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/04/30 09:50:17 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC =	$(addsuffix .c,							\
 								executor		\
 								executables		\
 								operators		\
+								operators2		\
 								redirections	\
 								e_utils			\
 								e_utils2		\
