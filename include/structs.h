@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 21:57:57 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:25:00 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 # include "p_structs.h"
+# include "e_structs.h"
 # include <linux/limits.h>
 
 
@@ -98,10 +99,9 @@ typedef struct s_vars
 	t_ast_node	*ast;
 	char		pwd[PATH_MAX];
 	char		oldpwd[PATH_MAX];
+	char		pathname[PATH_MAX];
 	char		*line;
-	//char		**envp; // one of these must be deleted later
-	t_envp		*envp_ll; // one of these must be deleted later
+	t_envp		*envp_ll;
 }				t_vars;
-
 
 #endif

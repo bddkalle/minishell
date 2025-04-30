@@ -6,13 +6,13 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/30 13:47:14 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/04/30 19:27:27 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-volatile sig_atomic_t	global_received_signal = 0;
+volatile sig_atomic_t	g_received_signal = 0;
 
 void	minishell(char **envp)
 {
@@ -23,12 +23,10 @@ void	minishell(char **envp)
 	get_prompt(&vars);
 	init_pwd_oldpwd(&vars);
 	vars.exit_status = 0;
-	//vars.envp = envp; // keep only one of these
-	init_envp(&vars, envp); // keep only one of these
+	init_envp(&vars, envp);
 	while (1)
 	{
 		vars.line = readline(vars.prompt->prompt);
-		//if (!vars.line || !ft_strcmp(vars.line, "exit"))
 		if (!vars.line)
 		{
 			printf("exit\n");
@@ -40,8 +38,8 @@ void	minishell(char **envp)
 		parser(&vars);
 		executor(&vars);
 		free_null_readline(&vars);
-		if (global_received_signal == SIGINT)
-			global_received_signal = 0;
+		if (g_received_signal == SIGINT)
+			g_received_signal = 0;
 	}
 	free_all(&vars);
 }

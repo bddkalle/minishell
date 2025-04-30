@@ -1,21 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 19:21:47 by cdahne            #+#    #+#             */
+/*   Updated: 2025/04/30 19:21:53 by cdahne           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
-#include <readline/readline.h>
-#include <unistd.h>
 
 void	signal_handler_global(int signum)
 {
-	global_received_signal = signum;
+	g_received_signal = signum;
 }
 
 void	sigint_shell_handler(int signum)
 {
-	global_received_signal = signum;
+	g_received_signal = signum;
 	write(STDOUT_FILENO, "\n", 1);
 	//rl_done = 1;
 }
 void	sigint_readline_handler(int signum)
 {
-	global_received_signal = signum;
+	g_received_signal = signum;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -25,7 +35,7 @@ void	sigint_readline_handler(int signum)
 
 void	sigint_heredoc_handler(int signum)
 {
-	global_received_signal = signum;
+	g_received_signal = signum;
 	//write(STDOUT_FILENO, "\n", 1);
 	// rl_replace_line("", 0);
 	// rl_on_new_line();

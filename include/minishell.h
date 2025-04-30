@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/30 12:58:28 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/04/30 19:16:02 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "parser.h"
 # include "p_structs.h"
 # include "execution.h"
+# include "e_structs.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
@@ -28,9 +29,10 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <linux/limits.h>
 
 //global variable
-extern volatile sig_atomic_t	global_received_signal;
+extern volatile sig_atomic_t	g_received_signal;
 
 //minishell
 void			minishell(char **envp);

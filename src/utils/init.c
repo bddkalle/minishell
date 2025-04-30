@@ -6,13 +6,11 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:46:33 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 16:47:46 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/04/30 17:58:50 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <linux/limits.h>
-#include <unistd.h>
 
 void	init_vars(t_vars *vars)
 {

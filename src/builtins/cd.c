@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:56 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/30 08:15:55 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:18:42 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <linux/limits.h>
 
 int	chdir_error(char *path, int errornumber)
 {
@@ -32,19 +31,19 @@ void	update_oldpwd(t_vars *vars)
 	while (temp)
 	{
 		if (ft_strcmp(temp->var, "OLDPWD") == 0)
-			break;
+			break ;
 		temp = temp->next;
 	}
 	if (temp)
 	{
 		old_pwd = ft_strdup(vars->pwd);
-		//old_pwd = _getenv(vars, "PWD");
 		if (!old_pwd)
-			return; // ??
+			return ;
+		//that enougherror protection?
 		free(temp->value);
 		temp->value = old_pwd;
 	}
-	return;
+	return ;
 }
 
 void	update_pwd(t_vars *vars)
@@ -56,7 +55,7 @@ void	update_pwd(t_vars *vars)
 	while (temp)
 	{
 		if (ft_strcmp(temp->var, "PWD") == 0)
-			break;
+			break ;
 		temp = temp->next;
 	}
 	if (temp)
@@ -70,24 +69,25 @@ void	update_pwd(t_vars *vars)
 
 int	build_pwd_path(t_vars *vars, char *input, char *pwd_path)
 {
-	if (*input == '/') // absolute path
+	if (*input == '/')
 		ft_strlcpy(pwd_path, input, ft_strlen(input) + 1);
-	else if (*input == '~') // home path
+	else if (*input == '~')
 	{
-		ft_strlcpy(pwd_path, _getenv(vars, "HOME"), ft_strlen(_getenv(vars, "HOME")) + 1);
+		ft_strlcpy(pwd_path, _getenv(vars, "HOME"), \
+			ft_strlen(_getenv(vars, "HOME")) + 1);
 		input++;
 		ft_strlcat(pwd_path, input, ft_strlen(pwd_path) + ft_strlen(input) + 1);
 	}
-	else //relative path
+	else
 	{
 		if (!getcwd(pwd_path, PATH_MAX))
 			return (chdir_error(input, errno));
-		if (ft_strncmp(input, "..", 2) == 0) // path beginning with ../
+		if (ft_strncmp(input, "..", 2) == 0)
 		{
 			ft_bzero(ft_strrchr(pwd_path, '/'), 1);
 			input = input + 2;
 		}
-		else if (ft_strncmp(input, "./", 2) == 0) // path beginning with ./
+		else if (ft_strncmp(input, "./", 2) == 0)
 			input = input + 2;
 		if (ft_strcmp("/", pwd_path) != 0)
 			ft_strlcat(pwd_path, "/", ft_strlen(pwd_path) + 2);

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 18:40:19 by cdahne            #+#    #+#             */
+/*   Updated: 2025/04/30 18:40:40 by cdahne           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-int		export_error(char *identifier, char *errmsg, int errornumber)
+int	export_error(char *identifier, char *errmsg, int errornumber)
 {
 	write(STDERR_FILENO, "minishell: ", 11);
 	write(STDERR_FILENO, "export: ", 8);
@@ -35,7 +47,7 @@ int	is_valid_identifier(char *identifier)
 
 int	parse_export_command(t_vars *vars, char **argv)
 {
-	int	i;
+	int		i;
 	t_envp	*new_envp_node;
 
 	i = 1;

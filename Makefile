@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
+#    By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/30 09:50:17 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/04/30 17:58:09 by cdahne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,10 @@ SRC =	$(addsuffix .c,							\
 								operators		\
 								operators2		\
 								redirections	\
+								redirections2	\
 								e_utils			\
 								e_utils2		\
+								e_utils3		\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/parser/, 				\

@@ -1,30 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executables.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 15:19:41 by cdahne            #+#    #+#             */
+/*   Updated: 2025/04/30 15:59:31 by cdahne           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-int	search_executable(t_vars *vars, char *command, char *pathname)
+int	search_executable(t_vars *vars, char *command)
 {
-	int		found;
+	int			found;
 	struct stat	sb;
 
+	found = 0;
 	if (ft_strchr(command, '/') != NULL)
-		ft_strlcpy(pathname, command, ft_strlen(command) + 1);
+		ft_strlcpy(vars->pathname, command, ft_strlen(command) + 1);
 	else
-	{
-		found = search_env_path(vars, command, pathname);
-		if (found != 0)
-			return (found);
-	}
-	if (stat(pathname, &sb) == 0 && S_ISDIR(sb.st_mode))
-		return (-3);
-	if (access(pathname, F_OK) != 0 && (*pathname == '.' || *pathname == '/'))
-		return (-4);
-	if (access(pathname, F_OK) != 0)
-		return (-5);
-	if (access(pathname, X_OK) != 0)
-		return (-6);
-	return (0);
+		found = search_env_path(vars, command);
+	if (found == -1)
+		execution_error(command, "command not found", 127);
+	else if (stat(vars->pathname, &sb) == 0 && S_ISDIR(sb.st_mode))
+		found = execution_error(command, "Is a directory", 126);
+	else if (access(vars->pathname, F_OK) != 0 && \
+		(vars->pathname[0] == '.' || vars->pathname[0] == '/'))
+		found = execution_error(command, "No such file or directory", 127);
+	else if (access(vars->pathname, F_OK) != 0)
+		found = execution_error(command, "command not found", 127);
+	else if (access(vars->pathname, X_OK) != 0)
+		found = execution_error(command, "Permission denied", 126);
+	return (found);
 }
 
-void	run_executable_child(t_vars *vars, char *pathname, struct s_command *curr_command_node, int in_fd, int out_fd)
+void	run_executable_child(t_vars *vars, struct s_command *curr_command_node, \
+			int in_fd, int out_fd)
 {
 	if (out_fd != STDOUT_FILENO)
 	{
@@ -36,25 +49,27 @@ void	run_executable_child(t_vars *vars, char *pathname, struct s_command *curr_c
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-	if (global_received_signal == 0)
+	if (g_received_signal == 0)
 	{
 		signal_executable_setup();
-		execve(pathname, curr_command_node->argv, envp_to_array(vars->envp_ll));
+		execve(vars->pathname, curr_command_node->argv, \
+			envp_to_array(vars->envp_ll));
 		execution_error(curr_command_node->argv[0], strerror(errno), 1);
 	}
-	else if (global_received_signal == SIGINT)
-		global_received_signal = 0;
+	else if (g_received_signal == SIGINT)
+		g_received_signal = 0;
 	free_all(vars);
 	exit (EXIT_FAILURE);
 }
 
-int	run_executable_parent(pid_t pid)
+int	run_executable_parent(t_vars *vars, pid_t pid)
 {
 	int	status;
 
 	signal_ignore_setup();
 	waitpid(pid, &status, 0);
 	signal_shell_setup();
+	ft_bzero(vars->pathname, PATH_MAX);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
@@ -68,31 +83,22 @@ int	run_executable_parent(pid_t pid)
 	return (-1);
 }
 
-int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd, int out_fd)
+int	run_executable(t_vars *vars, struct s_command *curr_command_node, \
+	int in_fd, int out_fd)
 {
-	char	pathname[PATH_MAX];
 	pid_t	pid;
 	int		found;
 
-	found = search_executable(vars, curr_command_node->argv[0], pathname);
-	if (found == -1)
-		return (execution_error(curr_command_node->argv[0], "command not found", 127));
-	else if (found == -2)
-		fatal_error(vars, "out of memory");
-	else if (found == -3)
-		return (execution_error(curr_command_node->argv[0], "Is a directory", 126));
-	else if (found == -4)
-		return (execution_error(curr_command_node->argv[0], "No such file or directory", 127));
-	else if (found == -5)
-		return (execution_error(curr_command_node->argv[0], "command not found", 127));
-	else if (found == -6)
-		return (execution_error(curr_command_node->argv[0], "Permission denied", 126));
+	found = search_executable(vars, curr_command_node->argv[0]);
+	if (found != 0)
+		return (found);
 	pid = fork();
 	if (pid == -1)
-		return (execution_error(curr_command_node->argv[0], strerror(errno), errno));
+		return (execution_error(curr_command_node->argv[0], \
+		strerror(errno), errno));
 	if (pid == 0)
-		run_executable_child(vars, pathname, curr_command_node, in_fd, out_fd);
+		run_executable_child(vars, curr_command_node, in_fd, out_fd);
 	else
-		return (run_executable_parent(pid));
+		return (run_executable_parent(vars, pid));
 	return (-1);
 }

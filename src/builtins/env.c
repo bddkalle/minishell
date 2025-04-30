@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 19:19:06 by cdahne            #+#    #+#             */
+/*   Updated: 2025/04/30 19:19:44 by cdahne           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	write_env(int fd, t_envp *envp)
 {
-	while(envp)
+	while (envp)
 	{
 		write(fd, envp->var, ft_strlen(envp->var));
 		write(fd, "=", 1);
@@ -25,14 +37,14 @@ struct s_command	*parse_env_commands(t_vars *vars, char **argv, int fd)
 	{
 		equal = ft_strchr(argv[i], '=');
 		if (!equal)
-			break;
+			break ;
 		temp = create_envp_node(argv[i]);
 		if (!temp)
 			env_fatal_error(vars, "malloc", strerror(errno), fd);
 		add_or_replace_envp(vars, temp);
 		i++;
 	}
-	if(argv[i])
+	if (argv[i])
 	{
 		command = malloc(sizeof(struct s_command));
 		command->argv = &argv[i];
@@ -60,7 +72,6 @@ int	env_childprocess(t_vars *vars, char **argv, int fd)
 	free_all(vars);
 	close(fd);
 	exit(exit_code);
-
 }
 
 int	run_env(t_vars *vars, char **argv, int fd)

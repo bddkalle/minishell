@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 18:39:58 by cdahne            #+#    #+#             */
+/*   Updated: 2025/04/30 18:40:07 by cdahne           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 int	unset_error(char *command, char *var, char *errmsg)
@@ -29,7 +41,7 @@ void	delete_envp_node(t_vars *vars, char *var)
 			free(temp->var);
 			free(temp->value);
 			free(temp);
-			break;
+			break ;
 		}
 		prev = temp;
 		temp = temp->next;
