@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
+#    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/28 20:26:04 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/04/29 23:22:56 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,9 @@ SRC =	$(addsuffix .c,							\
 								p_utils			\
 								p_utils2		\
 								p_utils3		\
+								p_utils4		\
+								p_utils5		\
+								p_utils6		\
 								parser			\
 		))										\
 		$(addsuffix .c,							\
