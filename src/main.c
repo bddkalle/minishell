@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 17:47:50 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/04/30 14:35:57 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	minishell(char **envp)
 		signal_shell_setup();
 		add_history(vars.line);
 		lexer(&vars);
-		parser(&vars);
+		parser(&vars); //hier weiter mit norm/memcheck
 		executor(&vars);
 		free_null_readline(&vars);
 		if (global_received_signal == SIGINT)

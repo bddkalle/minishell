@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 23:44:06 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:05:27 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ void			handle_quoted_input(t_vars *vars);
 void			handle_single_qt(t_vars *vars);
 void			handle_double_qt(t_vars *vars);
 t_size			is_parameter(t_vars *vars);
+void			get_parameter(t_vars *vars, char *parameter);
 void			expand_parameter(t_vars *vars);
 void			expand_exit_status(t_vars *vars);
+void			substitute_parameter(t_vars *vars, char *substitute);
 t_size			is_valid_name(char c);
 void			handle_operator(t_vars *vars);
 void			handle_whitespace(t_vars *vars);
