@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/30 08:16:42 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:50:05 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,5 @@ void	parser(t_vars *vars)
 	reclassification(vars);
 	remove_quotes(vars);
 	vars->ast = parse_expression(vars);
-	debug_parser(vars);
+	//debug_parser(vars);
 }

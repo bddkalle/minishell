@@ -3,6 +3,7 @@
 int	search_executable(t_vars *vars, char *command, char *pathname)
 {
 	int		found;
+	struct stat	sb;
 
 	if (ft_strchr(command, '/') != NULL)
 		ft_strlcpy(pathname, command, ft_strlen(command) + 1);
@@ -11,13 +12,15 @@ int	search_executable(t_vars *vars, char *command, char *pathname)
 		found = search_env_path(vars, command, pathname);
 		if (found != 0)
 			return (found);
-		// if (found == -1)
-		// 	return (execution_error(command, "command not found", 127));
-		// else if (found == -2)
-		// 	fatal_error(vars, "cannot allocate memory");
 	}
-	if (access(pathname, X_OK) != 0)
+	if (stat(pathname, &sb) == 0 && S_ISDIR(sb.st_mode))
 		return (-3);
+	if (access(pathname, F_OK) != 0 && (*pathname == '.' || *pathname == '/'))
+		return (-4);
+	if (access(pathname, F_OK) != 0)
+		return (-5);
+	if (access(pathname, X_OK) != 0)
+		return (-6);
 	return (0);
 }
 
@@ -77,7 +80,13 @@ int	run_executable(t_vars *vars, struct s_command *curr_command_node, int in_fd,
 	else if (found == -2)
 		fatal_error(vars, "out of memory");
 	else if (found == -3)
-		return (execution_error(curr_command_node->argv[0], strerror(errno), errno));
+		return (execution_error(curr_command_node->argv[0], "Is a directory", 126));
+	else if (found == -4)
+		return (execution_error(curr_command_node->argv[0], "No such file or directory", 127));
+	else if (found == -5)
+		return (execution_error(curr_command_node->argv[0], "command not found", 127));
+	else if (found == -6)
+		return (execution_error(curr_command_node->argv[0], "Permission denied", 126));
 	pid = fork();
 	if (pid == -1)
 		return (execution_error(curr_command_node->argv[0], strerror(errno), errno));
