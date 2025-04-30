@@ -69,6 +69,6 @@ int	run_export(t_vars *vars, char **argv, int fd)
 		print_export(fd, envp);
 		free_envp_array(envp);
 	}
-	update_prompt(vars, NULL);
+	update_prompt(vars);
 	return (0);
 }
