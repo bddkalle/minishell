@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+         #
+#    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/04/30 17:58:09 by cdahne           ###   ########.fr        #
+#    Updated: 2025/05/01 20:44:39 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,8 @@ SRC =	$(addsuffix .c,							\
 		$(addsuffix .c,							\
 		$(addprefix src/signals/, 				\
 								signals			\
+								signals_shell	\
+								signals_child	\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/utils/, 				\

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/04/30 19:31:44 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/01 20:57:02 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <unistd.h>
 
 int	builtin_or_executable(t_vars *vars, struct s_command *curr_command_node, \
 	int in_fd, int out_fd)
