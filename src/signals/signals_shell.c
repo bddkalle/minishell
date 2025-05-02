@@ -27,7 +27,7 @@ void	signal_shell_setup(void)
 
 void	sigint_readline_handler(int signum)
 {
-	g_received_signal = signum;
+	//g_received_signal = signum;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();

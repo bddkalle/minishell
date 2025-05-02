@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/01 20:54:32 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:31:07 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ void	minishell(char **envp)
 	init_pwd_oldpwd(&vars);
 	vars.exit_status = 0;
 	init_envp(&vars, envp);
-	signal_readline_setup();
 	while (1)
 	{
+		//g_received_signal = 0;
+		signal_readline_setup();
 		vars.line = readline(vars.prompt->prompt);
 		if (!vars.line)
 		{

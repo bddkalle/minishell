@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/04/30 18:34:10 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/02 14:25:30 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 	int		i;
 	char	*line;
 
-	signal_heredoc_setup();
+	signal_readline_setup();
 	while (1)
 	{
 		line = readline("> ");

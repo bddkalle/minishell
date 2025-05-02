@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operators.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:08:06 by cdahne            #+#    #+#             */
-/*   Updated: 2025/04/30 15:10:34 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/02 14:20:22 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ int	pipe_parent(int pid_left, int pid_right)
 	int	left_status;
 	int	right_status;
 
+	signal_ignore_setup();
 	waitpid(pid_left, &left_status, 0);
 	waitpid(pid_right, &right_status, 0);
+	signal_shell_setup();
 	if (WIFEXITED(right_status))
 		return (WEXITSTATUS(right_status));
 	if (WIFSIGNALED(right_status))
