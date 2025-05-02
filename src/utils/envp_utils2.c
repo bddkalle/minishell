@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:03:14 by cdahne            #+#    #+#             */
-/*   Updated: 2025/04/30 15:03:14 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/02 19:47:25 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ char	**envp_to_array(t_envp *envp_ll)
 		if (!envp[i])
 			return (NULL); // ebenfalls genauer prüfen.
 		ft_strlcpy(envp[i], envp_ll->var, ft_strlen(envp_ll->var) + 1);
-		ft_strlcat(envp[i], "=", ft_strlen(envp_ll->var) + 2);
-		ft_strlcat(envp[i], envp_ll->value, ft_strlen(envp[i]) + ft_strlen(envp_ll->value) + 1);
+		if (envp_ll->val_set == 1)
+		{
+			ft_strlcat(envp[i], "=", ft_strlen(envp_ll->var) + 2);
+			ft_strlcat(envp[i], envp_ll->value, ft_strlen(envp[i]) + ft_strlen(envp_ll->value) + 1);
+		}
 		i++;
 		envp_ll = envp_ll->next;
 	}

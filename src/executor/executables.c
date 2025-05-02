@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:19:41 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/01 21:04:13 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:36:10 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	run_executable_child(t_vars *vars, struct s_command *curr_command_node, \
 	else if (g_received_signal == SIGINT)
 		g_received_signal = 0;
 	free_all(vars);
+	close_fds(in_fd, out_fd);
 	exit (EXIT_FAILURE);
 }
 

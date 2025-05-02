@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:19:06 by cdahne            #+#    #+#             */
-/*   Updated: 2025/04/30 19:19:44 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/02 19:42:29 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	write_env(int fd, t_envp *envp)
 {
-	while (envp)
+	while (envp && envp->val_set == 1)
 	{
 		write(fd, envp->var, ft_strlen(envp->var));
 		write(fd, "=", 1);

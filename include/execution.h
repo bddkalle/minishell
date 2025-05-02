@@ -49,5 +49,8 @@ int		env_fatal_error(t_vars *vars, char *command, char *errmsg, int fd);
 void	free_env_paths(char **env_paths);
 void	free_close_tempfile(t_tempfile *tempfile);
 t_tempfile	*create_tempfile(t_vars *vars);
+char	*get_home(t_vars *vars);
+void	update_oldpwd(t_vars *vars);
+void	update_pwd(t_vars *vars);
 
 #endif

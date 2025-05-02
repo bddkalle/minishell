@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:02:44 by cdahne            #+#    #+#             */
-/*   Updated: 2025/04/30 15:15:41 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/02 15:47:11 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	close_fds(int in_fd, int out_fd)
 {
-	if (in_fd != STDIN_FILENO && in_fd != -1)
+	if (in_fd != STDIN_FILENO && in_fd != STDOUT_FILENO && in_fd != -1)
 		close (in_fd);
-	if (out_fd != STDOUT_FILENO && out_fd != -1)
+	if (out_fd != STDIN_FILENO && out_fd != STDOUT_FILENO && out_fd != -1)
 		close (out_fd);
 	return (1);
 }

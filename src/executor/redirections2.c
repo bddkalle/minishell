@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/02 14:25:30 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:50:15 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	analyse_line(t_vars *vars, char *line, t_tempfile *tempfile, char *del)
 	if (!line)
 	{
 		write(STDERR_FILENO, \
-			"minishell: warning: \
-			here-document delimited by end-of-file (wanted '", 68);
+			"minishell: warning: here-document delimited by end-of-file (wanted '", 68);
 		write(STDERR_FILENO, del, ft_strlen(del));
 		write(STDERR_FILENO, "')\n", 3);
 		return (1);
@@ -69,7 +68,7 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 	int		i;
 	char	*line;
 
-	signal_readline_setup();
+	signal_heredoc_setup();
 	while (1)
 	{
 		line = readline("> ");

@@ -79,11 +79,13 @@ t_envp	*create_envp_node(char *varvalue)
 		if (!envp_node->value)
 			return (NULL);
 		ft_strlcpy(envp_node->value, equal + 1, ft_strlen(equal + 1) + 1);
+		envp_node->val_set = 1;
 	}
 	else
 	{
 		envp_node->var = ft_strdup(varvalue);
 		envp_node->value = ft_strdup("");
+		envp_node->val_set = 0;
 	}
 	envp_node->exported = 1;
 	return (envp_node);
