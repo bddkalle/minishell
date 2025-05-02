@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/30 19:16:02 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/02 20:46:42 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <linux/limits.h>
+# include <limits.h>
 
 //global variable
 extern volatile sig_atomic_t	g_received_signal;

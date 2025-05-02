@@ -6,7 +6,7 @@
 #    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/05/02 20:24:43 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/05/02 22:42:15 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRC =	$(addsuffix .c,							\
 								export			\
 								unset			\
 								exit			\
-								builtins_utils	\
+								builtin_utils	\
+								builtin_utils2	\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/error/, 				\

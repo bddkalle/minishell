@@ -52,5 +52,6 @@ t_tempfile	*create_tempfile(t_vars *vars);
 char	*get_home(t_vars *vars);
 void	update_oldpwd(t_vars *vars);
 void	update_pwd(t_vars *vars);
+int		within_long_long(char *str);
 
 #endif

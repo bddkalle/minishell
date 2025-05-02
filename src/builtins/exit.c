@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:43:31 by cdahne            #+#    #+#             */
-/*   Updated: 2025/04/30 19:05:35 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/02 22:44:26 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	run_exit_parent(t_vars *vars, char **argv, int in_fd, int out_fd)
 		exit_code = 0;
 	else if (argc == 2)
 	{
-		if (!string_is_numeric(argv[1]))
+		if (!string_is_numeric(argv[1]) || !within_long_long(argv[1]))
 			exit_code = 2;
 		else
 			exit_code = ft_atoi(argv[1]);
