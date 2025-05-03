@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 23:10:30 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 00:03:26 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	reclassification(t_vars *vars)
 		// #3 redirection from here-document
 
 		// check for heredoc and see if next node (should be delimiter) exists:
-		if (tmp->type == TOKEN_HEREDOC && tmp->next && tmp->next->type == TOKEN)
+		if (tmp->type == TOKEN_HEREDOC && tmp->next && tmp->next->type == TOKEN_WORD)
 		{
 			t_tempfile	*tempfile;
 
@@ -87,7 +87,8 @@ void	reclassification(t_vars *vars)
 					free(tmp->next->value);
 					tmp->next->value = ft_strdup(redir_target);
 				}
-				//else was macht reclassification dann?
+				else
+					free_null((void **)&tmp->next->value);
 			}
 		}
 

@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/03 22:51:27 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 00:13:57 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int	analyse_line(t_vars *vars, char *line, t_tempfile *tempfile, char *del)
 		write(STDERR_FILENO, "')\n", 3);
 		return (1);
 	}
-	add_history(line);
 	if (ft_strcmp(line, del) == 0)
 	{
 		free(line);
 		return (1);
 	}
+	//variablenexpansion aber if not del
 	return (0);
 }
 
@@ -78,7 +78,6 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 		disable_echotcl();
 		line = custom_readline("> ");
 		enable_echoctl();
-		//can variable expansion be placed somewhere in analyse line?
 		if (analyse_line(vars, line, tempfile, delimiter) == 0)
 		{
 			i = 0;
@@ -91,7 +90,6 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 		free(line);
 	}
 	free_close_tempfile(tempfile);
-	// hier schon verwendbar?
 	free_all(vars);
 	exit (EXIT_SUCCESS);
 }

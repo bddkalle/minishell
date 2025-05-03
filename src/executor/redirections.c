@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:16:04 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/03 22:04:20 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 00:00:33 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	heredoc_redirection(char *target, int old_in_fd)
 {
 	int	new_in_fd;
 
+	if (!target)
+		return (execution_error("heredoc", "initialization failed", -1));
 	new_in_fd = open(target, O_RDONLY);
 	unlink(target);
 	if (old_in_fd != STDIN_FILENO)
