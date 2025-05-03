@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/03 11:11:05 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:32:53 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,9 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 	signal_heredoc_setup();
 	while (1)
 	{
-		//signal_heredoc_readline_setup();
 		disable_echotcl();
 		line = custom_readline("> ");
 		enable_echoctl();
-		//signal_heredoc_setup();
 		if (analyse_line(vars, line, tempfile, delimiter) == 0)
 		{
 			i = 0;

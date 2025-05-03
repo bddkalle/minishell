@@ -6,7 +6,7 @@
 #    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/05/02 22:42:15 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/05/03 11:54:57 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRC =	$(addsuffix .c,							\
 								utils			\
 								envp_utils		\
 								envp_utils2		\
+								envp_utils3		\
 		))
 OBJS_DIR = obj
 OBJS := $(addprefix $(OBJS_DIR)/, $(notdir $(SRC:.c=.o)))

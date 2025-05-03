@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:11:33 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/03 11:22:52 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 13:17:00 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,19 @@ void	replace_value(t_envp *old, t_envp *new)
 void	add_or_replace_envp(t_vars *vars, t_envp *new_envp_node)
 {
 	t_envp	*temp;
+	t_envp	*last;
 	int		var_exists;
 
 	var_exists = 0;
 	temp = vars->envp_ll;
-	while (temp->next)
+	while (temp)
 	{
 		if (ft_strcmp(temp->var, new_envp_node->var) == 0)
 		{
 			var_exists = 1;
 			break;
 		}
+		last = temp;
 		temp = temp->next;
 	}
 	if (var_exists)
@@ -54,7 +56,7 @@ void	add_or_replace_envp(t_vars *vars, t_envp *new_envp_node)
 	else
 	{
 		new_envp_node->next = NULL;
-		temp->next = new_envp_node;
+		last->next = new_envp_node;
 	}
 }
 
