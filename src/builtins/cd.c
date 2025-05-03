@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:56 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/02 20:25:09 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 14:45:20 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ int	run_cd(t_vars *vars, char **argv)
 	}
 	else
 		return (execution_error("cd", "too many arguments", 1));
+	update(vars);
 	return (0);
 }
