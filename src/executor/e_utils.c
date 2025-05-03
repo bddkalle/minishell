@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   e_utils.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 15:02:44 by cdahne            #+#    #+#             */
+/*   Updated: 2025/05/02 15:47:11 by vboxuser         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-void	close_fds(int in_fd, int out_fd)
+int	close_fds(int in_fd, int out_fd)
 {
-	if (in_fd != STDIN_FILENO && in_fd != -1)
+	if (in_fd != STDIN_FILENO && in_fd != STDOUT_FILENO && in_fd != -1)
 		close (in_fd);
-	if (out_fd != STDOUT_FILENO && out_fd != -1)
+	if (out_fd != STDIN_FILENO && out_fd != STDOUT_FILENO && out_fd != -1)
 		close (out_fd);
-	return ;
+	return (1);
 }
 
 int	execution_error(char *command, char *errmsg, int errornumber)

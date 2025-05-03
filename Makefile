@@ -6,7 +6,7 @@
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/05/03 21:25:18 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/05/03 23:00:03 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ SRC =	$(addsuffix .c,							\
 								export			\
 								unset			\
 								exit			\
+								builtin_utils	\
+								builtin_utils2	\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/error/, 				\
@@ -38,8 +40,10 @@ SRC =	$(addsuffix .c,							\
 								operators		\
 								operators2		\
 								redirections	\
+								redirections2	\
 								e_utils			\
 								e_utils2		\
+								e_utils3		\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/parser/, 				\
@@ -60,6 +64,8 @@ SRC =	$(addsuffix .c,							\
 		$(addsuffix .c,							\
 		$(addprefix src/signals/, 				\
 								signals			\
+								signals_shell	\
+								signals_child	\
 		))										\
 		$(addsuffix .c,							\
 		$(addprefix src/utils/, 				\
@@ -69,6 +75,7 @@ SRC =	$(addsuffix .c,							\
 								utils			\
 								envp_utils		\
 								envp_utils2		\
+								envp_utils3		\
 		))
 OBJS_DIR = obj
 OBJS := $(addprefix $(OBJS_DIR)/, $(notdir $(SRC:.c=.o)))

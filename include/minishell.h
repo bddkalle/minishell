@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 22:51:06 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/03 23:03:00 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "parser.h"
 # include "p_structs.h"
 # include "execution.h"
+# include "e_structs.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
@@ -27,9 +28,14 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <linux/limits.h>
+# include <limits.h>
+#include <bits/posix2_lim.h>
+#include <unistd.h>
 
 //global variable
-extern volatile sig_atomic_t	global_received_signal;
+extern volatile sig_atomic_t	g_received_signal;
 
 //minishell
 void			minishell(char **envp);
@@ -64,6 +70,9 @@ void	sigint_shell_handler(int signum);
 void	signal_executable_setup(void);
 void	signal_pipe_setup(void);
 void	signal_ignore_setup(void);
+void	signal_heredoc_readline_setup(void);
+void	disable_echotcl(void);
+void	enable_echoctl(void);
 
 //Utils
 void			*_malloc(size_t size, t_vars *vars);
@@ -73,12 +82,13 @@ void			split_envp(t_envp *envp, char *param); //delete one of these
 void			add_envp(t_envp *envp, char *varvalue);
 void			add_or_replace_envp(t_vars *vars, t_envp *envp_node);
 void			replace_value(t_envp *old, t_envp *new);
-char			**envp_to_array(t_envp *envp_ll);
+char			**envp_to_array(t_vars *vars, int vals_quoted);
 void			free_envp_array(char **envp);
 int				count_nodes(t_envp *envp_ll);
 void			swap_envp(char **s1, char **s2);
 void			sort_envp(char **envp);
 char			*_getenv(t_vars *vars, char *var);
+char			*custom_readline(const char *prompt);
 void			create_cwd(t_vars *vars);
 
 

@@ -1,54 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 19:21:47 by cdahne            #+#    #+#             */
+/*   Updated: 2025/05/02 15:01:46 by vboxuser         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
-#include <readline/readline.h>
-#include <unistd.h>
 
 void	signal_handler_global(int signum)
 {
-	global_received_signal = signum;
-}
-
-void	sigint_shell_handler(int signum)
-{
-	global_received_signal = signum;
-	write(STDOUT_FILENO, "\n", 1);
-	//rl_done = 1;
-}
-void	sigint_readline_handler(int signum)
-{
-	global_received_signal = signum;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	//rl_done = 1;
-}
-
-void	sigint_heredoc_handler(int signum)
-{
-	global_received_signal = signum;
-	//write(STDOUT_FILENO, "\n", 1);
-	// rl_replace_line("", 0);
-	// rl_on_new_line();
-	// rl_redisplay();
-	// rl_done = 1;
-	// rl_catch_signals = 0;
-}
-
-void	signal_heredoc_setup(void)
-{
-	struct sigaction	sa_int;
-	//struct sigaction	sa_int_old;
-	struct sigaction	sa_quit;
-
-	sa_int.sa_handler = sigint_heredoc_handler;
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_flags = 0;
-	sigaction(SIGINT, &sa_int, NULL);
-
-	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = 0;
-	sigemptyset(&sa_quit.sa_mask);
-	sigaction(SIGQUIT, &sa_quit, NULL);
+	g_received_signal = signum;
 }
 
 void	signal_ignore_setup(void)
@@ -57,77 +23,8 @@ void	signal_ignore_setup(void)
 	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = SIG_IGN;
-	//sa_int.sa_handler = SIG_DFL;
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_flags = 0;
-	sigaction(SIGINT, &sa_int, NULL);
-
-	//sa_quit.sa_handler = signal_handler_global;
-	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = 0;
-	sigemptyset(&sa_quit.sa_mask);
-	sigaction(SIGQUIT, &sa_quit, NULL);
-}
-
-void	signal_shell_setup(void)
-{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-
-	sa_int.sa_handler = sigint_shell_handler;
-	//sa_int.sa_handler = SIG_DFL;
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_flags = 0;
-	sigaction(SIGINT, &sa_int, NULL);
-
-	//sa_quit.sa_handler = signal_handler_global;
-	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = 0;
-	sigemptyset(&sa_quit.sa_mask);
-	sigaction(SIGQUIT, &sa_quit, NULL);
-}
-void	signal_readline_setup(void)
-{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-
-	sa_int.sa_handler = sigint_readline_handler;
-	//sa_int.sa_handler = SIG_DFL;
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_flags = 0;
-	sigaction(SIGINT, &sa_int, NULL);
-
-	//sa_quit.sa_handler = signal_handler_global;
-	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = 0;
-	sigemptyset(&sa_quit.sa_mask);
-	sigaction(SIGQUIT, &sa_quit, NULL);
-}
-
-void	signal_executable_setup(void)
-{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-
-	sa_int.sa_handler = SIG_DFL;
-	sa_int.sa_flags = 0;
-	sigemptyset(&sa_int.sa_mask);
-	sigaction(SIGINT, &sa_int, NULL);
-
-	sa_quit.sa_handler = SIG_DFL;
-	sa_quit.sa_flags = 0;
-	sigemptyset(&sa_quit.sa_mask);
-	sigaction(SIGQUIT, &sa_quit, NULL);
-}
-
-void	signal_pipe_setup(void)
-{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-
-	sa_int.sa_handler = signal_handler_global;
-	sa_int.sa_flags = 0;
-	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
 
 	sa_quit.sa_handler = SIG_IGN;

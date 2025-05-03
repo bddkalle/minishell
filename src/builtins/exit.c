@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 18:43:31 by cdahne            #+#    #+#             */
+/*   Updated: 2025/05/02 22:44:26 by vboxuser         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	exit_error(char *arg, char *errmsg)
@@ -9,25 +21,11 @@ void	exit_error(char *arg, char *errmsg)
 	write(STDERR_FILENO, "\n", 1);
 }
 
-int	check_exit_parent(t_vars *vars)
-{
-	int	exit_code;
-
-	if (vars->ast && vars->ast->type == AST_COMMAND)
-		if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "exit") == 0)
-		{
-			exit_code = run_exit(vars, vars->ast->u_data.s_command.argv, STDIN_FILENO, STDOUT_FILENO, 1);
-			vars->exit_status = exit_code;
-			return (exit_code);
-		}
-	return (0);
-}
-
 int	string_is_numeric(char *s)
 {
-	while(*s && (*s == '+' || *s == '-'))
+	while (*s && (*s == '+' || *s == '-'))
 		s++;
-	while(*s)
+	while (*s)
 	{
 		if (!ft_isdigit(*s))
 			return (0);
@@ -36,7 +34,34 @@ int	string_is_numeric(char *s)
 	return (1);
 }
 
-int	run_exit(t_vars *vars, char **argv, int in_fd, int out_fd, int parent)
+int	run_exit_parent(t_vars *vars, char **argv, int in_fd, int out_fd)
+{
+	int	argc;
+	int	exit_code;
+
+	argc = 0;
+	while (argv[argc])
+		argc++;
+	if (argc == 1)
+		exit_code = 0;
+	else if (argc == 2)
+	{
+		if (!string_is_numeric(argv[1]) || !within_long_long(argv[1]))
+			exit_code = 2;
+		else
+			exit_code = ft_atoi(argv[1]);
+	}
+	else
+		return (execution_error("exit", "too many arguments", 1));
+	write(STDOUT_FILENO, "exit\n", 5);
+	if (exit_code == 2)
+		exit_error(argv[1], "numeric argument required");
+	close_fds(in_fd, out_fd);
+	free_all(vars);
+	exit(exit_code % 256);
+}
+
+int	run_exit_child(t_vars *vars, char **argv, int in_fd, int out_fd)
 {
 	int	argc;
 	int	exit_code;
@@ -54,9 +79,7 @@ int	run_exit(t_vars *vars, char **argv, int in_fd, int out_fd, int parent)
 			exit_code = ft_atoi(argv[1]);
 	}
 	else
-	 	return (execution_error("exit", "too many arguments", 1));
-	if (parent)
-		write(STDOUT_FILENO, "exit\n", 5);
+		return (execution_error("exit", "too many arguments", 1));
 	if (exit_code == 2)
 		exit_error(argv[1], "numeric argument required");
 	close_fds(in_fd, out_fd);

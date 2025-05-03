@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/30 08:16:29 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 14:10:56 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,5 +191,5 @@ void	lexer(t_vars *vars)
 		else
 			fill_token(vars);
 	}
-	debug_lexer(vars);
+	//debug_lexer(vars);
 }
