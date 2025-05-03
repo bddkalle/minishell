@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 23:11:59 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/03 23:20:00 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ void	reclassification(t_vars *vars)
 			ft_strlcat(redir_target, tmp->next->value + 1, \
 			ft_strlen(redir_target) + ft_strlen(tmp->next->value));
 			free_null((void **)&tmp->next->value);
-			tmp->next->value = NULL;
-			//tmp->next->value = ft_strdup(redir_target);
+			tmp->next->value = ft_strdup(redir_target);
 			if (!tmp->next->value)
 				error_exit(vars, "strdup failed to expand ~", EXIT_FAILURE);
 		}
