@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/30 13:05:27 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/03 22:35:05 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void			free_null_token(t_vars	*vars);
 void			free_parser(t_vars *vars);
 void			close_parser(t_vars *vars);
 void			free_ast_node(t_ast_node **curr_node);
+void			free_tmp_argv(char ***argv);
+void			free_parser_cmd_node(t_vars *vars);
 
 //Lexer
 void			lexer(t_vars *vars);
@@ -66,13 +68,19 @@ void			parser(t_vars *vars);
 t_ast_node		*parse_expression(t_vars *vars);
 t_ast_node		*parse_factor(t_vars *vars);
 t_ast_node		*parse_command(t_vars *vars);
+t_node_type		set_op_type(t_token_type type);
 t_size			current_token_is(char *s, t_vars *vars);
 void			advance_token(t_vars *vars);
 t_redir			*handle_redirs(t_vars *vars);
 void			fill_cmd_argv(t_vars *vars);
+void			fill_argv(t_vars *vars, char **argv, t_size i);
+int				continue_argv(t_vars *vars, int word_count, char ***argv);
 void			reclassification(t_vars *vars);
 void			remove_quotes(t_vars *vars);
+char			*remove_quotes_from_string(t_vars *vars, const char *s, char c);
 void			check_syntax(t_vars *vars);
+void			check_redir_syntax(t_vars *vars);
+void			handle_consecutive_op(t_vars *vars, t_token *curr_tok);
 t_size			is_invalid_leading_op(t_token_type type);
 t_size			is_consecutive_op(t_token_type type);
 

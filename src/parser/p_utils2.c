@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/30 13:06:35 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:59:11 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,35 +47,23 @@ void	reclassification(t_vars *vars)
 	tmp = vars->token;
 	while (tmp)
 	{
-		// #1 if reserved cmd name (if, then, else, fi,...) [OUT OF SCOPE] else TOKEN -> TOKEN_WORD
 		if (tmp->type == TOKEN)
 			tmp->type = TOKEN_WORD;
-		
-		// #2 redirection to or from filename
-			//tilde expansion
-		if (tmp->next && *tmp->next->value == '~' && (tmp->type == TOKEN_REDIRECT_IN || tmp->type == TOKEN_REDIRECT_OUT \
+		if (tmp->next && *tmp->next->value == '~' && \
+		(tmp->type == TOKEN_REDIRECT_IN || tmp->type == TOKEN_REDIRECT_OUT \
 		|| tmp->type == TOKEN_REDIRECT_APPEND))
 		{
-			ft_strlcpy(redir_target, vars->prompt->home, ft_strlen(vars->prompt->home) + 1);
-			ft_strlcat(redir_target, tmp->next->value + 1, ft_strlen(redir_target) + ft_strlen(tmp->next->value));
+			ft_strlcpy(redir_target, vars->prompt->home, \
+			ft_strlen(vars->prompt->home) + 1);
+			ft_strlcat(redir_target, tmp->next->value + 1, \
+			ft_strlen(redir_target) + ft_strlen(tmp->next->value));
 			free_null((void **)&tmp->next->value);
-			tmp->next->value = ft_strdup(redir_target);
+			tmp->next->value = NULL;
+			//tmp->next->value = ft_strdup(redir_target);
+			if (!tmp->next->value)
+				error_exit(vars, "strdup failed to expand ~", EXIT_FAILURE);
 		}
-
 		// #3 redirection from here-document
-
-		// #4 case statement termination [OUT OF SCOPE]
-
-		// #5 NAME in FOR [OUT OF SCOPE]
-
-		// #6 Third word of FOR and CASE [OUT OF SCOPE]
-
-		// #7 Assignment preceding command name [OUT OF SCOPE]
-
-		// #8 NAME in function [OUT OF SCOPE]
-
-		// #9 Body of function [OUT OF SCOPE]
-		
 		tmp = tmp->next;
 	}
 }

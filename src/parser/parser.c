@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/30 08:16:42 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:50:01 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	check_syntax(t_vars *vars)
 {
-	t_token	*curr_tok;
-
 	if (!vars->token)
 		return ;
 
@@ -27,45 +25,7 @@ void	check_syntax(t_vars *vars)
 		vars->exit_status = 2;
 		free_null_token(vars);
 	}
-	curr_tok = vars->token;
-	while (curr_tok)										//check redir syntax
-	{
-		if (curr_tok->type == TOKEN_REDIRECT_IN || \
-			curr_tok->type == TOKEN_REDIRECT_OUT || \
-			curr_tok->type == TOKEN_REDIRECT_APPEND || \
-			curr_tok->type == TOKEN_HEREDOC)
-		{
-			if (curr_tok->next && curr_tok->next->type != TOKEN)
-			{
-				ft_putstr_fd("minishell: syntax error near unexpected token »", 2);
-				ft_putstr_fd(curr_tok->next->value, 2);
-				ft_putstr_fd("«\n", 2);
-				vars->exit_status = 2;
-				free_null_token(vars);
-				return ;
-			}
-			if (!curr_tok->next)
-			{
-				ft_putstr_fd("minishell: syntax error near unexpected token »newline«\n", 2);
-				vars->exit_status = 2;
-				free_null_token(vars);
-				return ;
-			}
-		}
-		if (curr_tok && curr_tok->next) //handle consecutive operator
-		{
-			if (is_consecutive_op(curr_tok->type) && is_consecutive_op(curr_tok->next->type))
-			{
-				ft_putstr_fd("minishell: syntax error near unexpected token »", 2);
-				ft_putstr_fd(curr_tok->next->value, 2);
-				ft_putstr_fd("«\n", 2);
-				vars->exit_status = 2;
-				free_null_token(vars);
-				return ;
-			}
-		}
-		curr_tok = curr_tok->next;
-	}
+	check_redir_syntax(vars);
 }
 
 t_ast_node	*parse_expression(t_vars *vars)
@@ -81,12 +41,7 @@ t_ast_node	*parse_expression(t_vars *vars)
 			vars->parser->curr_tok->type == TOKEN_AND || \
 			vars->parser->curr_tok->type == TOKEN_OR))
 	{
-		if (vars->parser->curr_tok->type == TOKEN_PIPE)
-			op_type = AST_PIPE;
-		else if (vars->parser->curr_tok->type == TOKEN_AND)
-			op_type = AST_AND;
-		else if (vars->parser->curr_tok->type == TOKEN_OR)
-			op_type = AST_OR;
+		op_type = set_op_type(vars->parser->curr_tok->type);
 		advance_token(vars);
 		right = parse_factor(vars);
 		op_node = _malloc(sizeof(t_ast_node), vars);
@@ -109,9 +64,9 @@ t_ast_node	*parse_command(t_vars *vars)
 	{
 		tmp_token = vars->parser->curr_tok;
 		if (tmp_token && (tmp_token->type == TOKEN_REDIRECT_IN || \
-                        	tmp_token->type == TOKEN_REDIRECT_OUT || \
-                        	tmp_token->type == TOKEN_REDIRECT_APPEND || \
-                            tmp_token->type == TOKEN_HEREDOC))
+							tmp_token->type == TOKEN_REDIRECT_OUT || \
+							tmp_token->type == TOKEN_REDIRECT_APPEND || \
+							tmp_token->type == TOKEN_HEREDOC))
 		{
 			*vars->parser->next_redir_node = handle_redirs(vars);
 			vars->parser->next_redir_node = \

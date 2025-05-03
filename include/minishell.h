@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 23:55:16 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/03 22:51:06 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int				count_nodes(t_envp *envp_ll);
 void			swap_envp(char **s1, char **s2);
 void			sort_envp(char **envp);
 char			*_getenv(t_vars *vars, char *var);
+void			create_cwd(t_vars *vars);
+
 
 
 #endif
