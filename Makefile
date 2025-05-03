@@ -6,7 +6,7 @@
 #    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/05/03 11:54:57 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/05/03 21:30:35 by vboxuser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRC =	$(addsuffix .c,							\
 								operators		\
 								operators2		\
 								redirections	\
-								redirections2	\
+								heredoc			\
 								e_utils			\
 								e_utils2		\
 								e_utils3		\

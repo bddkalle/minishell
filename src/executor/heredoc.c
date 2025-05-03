@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections2.c                                    :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/03 11:32:53 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 22:51:27 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,26 @@
 int	heredoc_parent(int pid, t_tempfile *tempfile)
 {
 	int	status;
-	int	temp_fd;
+	//int	temp_fd;
 
+	(void)tempfile;
 	signal_ignore_setup();
 	waitpid(pid, &status, 0);
 	signal_shell_setup();
-	close(tempfile->fd);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
-	{
-		temp_fd = open(tempfile->name, O_RDONLY);
-		unlink(tempfile->name);
-		free(tempfile->name);
-		free(tempfile);
-		return (temp_fd);
-	}
-	unlink(tempfile->name);
-	free(tempfile->name);
-	free(tempfile);
+	//close(tempfile->fd);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	// if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
+	// {
+	// 	temp_fd = open(tempfile->name, O_RDONLY);
+	// 	unlink(tempfile->name);
+	// 	free(tempfile->name);
+	// 	free(tempfile);
+	// 	return (temp_fd);
+	// }
+	// unlink(tempfile->name);
+	// free(tempfile->name);
+	// free(tempfile);
 	return (-1);
 }
 
@@ -75,6 +78,7 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 		disable_echotcl();
 		line = custom_readline("> ");
 		enable_echoctl();
+		//can variable expansion be placed somewhere in analyse line?
 		if (analyse_line(vars, line, tempfile, delimiter) == 0)
 		{
 			i = 0;
@@ -87,6 +91,7 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 		free(line);
 	}
 	free_close_tempfile(tempfile);
+	// hier schon verwendbar?
 	free_all(vars);
 	exit (EXIT_SUCCESS);
 }
@@ -118,20 +123,45 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 // 	exit (EXIT_SUCCESS);
 // }
 
-int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
+t_tempfile	*open_heredoc_dialog(t_vars *vars, char *delimiter)
 {
 	t_tempfile	*tempfile;
 	int			pid;
 
+	//create tempfile: beware memory leaks get cleaned by fatal_error which calls free_all().
+	//shouldnt it use a different error function by felix?
 	tempfile = create_tempfile(vars);
-	if (old_in_fd != STDIN_FILENO)
-		close(old_in_fd);
+	if (!tempfile)
+		return (NULL);
+	// if (old_in_fd != STDIN_FILENO)
+	// 	close(old_in_fd);
 	pid = fork();
 	if (pid == -1)
-		return (execution_error("fork", strerror(errno), -1));
+		return (NULL);
+	//	return (execution_error("fork", strerror(errno), -1));
 	if (pid == 0)
 		heredoc_loop(vars, delimiter, tempfile);
 	else
-		return (heredoc_parent(pid, tempfile));
-	return (-1);
+		if (heredoc_parent(pid, tempfile) == EXIT_SUCCESS)
+			return (tempfile);
+	free_close_tempfile(tempfile);
+	return (NULL);
 }
+
+// int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
+// {
+// 	t_tempfile	*tempfile;
+// 	int			pid;
+
+// 	tempfile = create_tempfile(vars);
+// 	if (old_in_fd != STDIN_FILENO)
+// 		close(old_in_fd);
+// 	pid = fork();
+// 	if (pid == -1)
+// 		return (execution_error("fork", strerror(errno), -1));
+// 	if (pid == 0)
+// 		heredoc_loop(vars, delimiter, tempfile);
+// 	else
+// 		return (heredoc_parent(pid, tempfile));
+// 	return (-1);
+// }

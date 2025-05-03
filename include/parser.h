@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 23:44:06 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:11:50 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+#include "e_structs.h"
 # define OPERATOR "|<>&()"
 # define MULT_OP "|<>&"
 # define CONSEC_OP "|&"
@@ -73,6 +74,9 @@ void			remove_quotes(t_vars *vars);
 void			check_syntax(t_vars *vars);
 t_size			is_invalid_leading_op(t_token_type type);
 t_size			is_consecutive_op(t_token_type type);
+
+//Heredoc
+t_tempfile		*open_heredoc_dialog(t_vars *vars, char *delimiter);
 
 
 

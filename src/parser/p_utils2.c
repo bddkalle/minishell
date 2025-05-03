@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 20:29:53 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 23:10:30 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,34 @@ void	reclassification(t_vars *vars)
 		}
 
 		// #3 redirection from here-document
-		// if (tmp->type == TOKEN_HEREDOC)
-		// {
-		// 	if (g_received_signal == SIGINT)
-		// 	{
-		// 		free_null_readline(vars);
-		// 		g_received_signal = 0;
-		// 	}
-		// 	else
-		// 	{
-		// 		signal_heredoc_setup();
-		// 		open_heredoc_dialog(redir_target);
-		// 	}
-		// }
+
+		// check for heredoc and see if next node (should be delimiter) exists:
+		if (tmp->type == TOKEN_HEREDOC && tmp->next && tmp->next->type == TOKEN)
+		{
+			t_tempfile	*tempfile;
+
+			//only open heredoc if no SIGINT was received before
+			if (g_received_signal == SIGINT)
+			{
+				free_null_readline(vars);
+				g_received_signal = 0;
+			}
+			else
+			{
+				signal_heredoc_setup();
+				//write into tempfile
+				tempfile = open_heredoc_dialog(vars, tmp->next->value);
+				if (tempfile)
+				{
+					ft_strlcpy(redir_target, tempfile->name, ft_strlen(tempfile->name) + 1);
+					free_close_tempfile(tempfile);
+					free(tmp->next->value);
+					tmp->next->value = ft_strdup(redir_target);
+				}
+				//else was macht reclassification dann?
+			}
+		}
+
 		// #4 case statement termination [OUT OF SCOPE]
 
 		// #5 NAME in FOR [OUT OF SCOPE]
