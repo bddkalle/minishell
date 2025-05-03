@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 23:52:48 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:29:53 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	reclassification(t_vars *vars)
 		// #1 if reserved cmd name (if, then, else, fi,...) [OUT OF SCOPE] else TOKEN -> TOKEN_WORD
 		if (tmp->type == TOKEN)
 			tmp->type = TOKEN_WORD;
-		
+
 		// #2 redirection to or from filename
 			//tilde expansion
 		if (tmp->next && *tmp->next->value == '~' && (tmp->type == TOKEN_REDIRECT_IN || tmp->type == TOKEN_REDIRECT_OUT \
@@ -63,7 +63,19 @@ void	reclassification(t_vars *vars)
 		}
 
 		// #3 redirection from here-document
-
+		// if (tmp->type == TOKEN_HEREDOC)
+		// {
+		// 	if (g_received_signal == SIGINT)
+		// 	{
+		// 		free_null_readline(vars);
+		// 		g_received_signal = 0;
+		// 	}
+		// 	else
+		// 	{
+		// 		signal_heredoc_setup();
+		// 		open_heredoc_dialog(redir_target);
+		// 	}
+		// }
 		// #4 case statement termination [OUT OF SCOPE]
 
 		// #5 NAME in FOR [OUT OF SCOPE]
@@ -75,7 +87,7 @@ void	reclassification(t_vars *vars)
 		// #8 NAME in function [OUT OF SCOPE]
 
 		// #9 Body of function [OUT OF SCOPE]
-		
+
 		tmp = tmp->next;
 	}
 }

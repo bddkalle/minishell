@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/02 14:33:07 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:26:44 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	executor(t_vars *vars)
 {
 	if (g_received_signal == SIGINT)
 	{
-		ft_printf("SIGINT found resetting now.\n");
 		free_null_readline(vars);
 		g_received_signal = 0;
 	}
