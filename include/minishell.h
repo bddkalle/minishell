@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/02 20:46:42 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:10:57 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include <sys/stat.h>
 # include <linux/limits.h>
 # include <limits.h>
+#include <bits/posix2_lim.h>
+#include <unistd.h>
 
 //global variable
 extern volatile sig_atomic_t	g_received_signal;
@@ -68,6 +70,9 @@ void	sigint_shell_handler(int signum);
 void	signal_executable_setup(void);
 void	signal_pipe_setup(void);
 void	signal_ignore_setup(void);
+void	signal_heredoc_readline_setup(void);
+void	disable_echotcl(void);
+void	enable_echoctl(void);
 
 //Utils
 void			*_malloc(size_t size, t_vars *vars);
@@ -83,6 +88,7 @@ int				count_nodes(t_envp *envp_ll);
 void			swap_envp(char **s1, char **s2);
 void			sort_envp(char **envp);
 char			*_getenv(t_vars *vars, char *var);
+char			*custom_readline(const char *prompt);
 
 
 #endif

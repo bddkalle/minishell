@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:03:14 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/02 19:47:25 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:15:08 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,20 @@ void	free_envp_array(char **envp)
 	while (*temp)
 		free(*temp++);
 	free(envp);
+}
+
+void	free_envp(t_envp *envp)
+{
+	t_envp	*temp;
+
+	while (envp)
+	{
+		temp = envp->next;
+		free(envp->var);
+		free(envp->value);
+		free(envp);
+		envp = temp;
+	}
 }
 
 void	swap_envp(char **s1, char **s2)

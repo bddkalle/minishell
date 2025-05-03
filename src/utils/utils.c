@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:28:44 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/02 19:58:33 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:11:19 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,23 @@ char	*_getenv(t_vars *vars, char *var)
 	if (tmp)
 		return (tmp->value);
 	return (NULL);
+}
+
+char	*custom_readline(const char *prompt)
+{
+	char	buffer[LINE_MAX];
+	size_t	len;
+	char	*newline;
+
+	ft_bzero(buffer, LINE_MAX);
+	if (prompt)
+		write(STDOUT_FILENO, prompt, ft_strlen(prompt));
+	len = read(STDIN_FILENO, buffer, LINE_MAX - 1);
+	if (len <= 0)
+		return (NULL);
+	buffer[len] = '\0';
+	newline = ft_strchr(buffer, '\n');
+	if (newline)
+		*newline = '\0';
+	return (ft_strdup(buffer));
 }

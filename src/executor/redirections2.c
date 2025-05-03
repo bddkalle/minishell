@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/02 14:50:15 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:11:05 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	analyse_line(t_vars *vars, char *line, t_tempfile *tempfile, char *del)
 {
 	if (g_received_signal == SIGINT)
 	{
+		write(STDOUT_FILENO, "\n", 1);
 		g_received_signal = 0;
 		unlink(tempfile->name);
 		free_all(vars);
@@ -71,7 +72,11 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 	signal_heredoc_setup();
 	while (1)
 	{
-		line = readline("> ");
+		//signal_heredoc_readline_setup();
+		disable_echotcl();
+		line = custom_readline("> ");
+		enable_echoctl();
+		//signal_heredoc_setup();
 		if (analyse_line(vars, line, tempfile, delimiter) == 0)
 		{
 			i = 0;
@@ -87,6 +92,33 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 	free_all(vars);
 	exit (EXIT_SUCCESS);
 }
+
+// void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
+// {
+// 	int		i;
+// 	char	*line;
+
+// 	signal_heredoc_setup();
+// 	while (1)
+// 	{
+// 		//signal_heredoc_readline_setup();
+// 		line = readline("> ");
+// 		//signal_heredoc_setup();
+// 		if (analyse_line(vars, line, tempfile, delimiter) == 0)
+// 		{
+// 			i = 0;
+// 			while (line[i])
+// 				write(tempfile->fd, &line[i++], 1);
+// 			write(tempfile->fd, "\n", 1);
+// 		}
+// 		else
+// 			break ;
+// 		free(line);
+// 	}
+// 	free_close_tempfile(tempfile);
+// 	free_all(vars);
+// 	exit (EXIT_SUCCESS);
+// }
 
 int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
 {
