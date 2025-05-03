@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:19:41 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/02 19:36:10 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 14:03:53 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	run_executable_child(t_vars *vars, struct s_command *curr_command_node, \
 	{
 		signal_executable_setup();
 		execve(vars->pathname, curr_command_node->argv, \
-			envp_to_array(vars->envp_ll));
+			envp_to_array(vars, 0));
 		execution_error(curr_command_node->argv[0], strerror(errno), 1);
 	}
 	else if (g_received_signal == SIGINT)

@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:40:19 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/03 12:28:17 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 14:03:27 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	run_export(t_vars *vars, char **argv, int fd)
 		return (invalid);
 	if (!argv[1])
 	{
-		envp = envp_to_array(vars->envp_ll);
+		envp = envp_to_array(vars, 1);
 		sort_envp(envp);
 		print_export(fd, envp);
 		free_envp_array(envp);
