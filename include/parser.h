@@ -6,12 +6,13 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 22:35:05 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 00:36:28 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+#include "e_structs.h"
 # define OPERATOR "|<>&()"
 # define MULT_OP "|<>&"
 # define CONSEC_OP "|&"
@@ -83,6 +84,9 @@ void			check_redir_syntax(t_vars *vars);
 void			handle_consecutive_op(t_vars *vars, t_token *curr_tok);
 t_size			is_invalid_leading_op(t_token_type type);
 t_size			is_consecutive_op(t_token_type type);
+
+//Heredoc
+t_tempfile		*open_heredoc_dialog(t_vars *vars, char *delimiter);
 
 
 

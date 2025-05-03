@@ -27,7 +27,8 @@ int		search_env_path(t_vars *vars, char *command);
 
 //redirections
 int		parse_redirections(t_vars *vars, struct s_command *current_command_node, int *in_fd, int *out_fd);
-int		heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd);
+//int		heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd);
+int		heredoc_redirection(char *target, int old_in_fd);
 
 //builtins
 int		run_echo(int fd, char **argv);
@@ -40,18 +41,18 @@ int		run_exit_child(t_vars *vars, char **argv, int in_fd, int out_fd);
 int		run_exit_parent(t_vars *vars, char **argv, int in_fd, int out_fd);
 
 //utils
-int		close_fds(int in_fd, int out_fd);
-int		chdir_error(char *path, int errornumber);
-int		execution_error(char *command, char *errmsg, int errornumber);
-void	fatal_error(t_vars *vars, char *errmsg);
-int		env_error(char *command, char *errmsg);
-int		env_fatal_error(t_vars *vars, char *command, char *errmsg, int fd);
-void	free_env_paths(char **env_paths);
-void	free_close_tempfile(t_tempfile *tempfile);
+int			close_fds(int in_fd, int out_fd);
+int			chdir_error(char *path, int errornumber);
+int			execution_error(char *command, char *errmsg, int errornumber);
+void		fatal_error(t_vars *vars, char *errmsg);
+int			env_error(char *command, char *errmsg);
+int			env_fatal_error(t_vars *vars, char *command, char *errmsg, int fd);
+void		free_env_paths(char **env_paths);
+void		free_close_tempfile(t_tempfile *tempfile);
 t_tempfile	*create_tempfile(t_vars *vars);
-char	*get_home(t_vars *vars);
-void	update_oldpwd(t_vars *vars);
-void	update_pwd(t_vars *vars);
-int		within_long_long(char *str);
+char		*get_home(t_vars *vars);
+void		update_oldpwd(t_vars *vars);
+void		update_pwd(t_vars *vars);
+int			within_long_long(char *str);
 
 #endif

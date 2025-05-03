@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:20:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 23:03:21 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 00:34:44 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	minishell(char **envp)
 	init_envp(&vars, envp);
 	while (1)
 	{
-		//g_received_signal = 0;
 		signal_readline_setup();
 		vars.line = readline(vars.prompt->prompt);
 		if (!vars.line)

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:16:04 by cdahne            #+#    #+#             */
-/*   Updated: 2025/04/30 18:38:04 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/04 00:00:33 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <unistd.h>
 
 int	append_redirection(char *target, int old_out_fd)
 {
@@ -48,6 +49,21 @@ int	input_redirection(char *target, int old_in_fd)
 	return (new_in_fd);
 }
 
+int	heredoc_redirection(char *target, int old_in_fd)
+{
+	int	new_in_fd;
+
+	if (!target)
+		return (execution_error("heredoc", "initialization failed", -1));
+	new_in_fd = open(target, O_RDONLY);
+	unlink(target);
+	if (old_in_fd != STDIN_FILENO)
+		close(old_in_fd);
+	if (new_in_fd == -1)
+		return (execution_error(target, strerror(errno), -1));
+	return (new_in_fd);
+}
+
 int	parse_redirections(t_vars *vars, struct s_command *curr_command_node, \
 	int *in_fd, int *out_fd)
 {
@@ -64,7 +80,7 @@ int	parse_redirections(t_vars *vars, struct s_command *curr_command_node, \
 		else if (curr_redir->type == REDIR_APPEND)
 			*out_fd = append_redirection(curr_redir->target, *out_fd);
 		else if (curr_redir->type == REDIR_HEREDOC)
-			*in_fd = heredoc_redirection(vars, curr_redir->target, *in_fd);
+			*in_fd = heredoc_redirection(curr_redir->target, *in_fd);
 		if (*in_fd == -1 || *out_fd == -1)
 			return (-1);
 		curr_redir = curr_redir->next;

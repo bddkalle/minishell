@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 23:20:00 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 00:42:45 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,36 @@ void	reclassification(t_vars *vars)
 				error_exit(vars, "strdup failed to expand ~", EXIT_FAILURE);
 		}
 		// #3 redirection from here-document
+
+		// check for heredoc and see if next node (should be delimiter) exists:
+		if (tmp->type == TOKEN_HEREDOC && tmp->next && tmp->next->type == TOKEN_WORD)
+		{
+			t_tempfile	*tempfile;
+
+			//only open heredoc if no SIGINT was received before
+			if (g_received_signal == SIGINT)
+			{
+				free_null_readline(vars);
+				g_received_signal = 0;
+			}
+			else
+			{
+				signal_heredoc_setup();
+				//write into tempfile
+				tempfile = open_heredoc_dialog(vars, tmp->next->value);
+				if (tempfile)
+				{
+					ft_strlcpy(redir_target, tempfile->name, ft_strlen(tempfile->name) + 1);
+					free_close_tempfile(tempfile);
+					free(tmp->next->value);
+					tmp->next->value = ft_strdup(redir_target);
+				}
+				else
+					free_null((void **)&tmp->next->value);
+			}
+		}
+
+	
 		tmp = tmp->next;
 	}
 }
