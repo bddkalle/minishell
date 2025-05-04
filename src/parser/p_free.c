@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:13:48 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 22:19:04 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:47:37 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	free_cmd_node(t_ast_node **curr_node)
 
 void	free_ast_node(t_ast_node **curr_node)
 {
+	if (!*curr_node)
+		return ;
 	if (curr_node && ((*curr_node)->type == AST_PIPE || \
 		(*curr_node)->type == AST_AND || \
 		(*curr_node)->type == AST_OR))

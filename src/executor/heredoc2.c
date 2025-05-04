@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 14:13:13 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:53:05 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	expand_variables(t_vars *vars, char **pline)
 		//get_parameter(vars, parameter);
 		return ;
 	} */
+	ret = NULL;
 	i = 0;
 	while ((*pline)[i])
 	{

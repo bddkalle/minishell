@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 21:18:29 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:33:55 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	check_syntax(t_vars *vars)
 	check_redir_syntax(vars);
 }
 
-t_ast_node	*parse_expression(t_vars *vars)
+t_ast_node	*parse_or_and(t_vars *vars)
 {
 	t_ast_node	*left;
 	t_ast_node	*right;
@@ -43,6 +43,17 @@ t_ast_node	*parse_expression(t_vars *vars)
 	{
 		op_type = set_op_type(vars->parser->curr_tok->type);
 		advance_token(vars);
+		if (!vars->parser->curr_tok || is_operator(vars->parser->curr_tok->type))
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+			if (vars->parser->curr_tok)
+					ft_putstr_fd(vars->parser->curr_tok->value, 2);
+			else
+				ft_putstr_fd("newline", 2);
+            ft_putstr_fd("'\n", 2);
+            vars->exit_status = 2;
+            return NULL;
+        }
 		right = parse_factor(vars);
 		op_node = _malloc(sizeof(t_ast_node), vars);
 		op_node->type = op_type;
@@ -55,25 +66,32 @@ t_ast_node	*parse_expression(t_vars *vars)
 
 t_ast_node	*parse_command(t_vars *vars)
 {
-	t_token		*tmp_token;
-
 	init_parse_command(vars);
 	vars->parser->next_redir_node = \
 							&vars->parser->node->u_data.s_command.redirs;
 	while (vars->parser->curr_tok)
 	{
-		tmp_token = vars->parser->curr_tok;
-		if (tmp_token && (tmp_token->type == TOKEN_REDIRECT_IN || \
-							tmp_token->type == TOKEN_REDIRECT_OUT || \
-							tmp_token->type == TOKEN_REDIRECT_APPEND || \
-							tmp_token->type == TOKEN_HEREDOC))
+		if (is_redir_op(vars->parser->curr_tok->type))
 		{
+			if (!vars->parser->curr_tok->next \
+				|| vars->parser->curr_tok->next->type != TOKEN_WORD)
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token `", \
+				2);
+				if (vars->parser->curr_tok->next)
+					ft_putstr_fd(vars->parser->curr_tok->next->value, 2);
+				else
+					ft_putstr_fd("newline", 2);
+				ft_putstr_fd("'\n", 2);
+				vars->exit_status = 2;
+				return (NULL);
+			}
 			*vars->parser->next_redir_node = handle_redirs(vars);
 			vars->parser->next_redir_node = \
 							&(*vars->parser->next_redir_node)->next;
 			continue ;
 		}
-		else if (tmp_token && (tmp_token->type == TOKEN_WORD))
+		else if (vars->parser->curr_tok->type == TOKEN_WORD)
 			fill_cmd_argv(vars);
 		else
 			break ;
@@ -89,15 +107,17 @@ t_ast_node	*parse_factor(t_vars *vars)
 	if (!vars->parser->curr_tok)
 		return (NULL);
 	if (current_token_is(")", vars))
-		printf("SYNTAX ERROR IN PARSER");		//syntax handling
+		printf("SYNTAX ERROR IN PARSER");		//syntax handling???
 	if (current_token_is("(", vars))
 	{
 		advance_token(vars);
 		child = parse_expression(vars);
-		/* if (!current_token_is(")", vars))
+		if (!vars->parser->curr_tok || !current_token_is(")", vars))
 		{
-			//Handle syntax error: missing closing paranthesis
-		} */
+			ft_putstr_fd("minishell: syntax error: missing `)`\n", 2);
+			vars->exit_status = 2;
+			return (NULL);
+		}
 		advance_token(vars);
 		node = _malloc(sizeof(t_ast_node), vars);
 		node->type = AST_SUBSHELL;
@@ -109,10 +129,17 @@ t_ast_node	*parse_factor(t_vars *vars)
 
 void	parser(t_vars *vars)
 {
-	check_syntax(vars);
+	//check_syntax(vars);
+	if (!vars->token)
+		return ;
 	init_parser(vars);
 	reclassification(vars);
 	remove_quotes(vars);
 	vars->ast = parse_expression(vars);
-	debug_parser(vars);
+	if (!vars->ast)
+	{
+		free_null_readline(vars);
+		return ;
+	}
+	//debug_parser(vars);
 }

@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 15:22:22 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:22:53 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,12 @@ void	handle_single_qt(t_vars *vars)
 			break ;
 		}
 		if (!vars->lexer->c)
-			break ;
+		{
+			ft_putstr_fd("minishell: syntax error: unexpected end of file in single-quote\n", 2);
+			vars->exit_status = 2;
+			free_null_readline(vars);
+			return ;
+		}
 		/* {
 			vars->lexer->curr_token[vars->lexer->token_pos++] = '\n';
 			free_null((void **)&vars->line);

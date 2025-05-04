@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 21:06:33 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 22:55:32 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void			fill_token(t_vars *vars);
 //Parser
 void			parser(t_vars *vars);
 t_ast_node		*parse_expression(t_vars *vars);
+t_ast_node		*parse_or_and(t_vars *vars);
 t_ast_node		*parse_factor(t_vars *vars);
 t_ast_node		*parse_command(t_vars *vars);
 t_node_type		set_op_type(t_token_type type);
@@ -85,6 +86,10 @@ void			handle_consecutive_op(t_vars *vars, t_token *curr_tok);
 t_size			is_invalid_leading_op(t_token_type type);
 t_size			is_consecutive_op(t_token_type type);
 int				closing_par(t_vars *vars, t_token *curr_tok);
+t_size			is_operator(t_token_type type);
+t_size			is_redir_op(t_token_type type);
+
+
 
 
 //Heredoc
