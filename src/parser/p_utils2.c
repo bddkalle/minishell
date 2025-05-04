@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 00:03:26 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 08:15:28 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,8 @@ void	reclassification(t_vars *vars)
 	tmp = vars->token;
 	while (tmp)
 	{
-		// #1 if reserved cmd name (if, then, else, fi,...) [OUT OF SCOPE] else TOKEN -> TOKEN_WORD
 		if (tmp->type == TOKEN)
 			tmp->type = TOKEN_WORD;
-
-		// #2 redirection to or from filename
-			//tilde expansion
 		if (tmp->next && *tmp->next->value == '~' && (tmp->type == TOKEN_REDIRECT_IN || tmp->type == TOKEN_REDIRECT_OUT \
 		|| tmp->type == TOKEN_REDIRECT_APPEND))
 		{
@@ -64,34 +60,8 @@ void	reclassification(t_vars *vars)
 
 		// #3 redirection from here-document
 
-		// check for heredoc and see if next node (should be delimiter) exists:
-		if (tmp->type == TOKEN_HEREDOC && tmp->next && tmp->next->type == TOKEN_WORD)
-		{
-			t_tempfile	*tempfile;
-
-			//only open heredoc if no SIGINT was received before
-			if (g_received_signal == SIGINT)
-			{
-				free_null_readline(vars);
-				g_received_signal = 0;
-			}
-			else
-			{
-				signal_heredoc_setup();
-				//write into tempfile
-				tempfile = open_heredoc_dialog(vars, tmp->next->value);
-				if (tempfile)
-				{
-					ft_strlcpy(redir_target, tempfile->name, ft_strlen(tempfile->name) + 1);
-					free_close_tempfile(tempfile);
-					free(tmp->next->value);
-					tmp->next->value = ft_strdup(redir_target);
-				}
-				else
-					free_null((void **)&tmp->next->value);
-			}
-		}
-
+		if (tmp->type == TOKEN_HEREDOC && tmp->next && tmp->next->type == TOKEN)
+			heredoc_setup(vars, tmp->next, redir_target);
 		// #4 case statement termination [OUT OF SCOPE]
 
 		// #5 NAME in FOR [OUT OF SCOPE]

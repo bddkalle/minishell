@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:52:24 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/03 23:21:32 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 08:11:36 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 void	free_close_tempfile(t_tempfile *tempfile)
 {
 	close(tempfile->fd);
-	free(tempfile->name);
+	free(tempfile->pathname);
 	free(tempfile);
 }
 
@@ -55,17 +55,17 @@ t_tempfile	*create_tempfile(t_vars *vars)
 	tempfile = malloc(sizeof(t_tempfile));
 	if (!tempfile)
 		fatal_error(vars, "out of memory");
-	tempfile->name = unique_filename(vars);
-	if (!tempfile->name)
+	tempfile->pathname = unique_filename(vars);
+	if (!tempfile->pathname)
 	{
 		free(tempfile);
 		fatal_error(vars, "could not create temporary file");
 	}
-	tempfile->fd = open(tempfile->name, O_CREAT | O_EXCL | O_WRONLY, 0600);
+	tempfile->fd = open(tempfile->pathname, O_CREAT | O_EXCL | O_WRONLY, 0600);
 	if (tempfile->fd == -1)
 	{
-		execution_error(tempfile->name, strerror(errno), -1);
-		free(tempfile->name);
+		execution_error(tempfile->pathname, strerror(errno), -1);
+		free(tempfile->pathname);
 		free(tempfile);
 		return (NULL);
 	}

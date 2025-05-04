@@ -6,13 +6,12 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 21:11:50 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 08:09:04 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-#include "e_structs.h"
 # define OPERATOR "|<>&()"
 # define MULT_OP "|<>&"
 # define CONSEC_OP "|&"
@@ -76,6 +75,7 @@ t_size			is_invalid_leading_op(t_token_type type);
 t_size			is_consecutive_op(t_token_type type);
 
 //Heredoc
+void			heredoc_setup(t_vars *vars, t_token *target, char *redir_target);
 t_tempfile		*open_heredoc_dialog(t_vars *vars, char *delimiter);
 
 

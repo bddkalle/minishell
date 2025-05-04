@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_structs.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:53:26 by cdahne            #+#    #+#             */
-/*   Updated: 2025/04/30 18:03:51 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/04 07:48:12 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 typedef struct s_tempfile
 {
-	char	*name;
+	char	*pathname;
 	int		fd;
 }			t_tempfile;
 
