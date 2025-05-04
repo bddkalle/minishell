@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 02:46:23 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 09:36:38 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	heredoc_parent(int pid, t_tempfile *tempfile)
 	return (-1);
 }
 
-int	analyse_line(t_vars *vars, char *line, t_tempfile *tempfile, char *del)
+int	analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del)
 {
 	if (g_received_signal == SIGINT)
 	{
@@ -46,7 +46,7 @@ int	analyse_line(t_vars *vars, char *line, t_tempfile *tempfile, char *del)
 		g_received_signal = 0;
 		unlink(tempfile->name);
 		free_all(vars);
-		free(line);
+		free(*line);
 		free_close_tempfile(tempfile);
 		exit(SIGINT);
 	}
@@ -58,12 +58,13 @@ int	analyse_line(t_vars *vars, char *line, t_tempfile *tempfile, char *del)
 		write(STDERR_FILENO, "')\n", 3);
 		return (1);
 	}
-	if (ft_strcmp(line, del) == 0)
+	if (ft_strcmp(*line, del) == 0)
 	{
-		free(line);
+		free_null((void **)line);
 		return (1);
 	}
-	expand_variables(vars, &line, del);
+	expand_variables(vars, line, del);
+ 	//printf("line = %s\n", *line);
 	return (0);
 }
 
@@ -72,13 +73,16 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 	int		i;
 	char	*line;
 
+	line = NULL;
 	signal_heredoc_setup();
 	while (1)
 	{
 		disable_echotcl();
+		if (line)
+			free_null((void **)&line);
 		line = custom_readline("> ");
 		enable_echoctl();
-		if (analyse_line(vars, line, tempfile, delimiter) == 0)
+		if (analyse_line(vars, &line, tempfile, delimiter) == 0)
 		{
 			i = 0;
 			while (line[i])
@@ -87,7 +91,7 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 		}
 		else
 			break ;
-		free(line);
+		free_null((void **)&line);
 	}
 	free_close_tempfile(tempfile);
 	free_all(vars);
