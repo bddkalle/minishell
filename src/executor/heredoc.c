@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 11:07:19 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 13:53:13 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del)
 		free_null((void **)line);
 		return (1);
 	}
-	expand_variables(vars, line, del);
+	expand_variables(vars, line);
  	//printf("line = %s\n", *line);
 	return (0);
 }
@@ -60,13 +60,10 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 	int		i;
 	char	*line;
 
-	line = NULL;
 	signal_heredoc_setup();
 	while (1)
 	{
 		disable_echotcl();
-		if (line)
-			free_null((void **)&line);
 		line = custom_readline("> ");
 		enable_echoctl();
 		if (analyse_line(vars, &line, tempfile, delimiter) == 0)

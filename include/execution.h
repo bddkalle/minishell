@@ -56,8 +56,10 @@ void		update_oldpwd(t_vars *vars);
 void		update_pwd(t_vars *vars);
 int			within_long_long(char *str);
 int			analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del);
-void		expand_variables(t_vars *vars, char **pline, char *del);
-int			del_is_quoted(char *del);
+void		expand_variables(t_vars *vars, char **pline);
+char		*substitute_heredoc_var(char *s, char *substitute, char *parameter);
+void		fill_line(char **pline, char *ret);
+//int		del_is_quoted(char *del);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 22:33:30 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 15:36:44 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	continue_argv(t_vars *vars, int word_count, char ***argv)
 	i = 0;
 	while (vars->parser->node->u_data.s_command.argv[i])
 	{
-		*argv[i] = ft_strdup(vars->parser->node->u_data.s_command.argv[i]);
-		if (!*argv[i++])
+		(*argv)[i] = ft_strdup(vars->parser->node->u_data.s_command.argv[i]);
+		if (!(*argv)[i++])
 		{
 			free_tmp_argv(argv);
 			error_exit(vars, "strdup failed to fill nodes argv", EXIT_FAILURE);
@@ -72,4 +72,11 @@ void	fill_argv(t_vars *vars, char **argv, t_size i)
 	}
 	argv[i] = NULL;
 	vars->parser->node->u_data.s_command.argv = argv;
+}
+
+int	quote_is_closed(char *s, int i)
+{
+	if (ft_strchr(s + i + 1, s[i]))
+		return (1);
+	return (0);
 }
