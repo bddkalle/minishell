@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 14:13:13 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 22:12:22 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	expand_variables(t_vars *vars, char **pline)
 		//get_parameter(vars, parameter);
 		return ;
 	} */
+	ret = NULL;
 	i = 0;
 	while ((*pline)[i])
 	{

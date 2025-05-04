@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 21:22:40 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:46:20 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void		signal_ignore_setup(void);
 void		signal_heredoc_readline_setup(void);
 void		disable_echotcl(void);
 void		enable_echoctl(void);
+void		write_sigint(void);
 
 //Utils
 void			*_malloc(size_t size, t_vars *vars);

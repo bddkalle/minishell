@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 21:06:33 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:05:31 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int				closing_par(t_vars *vars, t_token *curr_tok);
 
 
 //Heredoc
-void			heredoc_setup(t_vars *vars, t_token *target, char *redir_target);
+int				heredoc_setup(t_vars *vars, t_token *target, char *redir_target);
 t_tempfile		*open_heredoc_dialog(t_vars *vars, char *delimiter);
 
 

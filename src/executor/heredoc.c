@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 21:02:22 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:46:28 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del)
 {
 	if (g_received_signal == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n", 1);
+		write_sigint();
 		g_received_signal = 0;
 		unlink(tempfile->pathname);
 		free_all(vars);
@@ -37,7 +37,7 @@ int	analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del)
 		free_close_tempfile(tempfile);
 		exit(128 + SIGINT);
 	}
-	if (!line)
+	if (!*line)
 	{
 		write(STDERR_FILENO, \
 			"minishell: warning: here-document delimited by end-of-file (wanted '", 68);
@@ -85,6 +85,7 @@ t_tempfile	*open_heredoc_dialog(t_vars *vars, char *delimiter)
 {
 	t_tempfile	*tempfile;
 	int			pid;
+	int			exit_code;
 
 	tempfile = create_tempfile(vars);
 	if (!tempfile)
@@ -95,13 +96,18 @@ t_tempfile	*open_heredoc_dialog(t_vars *vars, char *delimiter)
 	if (pid == 0)
 		heredoc_loop(vars, delimiter, tempfile);
 	else
-		if (heredoc_parent(pid, tempfile) == EXIT_SUCCESS)
+	{
+		exit_code = heredoc_parent(pid, tempfile);
+		if (exit_code == EXIT_SUCCESS)
 			return (tempfile);
+		else if (exit_code == 130)
+			free_null_readline(vars);
+	}
 	free_close_tempfile(tempfile);
 	return (NULL);
 }
 
-void	heredoc_setup(t_vars *vars, t_token *target, char *redir_target)
+int	heredoc_setup(t_vars *vars, t_token *target, char *redir_target)
 {
 	t_tempfile	*tempfile;
 
@@ -109,7 +115,7 @@ void	heredoc_setup(t_vars *vars, t_token *target, char *redir_target)
 	{
 		free_null_readline(vars);
 		g_received_signal = 0;
-		return ;
+		return (1);
 	}
 	signal_heredoc_setup();
 	tempfile = open_heredoc_dialog(vars, target->value);
@@ -120,7 +126,10 @@ void	heredoc_setup(t_vars *vars, t_token *target, char *redir_target)
 		free_close_tempfile(tempfile);
 		free(target->value);
 		target->value = ft_strdup(redir_target);
+		return (0);
 	}
-	else
-		free_null((void **)&target->value);
+	else if (!tempfile && !vars->parser)
+		return (1);
+	free_null((void **)&target->value);
+	return (0);
 }

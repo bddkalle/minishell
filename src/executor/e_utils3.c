@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:52:24 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 21:05:01 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 22:32:18 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*unique_filename(t_vars *vars)
 		return (NULL);
 	ret = ft_strdup(filename);
 	if (!ret)
-		fatal_error(vars, "out of memory");
+		fatal_error(vars, "malloc: Cannot allocate memory");
 	return (ret);
 }
 
@@ -53,7 +53,7 @@ t_tempfile	*create_tempfile(t_vars *vars)
 
 	tempfile = malloc(sizeof(t_tempfile));
 	if (!tempfile)
-		fatal_error(vars, "out of memory");
+		fatal_error(vars, "malloc: Cannot allocate memory");
 	tempfile->pathname = unique_filename(vars);
 	if (!tempfile->pathname)
 	{

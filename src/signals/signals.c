@@ -6,11 +6,12 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:21:47 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 21:07:39 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:45:57 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <unistd.h>
 
 void	signal_handler_global(int signum)
 {
@@ -30,4 +31,10 @@ void	signal_ignore_setup(void)
 	sa_quit.sa_flags = 0;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
+}
+
+void	write_sigint(void)
+{
+	write(STDOUT_FILENO, "^C", 2);
+	write(STDOUT_FILENO, "\n", 1);
 }
