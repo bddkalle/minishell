@@ -6,13 +6,13 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:11:33 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/03 13:17:00 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:08:50 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int		count_nodes(t_envp *envp_ll)
+int	count_nodes(t_envp *envp_ll)
 {
 	int	count;
 
@@ -46,7 +46,7 @@ void	add_or_replace_envp(t_vars *vars, t_envp *new_envp_node)
 		if (ft_strcmp(temp->var, new_envp_node->var) == 0)
 		{
 			var_exists = 1;
-			break;
+			break ;
 		}
 		last = temp;
 		temp = temp->next;

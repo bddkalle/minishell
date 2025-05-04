@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 09:57:39 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/04 12:50:15 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:33:37 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,15 @@ void	update_pwd(t_vars *vars)
 		free(temp->value);
 		temp->value = ft_strdup(pwd);
 	}
+}
+
+int	is_valid_identifier(char *identifier)
+{
+	while (*identifier)
+	{
+		if (!is_valid_name(*identifier) && !ft_isdigit(*identifier))
+			return (0);
+		identifier++;
+	}
+	return (1);
 }

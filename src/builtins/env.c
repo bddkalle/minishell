@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:19:06 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/02 19:42:29 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:47:18 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ int	env_childprocess(t_vars *vars, char **argv, int fd)
 	int					exit_code;
 
 	command = parse_env_commands(vars, argv, fd);
+	if (g_received_signal == SIGINT)
+	{
+		g_received_signal = 0;
+		free(command);
+		free_all(vars);
+		close(fd);
+		exit(128 + SIGINT);
+	}
 	if (!command)
 	{
 		write_env(fd, vars->envp_ll);
@@ -84,7 +92,7 @@ int	run_env(t_vars *vars, char **argv, int fd)
 		env_error("fork", strerror(errno));
 	if (pid == 0)
 	{
-		//signal handling?
+		signal_pipe_setup();
 		env_childprocess(vars, argv, fd);
 	}
 	else

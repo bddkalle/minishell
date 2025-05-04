@@ -6,13 +6,13 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 09:57:31 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/03 09:57:32 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:56:04 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int compare_digits(char *str, int negative)
+int	compare_digits(char *str, int negative)
 {
 	char		max[20];
 	char		min[20];

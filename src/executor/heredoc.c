@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 13:53:13 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:02:22 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del)
 		free_all(vars);
 		free(*line);
 		free_close_tempfile(tempfile);
-		exit(SIGINT);
+		exit(128 + SIGINT);
 	}
 	if (!line)
 	{
@@ -51,7 +51,6 @@ int	analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del)
 		return (1);
 	}
 	expand_variables(vars, line);
- 	//printf("line = %s\n", *line);
 	return (0);
 }
 
@@ -87,17 +86,12 @@ t_tempfile	*open_heredoc_dialog(t_vars *vars, char *delimiter)
 	t_tempfile	*tempfile;
 	int			pid;
 
-	//create tempfile: beware memory leaks get cleaned by fatal_error which calls free_all().
-	//shouldnt it use a different error function by felix?
 	tempfile = create_tempfile(vars);
 	if (!tempfile)
 		return (NULL);
-	// if (old_in_fd != STDIN_FILENO)
-	// 	close(old_in_fd);
 	pid = fork();
 	if (pid == -1)
 		return (NULL);
-	//	return (execution_error("fork", strerror(errno), -1));
 	if (pid == 0)
 		heredoc_loop(vars, delimiter, tempfile);
 	else
@@ -121,7 +115,8 @@ void	heredoc_setup(t_vars *vars, t_token *target, char *redir_target)
 	tempfile = open_heredoc_dialog(vars, target->value);
 	if (tempfile)
 	{
-		ft_strlcpy(redir_target, tempfile->pathname, ft_strlen(tempfile->pathname) + 1);
+		ft_strlcpy(redir_target, tempfile->pathname, \
+			ft_strlen(tempfile->pathname) + 1);
 		free_close_tempfile(tempfile);
 		free(target->value);
 		target->value = ft_strdup(redir_target);
