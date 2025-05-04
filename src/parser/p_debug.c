@@ -6,26 +6,19 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 11:12:06 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:18:59 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	debug_lexer(t_vars *vars)
+/* void	debug_lexer(t_vars *vars)
 {
 	t_token	*tmp;
-//	t_envp	*tmpenv;
 	int		i;
 
 	printf("\n###################### DEBUG LEXER ######################\n");
-	/* tmpenv = vars->envp_ll; 
-	while (tmpenv)
-	{
-		printf("%s=%s %d\n", tmpenv->var, tmpenv->value, tmpenv->exported);
-		tmpenv = tmpenv->next;
-	} */
-		i = 0;
+	i = 0;
 	tmp = vars->token;
 	if (!tmp)
 		printf("\nvars->token = %p\n", vars->token);
@@ -111,7 +104,8 @@ int	print_cmd_node(t_ast_node *curr_node, int nodenum)
 	if (curr_node->u_data.s_command.redirs)
 		{
 			int j = 0;
-			for (t_redir *tmp = curr_node->u_data.s_command.redirs; tmp; tmp = tmp->next)
+			for (t_redir *tmp = curr_node->u_data.s_command.redirs; \
+			tmp; tmp = tmp->next)
 			{
 				if (tmp->type == REDIR_INPUT)
 					printf("\n\tredir_node%d.type =\tREDIR_INPUT\n", j);
@@ -124,8 +118,6 @@ int	print_cmd_node(t_ast_node *curr_node, int nodenum)
 				if (tmp->fd != -1)
 					printf("\tredir_node%d.fd =\t%d\n", j, tmp->fd);
 				printf("\tredir_node%d.target =\t%s\n", j++, tmp->target);
-				/* if (tmp->next)
-					printf("\n"); */
 			}
 		}
 	return (nodenum);
@@ -165,3 +157,4 @@ void	debug_parser(t_vars *vars)
 		printf("\nvars->ast = %p\n", vars->ast);
 	print_ast_node(tmp_ast, nodenum);
 }
+ */

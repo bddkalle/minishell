@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 22:57:02 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:41:08 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_ast_node	*parse_expression(t_vars *vars)
 		return (NULL);
 	}
 	return (parse_or_and(vars));
-
 }
 
 t_size	is_operator(t_token_type type)
@@ -58,6 +57,15 @@ t_size	is_redir_op(t_token_type type)
 		type == TOKEN_REDIRECT_OUT || \
 		type == TOKEN_REDIRECT_APPEND || \
 		type == TOKEN_HEREDOC))
+		return (1);
+	return (0);
+}
+
+t_size	is_redirexh_op(t_token_type type)
+{
+	if ((type == TOKEN_REDIRECT_IN || \
+		type == TOKEN_REDIRECT_OUT || \
+		type == TOKEN_REDIRECT_APPEND))
 		return (1);
 	return (0);
 }
