@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 11:04:25 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 12:34:33 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@
 # include <sys/stat.h>
 # include <linux/limits.h>
 # include <limits.h>
-#include <bits/posix2_lim.h>
-#include <unistd.h>
+# include <bits/posix2_lim.h>
+# include <unistd.h>
+# include <termios.h>
 
 //global variable
 extern volatile sig_atomic_t	g_received_signal;

@@ -1,6 +1,4 @@
 #include "../../include/minishell.h"
-#include <termios.h>
-#include <unistd.h>
 
 void	signal_executable_setup(void)
 {

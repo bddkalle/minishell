@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 09:57:39 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/03 09:57:39 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 12:50:15 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	update_oldpwd(t_vars *vars)
 	t_envp	*temp;
 	char	*old_pwd;
 
+	ft_bzero(vars->oldpwd, PATH_MAX);
+	ft_strlcpy(vars->oldpwd, vars->pwd, ft_strlen(vars->pwd) + 1);
 	temp = vars->envp_ll;
 	while (temp)
 	{
@@ -38,12 +40,10 @@ void	update_oldpwd(t_vars *vars)
 	{
 		old_pwd = ft_strdup(vars->pwd);
 		if (!old_pwd)
-			return ;
-		//that enougherror protection?
+			fatal_error(vars, "malloc: Cannot allocate memory");
 		free(temp->value);
 		temp->value = old_pwd;
 	}
-	return ;
 }
 
 void	update_pwd(t_vars *vars)
@@ -51,6 +51,9 @@ void	update_pwd(t_vars *vars)
 	t_envp	*temp;
 	char	pwd[PATH_MAX];
 
+	getcwd(pwd, (size_t)PATH_MAX);
+	ft_bzero(vars->pwd, PATH_MAX);
+	ft_strlcpy(vars->pwd, pwd, ft_strlen(pwd) + 1);
 	temp = vars->envp_ll;
 	while (temp)
 	{
@@ -60,9 +63,7 @@ void	update_pwd(t_vars *vars)
 	}
 	if (temp)
 	{
-		getcwd(pwd, (size_t)PATH_MAX);
 		free(temp->value);
 		temp->value = ft_strdup(pwd);
-		ft_strlcpy(vars->pwd, pwd, PATH_MAX);
 	}
 }
