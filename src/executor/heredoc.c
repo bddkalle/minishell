@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 00:13:57 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 02:46:23 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	analyse_line(t_vars *vars, char *line, t_tempfile *tempfile, char *del)
 		free(line);
 		return (1);
 	}
-	//variablenexpansion aber if not del
+	expand_variables(vars, &line, del);
 	return (0);
 }
 

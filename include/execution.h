@@ -54,5 +54,8 @@ char		*get_home(t_vars *vars);
 void		update_oldpwd(t_vars *vars);
 void		update_pwd(t_vars *vars);
 int			within_long_long(char *str);
+void		expand_variables(t_vars *vars, char **pline, char *del);
+int			del_is_quoted(char *del);
+
 
 #endif

@@ -6,7 +6,7 @@
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/05/04 00:35:53 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/05/04 01:34:24 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC =	$(addsuffix .c,							\
 								operators2		\
 								redirections	\
 								heredoc			\
+								heredoc2		\
 								e_utils			\
 								e_utils2		\
 								e_utils3		\

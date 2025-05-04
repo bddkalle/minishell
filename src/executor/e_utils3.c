@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_utils3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:52:24 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/03 23:21:32 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 01:08:09 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char	*unique_filename(t_vars *vars)
 	while (i < 100)
 	{
 		ft_strlcpy(filename, "/tmp/heredoc_temp_", 19);
-		suffix = ft_itoa(i);
-		ft_strlcat(filename, suffix, 47 + ft_strlen(suffix) + 1);
+		suffix = ft_itoa(i);	//error handling
+		ft_strlcat(filename, suffix, 47 + ft_strlen(suffix) + 1); //@Christian: woher kommen die 47?
 		free(suffix);
 		if (access(filename, F_OK) == -1)
 			break;
