@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 09:36:38 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 11:07:19 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,13 @@
 int	heredoc_parent(int pid, t_tempfile *tempfile)
 {
 	int	status;
-	//int	temp_fd;
 
 	(void)tempfile;
 	signal_ignore_setup();
 	waitpid(pid, &status, 0);
 	signal_shell_setup();
-	//close(tempfile->fd);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	// if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
-	// {
-	// 	temp_fd = open(tempfile->name, O_RDONLY);
-	// 	unlink(tempfile->name);
-	// 	free(tempfile->name);
-	// 	free(tempfile);
-	// 	return (temp_fd);
-	// }
-	// unlink(tempfile->name);
-	// free(tempfile->name);
-	// free(tempfile);
 	return (-1);
 }
 
@@ -44,7 +31,7 @@ int	analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		g_received_signal = 0;
-		unlink(tempfile->name);
+		unlink(tempfile->pathname);
 		free_all(vars);
 		free(*line);
 		free_close_tempfile(tempfile);
@@ -98,33 +85,6 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 	exit (EXIT_SUCCESS);
 }
 
-// void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
-// {
-// 	int		i;
-// 	char	*line;
-
-// 	signal_heredoc_setup();
-// 	while (1)
-// 	{
-// 		//signal_heredoc_readline_setup();
-// 		line = readline("> ");
-// 		//signal_heredoc_setup();
-// 		if (analyse_line(vars, line, tempfile, delimiter) == 0)
-// 		{
-// 			i = 0;
-// 			while (line[i])
-// 				write(tempfile->fd, &line[i++], 1);
-// 			write(tempfile->fd, "\n", 1);
-// 		}
-// 		else
-// 			break ;
-// 		free(line);
-// 	}
-// 	free_close_tempfile(tempfile);
-// 	free_all(vars);
-// 	exit (EXIT_SUCCESS);
-// }
-
 t_tempfile	*open_heredoc_dialog(t_vars *vars, char *delimiter)
 {
 	t_tempfile	*tempfile;
@@ -150,20 +110,25 @@ t_tempfile	*open_heredoc_dialog(t_vars *vars, char *delimiter)
 	return (NULL);
 }
 
-// int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd)
-// {
-// 	t_tempfile	*tempfile;
-// 	int			pid;
+void	heredoc_setup(t_vars *vars, t_token *target, char *redir_target)
+{
+	t_tempfile	*tempfile;
 
-// 	tempfile = create_tempfile(vars);
-// 	if (old_in_fd != STDIN_FILENO)
-// 		close(old_in_fd);
-// 	pid = fork();
-// 	if (pid == -1)
-// 		return (execution_error("fork", strerror(errno), -1));
-// 	if (pid == 0)
-// 		heredoc_loop(vars, delimiter, tempfile);
-// 	else
-// 		return (heredoc_parent(pid, tempfile));
-// 	return (-1);
-// }
+	if (g_received_signal == SIGINT)
+	{
+		free_null_readline(vars);
+		g_received_signal = 0;
+		return ;
+	}
+	signal_heredoc_setup();
+	tempfile = open_heredoc_dialog(vars, target->value);
+	if (tempfile)
+	{
+		ft_strlcpy(redir_target, tempfile->pathname, ft_strlen(tempfile->pathname) + 1);
+		free_close_tempfile(tempfile);
+		free(target->value);
+		target->value = ft_strdup(redir_target);
+	}
+	else
+		free_null((void **)&target->value);
+}

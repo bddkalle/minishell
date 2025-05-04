@@ -1,3 +1,4 @@
+#include "p_structs.h"
 #ifndef T_VARS_FWD_H
 
 typedef struct s_vars	t_vars;
@@ -27,7 +28,7 @@ int		search_env_path(t_vars *vars, char *command);
 
 //redirections
 int		parse_redirections(t_vars *vars, struct s_command *current_command_node, int *in_fd, int *out_fd);
-//int		heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd);
+//int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd);
 int		heredoc_redirection(char *target, int old_in_fd);
 
 //builtins

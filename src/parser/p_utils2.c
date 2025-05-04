@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 01:40:28 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 11:11:52 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,35 +64,20 @@ void	reclassification(t_vars *vars)
 		}
 		// #3 redirection from here-document
 
-		// check for heredoc and see if next node (should be delimiter) exists:
 		if (tmp->type == TOKEN_HEREDOC && tmp->next && tmp->next->type == TOKEN)
-		{
-			t_tempfile	*tempfile;
+			heredoc_setup(vars, tmp->next, redir_target);
+		// #4 case statement termination [OUT OF SCOPE]
 
-			//only open heredoc if no SIGINT was received before
-			if (g_received_signal == SIGINT)
-			{
-				free_null_readline(vars);
-				g_received_signal = 0;
-			}
-			else
-			{
-				signal_heredoc_setup();
-				//write into tempfile
-				tempfile = open_heredoc_dialog(vars, tmp->next->value);
-				if (tempfile)
-				{
-					ft_strlcpy(redir_target, tempfile->name, ft_strlen(tempfile->name) + 1);
-					free_close_tempfile(tempfile);
-					free(tmp->next->value);
-					tmp->next->value = ft_strdup(redir_target);
-				}
-				else
-					free_null((void **)&tmp->next->value);
-			}
-		}
+		// #5 NAME in FOR [OUT OF SCOPE]
 
-	
+		// #6 Third word of FOR and CASE [OUT OF SCOPE]
+
+		// #7 Assignment preceding command name [OUT OF SCOPE]
+
+		// #8 NAME in function [OUT OF SCOPE]
+
+		// #9 Body of function [OUT OF SCOPE]
+
 		tmp = tmp->next;
 	}
 }
