@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 23:14:25 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 15:22:22 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,14 @@ void	handle_single_qt(t_vars *vars)
 	while (1)
 	{
 		if (vars->lexer->c && char_is("'", vars->lexer->c))
-			break ;
-		if (!vars->lexer->c)
 		{
+			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
+			vars->lexer->line_pos++;
+			break ;
+		}
+		if (!vars->lexer->c)
+			break ;
+		/* {
 			vars->lexer->curr_token[vars->lexer->token_pos++] = '\n';
 			free_null((void **)&vars->line);
 			vars->lexer->line_pos = 0;
@@ -59,7 +64,7 @@ void	handle_single_qt(t_vars *vars)
 			add_history(vars->line);
 			vars->lexer->c = vars->line[vars->lexer->line_pos];
 			continue ;
-		}
+		} */
 		vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 		vars->lexer->c = vars->line[++vars->lexer->line_pos];
 	}

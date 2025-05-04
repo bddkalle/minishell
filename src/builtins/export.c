@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:40:19 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 09:54:58 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:13:05 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	parse_export_command(t_vars *vars, char **argv)
 			free(new_envp_node->var);
 			free(new_envp_node->value);
 			free(new_envp_node);
-			exit_code = execution_error(argv[i], "not a valid identifier", 1);
+			exit_code = export_error(argv[i], "not a valid identifier", 1);
 			i++;
 			continue;
 		}

@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 11:05:29 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:47:49 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void			fill_argv(t_vars *vars, char **argv, t_size i);
 int				continue_argv(t_vars *vars, int word_count, char ***argv);
 void			reclassification(t_vars *vars);
 void			remove_quotes(t_vars *vars);
-char			*remove_quotes_from_string(t_vars *vars, const char *s, char c);
+t_size			remove_quotes_from_string(t_vars *vars, char **s, char c);
+int				quote_is_closed(char *s, int i);
 void			check_syntax(t_vars *vars);
 void			check_redir_syntax(t_vars *vars);
 void			handle_consecutive_op(t_vars *vars, t_token *curr_tok);

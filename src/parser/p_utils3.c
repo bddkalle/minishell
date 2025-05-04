@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/02 22:54:07 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:04:08 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,33 @@ t_size	is_valid_name(char c)
 	return (1);
 }
 
-char	*remove_quotes_from_string(t_vars *vars, const char *s, char c)
+t_size	remove_quotes_from_string(t_vars *vars, char **s, char c)
 {
-	size_t	len;
-	char	*result;
-	size_t	i;
-	size_t	j;
+	char	result[LINE_MAX];
+	t_size	i;
+	t_size	j;
+	t_size	count;
 
-	len = ft_strlen(s);
-	result = _malloc(len + 1, vars);
 	i = 0;
 	j = 0;
-	while (s[i])
+	count = 0;
+	while ((*s)[i] && count < 2)
 	{
-		if (s[i] != c)
-			result[j++] = s[i];
+		if ((*s)[i] != c)
+			result[j++] = (*s)[i];
+		else if ((*s)[i] == c)
+			count++;
 		i++;
 	}
+	count = i;
+	while ((*s)[count])
+		result[j++] = (*s)[count++];
 	result[j] = '\0';
-	free_null((void **)&s);
-	return (result);
+	free_null((void **)s);
+	*s = ft_strdup(result);
+	if (!*s)
+		error_exit(vars, "strdup failed to recreate token", EXIT_FAILURE);
+	return (i - 2);
 }
 
 void	remove_quotes(t_vars *vars)
@@ -54,15 +61,15 @@ void	remove_quotes(t_vars *vars)
 		i = 0;
 		while (tmp->value[i])
 		{
-			if (tmp->value[i] == '\'')
+			if (tmp->value[i] == '\'' && quote_is_closed(tmp->value, i))
 			{
-				tmp->value = remove_quotes_from_string(vars, tmp->value, '\'');
-				break ;
+				i = remove_quotes_from_string(vars, &tmp->value, '\'');
+				continue ;
 			}
-			if (tmp->value[i] == '"')
+			if (tmp->value[i] == '"' && quote_is_closed(tmp->value, i))
 			{
-				tmp->value = remove_quotes_from_string(vars, tmp->value, '"');
-				break ;
+				i = remove_quotes_from_string(vars, &tmp->value, '"');
+				continue ;
 			}
 			i++;
 		}

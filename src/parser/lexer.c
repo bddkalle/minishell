@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 12:22:51 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:11:34 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	handle_quoted_input(t_vars *vars)
 		handle_single_qt(vars);
 	else if (vars->lexer->state == IN_DOUBLE_QUOTE)
 		handle_double_qt(vars);
-	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
+/* 	vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
 	vars->lexer->line_pos++;
-	vars->lexer->state = NORMAL;
+ */	vars->lexer->state = NORMAL;
 }
 
 /* void	lexer(t_vars *vars)

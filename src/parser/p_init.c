@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:40:39 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 23:05:51 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 12:43:46 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	init_lexer(t_vars *vars)
 	vars->lexer->line_pos = 0;
 	vars->lexer->token_pos = 0;
 	vars->lexer->next_node = &vars->token;
-	vars->lexer->curr_token = _malloc((ft_strlen(vars->line) + 1) * \
-	sizeof(vars->lexer->curr_token), vars);
+	vars->lexer->curr_token = _malloc(LINE_MAX, vars);
 }
 
 void	init_parser(t_vars *vars)
