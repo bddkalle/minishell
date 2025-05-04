@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/29 23:54:52 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/03 22:52:11 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,22 @@ void	update_prompt(t_vars *vars)
 	if (!vars->prompt->pwd)
 		error_exit(vars, "Could not get $PWD", EXIT_FAILURE);
 	vars->prompt->home = _getenv(vars, "HOME");
-/* 	if (!vars->prompt->home)
-		error_exit(vars, "Could not get $HOME in update_prompt", EXIT_FAILURE);
- */	build_prompt(vars, vars->prompt->user);
+	build_prompt(vars, vars->prompt->user);
 	build_prompt(vars, "@");
 	build_prompt(vars, vars->prompt->hostname);
-	if (vars->prompt->home && ft_strnstr(vars->prompt->pwd, vars->prompt->home, ft_strlen(vars->prompt->home)))
-	{
-		vars->prompt->cwd = vars->prompt->pwd + (ft_strlen(vars->prompt->home));
-		build_prompt(vars, ":~");
-	}
+	if (vars->prompt->home && ft_strnstr(vars->prompt->pwd, vars->prompt->home,\
+	ft_strlen(vars->prompt->home)))
+		create_cwd(vars);
 	else
 	{
-		/* if (*vars->prompt->pwd == '/' && vars->prompt->pwd[1])
-			vars->prompt->pwd++;
-		else */
 		vars->prompt->cwd = vars->prompt->pwd;
 		build_prompt(vars, ":");
 	}
-	//printf("vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] = %c\n", vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1]);
-	if (vars->prompt->pwd[1] && vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] == '/')
+	if (vars->prompt->pwd[1] && \
+	vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] == '/')
 		vars->prompt->pwd[ft_strlen(vars->prompt->pwd) - 1] = '\0';
 	build_prompt(vars, vars->prompt->cwd);
 	build_prompt(vars, "$ ");
-
-	// if no PWD (in linked list) then getenv(PWD);
-	// prompt->pwd, getenv(PWD);
-
-	//if no HOME (in linked list) then "Tilde nicht auflösen"
 }
 
 void	build_prompt(t_vars *vars, char *s)

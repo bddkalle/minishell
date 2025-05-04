@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 09:31:32 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 11:04:25 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void			swap_envp(char **s1, char **s2);
 void			sort_envp(char **envp);
 char			*_getenv(t_vars *vars, char *var);
 char			*custom_readline(const char *prompt);
+void			create_cwd(t_vars *vars);
+
 
 
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+         #
+#    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/05/03 21:30:35 by vboxuser         ###   ########.fr        #
+#    Updated: 2025/05/04 01:34:24 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC =	$(addsuffix .c,							\
 								operators2		\
 								redirections	\
 								heredoc			\
+								heredoc2		\
 								e_utils			\
 								e_utils2		\
 								e_utils3		\
@@ -50,6 +51,7 @@ SRC =	$(addsuffix .c,							\
 								p_debug			\
 								lexer			\
 								p_free			\
+								p_free2			\
 								p_init			\
 								p_utils			\
 								p_utils2		\
@@ -57,6 +59,7 @@ SRC =	$(addsuffix .c,							\
 								p_utils4		\
 								p_utils5		\
 								p_utils6		\
+								p_utils7		\
 								parser			\
 		))										\
 		$(addsuffix .c,							\
