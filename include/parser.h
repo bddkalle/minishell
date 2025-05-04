@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 18:47:49 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:06:33 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void			check_redir_syntax(t_vars *vars);
 void			handle_consecutive_op(t_vars *vars, t_token *curr_tok);
 t_size			is_invalid_leading_op(t_token_type type);
 t_size			is_consecutive_op(t_token_type type);
+int				closing_par(t_vars *vars, t_token *curr_tok);
+
 
 //Heredoc
 void			heredoc_setup(t_vars *vars, t_token *target, char *redir_target);

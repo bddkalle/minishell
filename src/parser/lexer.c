@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 10:47:17 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 20:58:32 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:31:00 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,101 +70,6 @@ void	handle_quoted_input(t_vars *vars)
  */	vars->lexer->state = NORMAL;
 }
 
-/* void	lexer(t_vars *vars)
-{
-	init_lexer(vars);
-	while (1)
-	{
-		vars->lexer->c = vars->line[vars->lexer->line_pos];
-		// #1 (End of input condition)
-		if (vars->lexer->c == '\0')
-		{
-			if (vars->lexer->token_pos > 0)
-				create_token(vars);
-			break;
-		}
-		// #2 (&& and || operator)
-		else if (vars->lexer->token_pos == 1 && char_is(MULT_OP, vars->lexer->curr_token[vars->lexer->token_pos - 1])\
-		&& vars->lexer->state != IN_SINGLE_QUOTE && vars->lexer->state != IN_DOUBLE_QUOTE \
-		&& is_valid_mult_op(vars->lexer->c, vars))
-		{
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
-		}
-		// #3 (delimit after operator)
-		else if (vars->lexer->token_pos && char_is(OPERATOR, vars->lexer->curr_token[vars->lexer->token_pos - 1])\
-		&& !is_valid_mult_op(vars->lexer->c, vars))
-		{
-			create_token(vars);
-			vars->lexer->next_node = &(*vars->lexer->next_node)->next;
-			vars->lexer->token_pos = 0;
-			vars->lexer->curr_token[0] = '\0';
-		}
-		// #4 (quotes)
-		else if (char_is(QUOTES, vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
-		&& vars->lexer->state != IN_DOUBLE_QUOTE)
-		{
-			if (char_is("'", vars->lexer->c))
-				vars->lexer->state = IN_SINGLE_QUOTE;
-			if (char_is("\"", vars->lexer->c))
-				vars->lexer->state = IN_DOUBLE_QUOTE;
-			handle_quoted_input(vars);
-		}
-		// #5 (parameter expansion)
-		else if (char_is("$", vars->lexer->c) && vars->line[vars->lexer->line_pos + 1])
-		{
-			expand_parameter(vars);
-		}
-
-		// #6 (delimit before operator & set operator token)
-		else if (char_is(OPERATOR, vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
-		&& vars->lexer->state != IN_DOUBLE_QUOTE)
-		{
-			if (vars->lexer->token_pos > 0)
-			{
-				create_token(vars);
-				vars->lexer->next_node = &(*vars->lexer->next_node)->next;
-				vars->lexer->token_pos = 0;
-				vars->lexer->curr_token[0] = '\0';
-			}
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
-		}
-
-		// #7 AFAIK: CAN BE SKIPPED FOR INTERACTIVE MODE ONLY (delimit if <newline> - readline removes final newline, so unclear when/if lexer will ever get <newline>)
-
-		// #8 (delimit if <blank>)
-		else if (is_whitespace(vars->lexer->c) && vars->lexer->state != IN_SINGLE_QUOTE \
-		&& vars->lexer->state != IN_DOUBLE_QUOTE)
-		{
-			if (vars->lexer->token_pos > 0)
-			{
-				create_token(vars);
-				vars->lexer->next_node = &(*vars->lexer->next_node)->next;
-				vars->lexer->token_pos = 0;
-				vars->lexer->curr_token[0] = '\0';
-			}
-			vars->lexer->line_pos++;
-		}
-		// #9 (if previous char = part of word > append char)
-		else if (vars->lexer->token_pos && !char_is(OPERATOR, vars->lexer->curr_token[vars->lexer->token_pos - 1]))
-		{
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
-		}
-		// #10 comments not needed
-
-		// #11 (curr_char = start of new word)
-		else
-		{
-			vars->lexer->curr_token[vars->lexer->token_pos++] = vars->lexer->c;
-			vars->lexer->line_pos++;
-		}
-	}
-	debug_lexer(vars);
-}
- */
-
 void	lexer(t_vars *vars)
 {
 	init_lexer(vars);
@@ -191,5 +96,5 @@ void	lexer(t_vars *vars)
 		else
 			fill_token(vars);
 	}
-	//debug_lexer(vars);
+	debug_lexer(vars);
 }

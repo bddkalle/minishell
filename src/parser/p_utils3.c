@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 20:04:08 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:22:50 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ t_size	is_invalid_leading_op(t_token_type type)
 	if (type == TOKEN_AND)
 		return (1);
 	if (type == TOKEN_OR)
+		return (1);
+	if (type == TOKEN_PARENT_RIGHT)
 		return (1);
 	return (0);
 }
