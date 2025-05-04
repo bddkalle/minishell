@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 15:54:08 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:07:57 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,22 @@ void	check_redir_syntax(t_vars *vars)
 				handle_consecutive_op(vars, curr_tok);
 				return ;
 			}
+		}
+		if (curr_tok->type == TOKEN_PIPE ||
+			curr_tok->type == TOKEN_AND ||
+			curr_tok->type == TOKEN_OR)
+						if (!curr_tok->next)
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token \
+			»newline«\n", 2);
+			vars->exit_status = 2;
+			free_null_token(vars);
+			return ;
+		}
+		if (curr_tok->type == TOKEN_PARENT_LEFT)
+		{
+			if (!closing_par(vars, curr_tok))
+				return ;
 		}
 		curr_tok = curr_tok->next;
 	}
