@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:52:24 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 22:32:18 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:28:08 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*unique_filename(t_vars *vars)
 		ft_strlcat(filename, suffix, 19 + ft_strlen(suffix) + 1);
 		free(suffix);
 		if (access(filename, F_OK) == -1)
-			break;
+			break ;
 		i++;
 	}
 	if (i == 100)
@@ -69,4 +69,12 @@ t_tempfile	*create_tempfile(t_vars *vars)
 		return (NULL);
 	}
 	return (tempfile);
+}
+
+void	write_eof_heredoc(char *del)
+{
+	write(STDERR_FILENO, "minishell: warning: here-document ", 34);
+	write(STDERR_FILENO, "delimited by end-of-file (wanted '", 34);
+	write(STDERR_FILENO, del, ft_strlen(del));
+	write(STDERR_FILENO, "')\n", 3);
 }

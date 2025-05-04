@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:16:55 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/04 21:21:19 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:27:31 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ char		*substitute_heredoc_var(char *s, char *substitute, char *parameter);
 void		fill_line(char **pline, char *ret);
 int			is_valid_identifier(char *identifier);
 //int		del_is_quoted(char *del);
+void		write_eof_heredoc(char *del);
 
 #endif
