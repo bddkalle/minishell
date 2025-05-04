@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 09:37:18 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 11:01:22 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,49 +99,3 @@ int	del_is_quoted(char *del)
 		}
 	return (0);
 }
-
-/* void expand_variables(char **pline, t_vars *vars)
-{
-    size_t alloc = strlen(*pline) + 1;
-    char *src  = *pline;
-    char *dst  = malloc(alloc), *d = dst;
-    char *s    = src;
-
-    while (*s)
-    {
-        if (*s == '$' && is_valid_name(s[1]))  // simple $VAR
-        {
-            char name[64];
-            size_t ni = 0, skip = 1;
-            while (is_valid_name(s[skip]))
-                name[ni++] = s[skip++];
-            name[ni] = '\0';
-
-            char *val = (!strcmp(name, "?"))
-                         ? ft_itoa(vars->exit_status)
-                         : _getenv(vars, name);
-            size_t vlen = val ? strlen(val) : 0;
-            size_t needed = (d - dst) + vlen + strlen(s + skip) + 1;
-            if (needed > alloc)
-            {
-                alloc = needed * 2;
-                dst   = realloc(dst, alloc);
-                d     = dst + (d - dst);
-            }
-            if (val)
-            {
-                memcpy(d, val, vlen);
-                d += vlen;
-            }
-            s += skip;
-        }
-        else
-        {
-            *d++ = *s++;
-        }
-    }
-    *d = '\0';
-    free(src);
-    *pline = dst;
-}
- */
