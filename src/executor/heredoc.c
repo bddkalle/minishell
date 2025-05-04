@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 23:46:28 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:27:45 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ int	analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del)
 	}
 	if (!*line)
 	{
-		write(STDERR_FILENO, \
-			"minishell: warning: here-document delimited by end-of-file (wanted '", 68);
-		write(STDERR_FILENO, del, ft_strlen(del));
-		write(STDERR_FILENO, "')\n", 3);
+		write_eof_heredoc(del);
 		return (1);
 	}
 	if (ft_strcmp(*line, del) == 0)

@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:40:19 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 20:32:50 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:25:47 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,27 @@ void	export_append(t_vars *vars, t_envp *envp_node, char *varvalue)
 int	parse_export_command(t_vars *vars, char **argv)
 {
 	int		i;
-	t_envp	*new_envp_node;
+	t_envp	*new_node;
 	int		exit_code;
 
 	exit_code = 0;
 	i = 1;
 	while (argv[i])
 	{
-		new_envp_node = create_envp_node(argv[i]);
-		if (!new_envp_node)
+		new_node = create_envp_node(argv[i]);
+		if (!new_node)
 			fatal_error(vars, "malloc: Cannot allocate memory");
-		export_append(vars, new_envp_node, argv[i]);
-		if (!is_valid_name(argv[i][0]) || !is_valid_identifier(new_envp_node->var))
+		export_append(vars, new_node, argv[i]);
+		if (!is_valid_name(argv[i][0]) || !is_valid_identifier(new_node->var))
 		{
-			free(new_envp_node->var);
-			free(new_envp_node->value);
-			free(new_envp_node);
+			free(new_node->var);
+			free(new_node->value);
+			free(new_node);
 			exit_code = export_error(argv[i], "not a valid identifier", 1);
 			i++;
 			continue ;
 		}
-		add_or_replace_envp(vars, new_envp_node);
+		add_or_replace_envp(vars, new_node);
 		i++;
 	}
 	return (exit_code);
