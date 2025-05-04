@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:19:41 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/03 14:03:53 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 10:45:32 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ int	search_executable(t_vars *vars, char *command)
 	struct stat	sb;
 
 	found = 0;
+	if (!*command)
+		return (execution_error(command, "command not found", 127));
 	if (ft_strchr(command, '/') != NULL)
 		ft_strlcpy(vars->pathname, command, ft_strlen(command) + 1);
 	else
 		found = search_env_path(vars, command);
 	if (found == -1)
-		execution_error(command, "command not found", 127);
+		found = execution_error(command, "command not found", 127);
 	else if (stat(vars->pathname, &sb) == 0 && S_ISDIR(sb.st_mode))
 		found = execution_error(command, "Is a directory", 126);
 	else if (access(vars->pathname, F_OK) != 0 && \

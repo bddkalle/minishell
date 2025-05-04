@@ -6,12 +6,11 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:16:04 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 00:00:33 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 10:36:29 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <unistd.h>
 
 int	append_redirection(char *target, int old_out_fd)
 {

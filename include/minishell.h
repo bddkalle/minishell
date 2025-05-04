@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 14:51:19 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 09:31:32 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void			split_envp(t_envp *envp, char *param); //delete one of these
 void			add_envp(t_envp *envp, char *varvalue);
 void			add_or_replace_envp(t_vars *vars, t_envp *envp_node);
 void			replace_value(t_envp *old, t_envp *new);
+t_envp			*find_node(t_vars *vars, char *var);
 char			**envp_to_array(t_vars *vars, int vals_quoted);
 void			free_envp_array(char **envp);
 int				count_nodes(t_envp *envp_ll);
