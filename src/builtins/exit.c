@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:43:31 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 10:59:55 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 11:11:22 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exit_error(char *arg, char *errmsg)
 
 int	string_is_numeric(char *s)
 {
-	while (*s && (*s == '+' || *s == '-'))
+	while (*s && ((*s == '+' && (*(s + 1) && *(s + 1) != '-')) || *s == '-'))
 		s++;
 	while (*s)
 	{

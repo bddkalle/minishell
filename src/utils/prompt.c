@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:44:49 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 22:52:11 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:12:29 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	update_prompt(t_vars *vars)
 	build_prompt(vars, vars->prompt->user);
 	build_prompt(vars, "@");
 	build_prompt(vars, vars->prompt->hostname);
-	if (vars->prompt->home && ft_strnstr(vars->prompt->pwd, vars->prompt->home,\
+	if (vars->prompt->home && ft_strnstr(vars->prompt->pwd, vars->prompt->home, \
 	ft_strlen(vars->prompt->home)))
 		create_cwd(vars);
 	else

@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:54:32 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/04 09:51:09 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:12:05 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_envp	*find_node(t_vars *vars, char *var)
 	while (temp)
 	{
 		if (ft_strcmp(temp->var, var) == 0)
-			break;
+			break ;
 		temp = temp->next;
 	}
 	return (temp);
@@ -52,7 +52,7 @@ void	free_envp_array(char **envp)
 
 void	swap_envp(char **s1, char **s2)
 {
-	char *temp;
+	char	*temp;
 
 	temp = *s1;
 	*s1 = *s2;
@@ -62,11 +62,11 @@ void	swap_envp(char **s1, char **s2)
 void	sort_envp(char **envp)
 {
 	int	sorted;
-	int i;
+	int	i;
 
 	i = 0;
 	sorted = 0;
-	while(!sorted)
+	while (!sorted)
 	{
 		sorted = 1;
 		i = 0;

@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals_child.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/04 21:06:39 by vboxuser          #+#    #+#             */
+/*   Updated: 2025/05/04 21:07:21 by vboxuser         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
-#include <termios.h>
-#include <unistd.h>
 
 void	signal_executable_setup(void)
 {
@@ -11,7 +21,6 @@ void	signal_executable_setup(void)
 	sa_int.sa_flags = 0;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
-
 	sa_quit.sa_handler = SIG_DFL;
 	sa_quit.sa_flags = 0;
 	sigemptyset(&sa_quit.sa_mask);
@@ -27,7 +36,6 @@ void	signal_pipe_setup(void)
 	sa_int.sa_flags = 0;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
-
 	sa_quit.sa_handler = SIG_IGN;
 	sa_quit.sa_flags = 0;
 	sigemptyset(&sa_quit.sa_mask);
@@ -49,7 +57,7 @@ void	enable_echoctl(void)
 	struct termios	term;
 
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
-		return;
+		return ;
 	term.c_lflag |= ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
@@ -63,28 +71,8 @@ void	signal_heredoc_setup(void)
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_flags = 0;
 	sigaction(SIGINT, &sa_int, NULL);
-
 	sa_quit.sa_handler = SIG_IGN;
 	sa_quit.sa_flags = 0;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
-
-// void	signal_heredoc_readline_setup(void)
-// {
-// 	struct sigaction	sa_int;
-// 	struct sigaction	sa_quit;
-
-// 	rl_catch_signals = 1;
-// 	rl_free_line_state();
-// 	rl_cleanup_after_signal();
-// 	sa_int.sa_handler = SIG_DFL;
-// 	sigemptyset(&sa_int.sa_mask);
-// 	sa_int.sa_flags = 0;
-// 	sigaction(SIGINT, &sa_int, NULL);
-
-// 	sa_quit.sa_handler = SIG_IGN;
-// 	sa_quit.sa_flags = 0;
-// 	sigemptyset(&sa_quit.sa_mask);
-// 	sigaction(SIGQUIT, &sa_quit, NULL);
-// }

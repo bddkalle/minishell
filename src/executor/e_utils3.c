@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   e_utils3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:52:24 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 11:06:41 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 22:32:18 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <linux/limits.h>
-#include <string.h>
-#include <unistd.h>
 
 void	free_close_tempfile(t_tempfile *tempfile)
 {
@@ -33,8 +30,10 @@ char	*unique_filename(t_vars *vars)
 	while (i < 100)
 	{
 		ft_strlcpy(filename, "/tmp/heredoc_temp_", 19);
-		suffix = ft_itoa(i);	//error handling
-		ft_strlcat(filename, suffix, 47 + ft_strlen(suffix) + 1); //@Christian: woher kommen die 47?
+		suffix = ft_itoa(i);
+		if (!suffix)
+			fatal_error(vars, "malloc: Cannot allocate memory");
+		ft_strlcat(filename, suffix, 19 + ft_strlen(suffix) + 1);
 		free(suffix);
 		if (access(filename, F_OK) == -1)
 			break;
@@ -44,7 +43,7 @@ char	*unique_filename(t_vars *vars)
 		return (NULL);
 	ret = ft_strdup(filename);
 	if (!ret)
-		fatal_error(vars, "out of memory");
+		fatal_error(vars, "malloc: Cannot allocate memory");
 	return (ret);
 }
 
@@ -54,7 +53,7 @@ t_tempfile	*create_tempfile(t_vars *vars)
 
 	tempfile = malloc(sizeof(t_tempfile));
 	if (!tempfile)
-		fatal_error(vars, "out of memory");
+		fatal_error(vars, "malloc: Cannot allocate memory");
 	tempfile->pathname = unique_filename(vars);
 	if (!tempfile->pathname)
 	{

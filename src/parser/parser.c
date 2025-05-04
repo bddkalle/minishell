@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 23:33:55 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:09:11 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void	parser(t_vars *vars)
 		return ;
 	init_parser(vars);
 	reclassification(vars);
+	if (!vars->parser)
+		return ;
 	remove_quotes(vars);
 	vars->ast = parse_expression(vars);
 	if (!vars->ast)

@@ -6,7 +6,7 @@
 /*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:40:19 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/04 09:54:58 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:32:50 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,6 @@ void	print_export(int fd, char **envp)
 		write(fd, "\n", 1);
 		envp++;
 	}
-}
-
-int	is_valid_identifier(char *identifier)
-{
-	while (*identifier)
-	{
-		if (!is_valid_name(*identifier) && !ft_isdigit(*identifier))
-			return (0);
-		identifier++;
-	}
-	return (1);
 }
 
 void	export_append(t_vars *vars, t_envp *envp_node, char *varvalue)
@@ -91,9 +80,9 @@ int	parse_export_command(t_vars *vars, char **argv)
 			free(new_envp_node->var);
 			free(new_envp_node->value);
 			free(new_envp_node);
-			exit_code = execution_error(argv[i], "not a valid identifier", 1);
+			exit_code = export_error(argv[i], "not a valid identifier", 1);
 			i++;
-			continue;
+			continue ;
 		}
 		add_or_replace_envp(vars, new_envp_node);
 		i++;

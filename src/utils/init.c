@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:46:33 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/30 17:58:50 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/04 21:11:05 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void	init_vars(t_vars *vars)
 
 void	init_pwd_oldpwd(t_vars *vars)
 {
+	char *oldpwd;
+
 	getcwd(vars->pwd, PATH_MAX);
-	getcwd(vars->oldpwd, PATH_MAX);
+	oldpwd = getenv("OLDPWD");
+	ft_strlcpy(vars->oldpwd, oldpwd, ft_strlen(oldpwd) + 1);
 }
 
 void	init_envp(t_vars *vars, char **param)
@@ -30,7 +33,7 @@ void	init_envp(t_vars *vars, char **param)
 	t_envp	*envp;
 	t_envp	*temp;
 	t_envp	*last;
-	int	count;
+	int		count;
 
 	count = 0;
 	envp = NULL;
@@ -38,12 +41,12 @@ void	init_envp(t_vars *vars, char **param)
 	{
 		temp = create_envp_node(param[count]);
 		if (!temp)
-			error_exit(vars, strerror(errno), errno); // double checl with felix
+			fatal_error(vars, "malloc: Cannot allocate memory");
 		temp->next = NULL;
 		if (!envp)
 			envp = temp;
 		else
-		 	last->next = temp;
+			last->next = temp;
 		last = temp;
 		count++;
 	}

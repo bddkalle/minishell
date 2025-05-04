@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 22:55:32 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:01:40 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_size			is_redir_op(t_token_type type);
 
 
 //Heredoc
-void			heredoc_setup(t_vars *vars, t_token *target, char *redir_target);
+int				heredoc_setup(t_vars *vars, t_token *target, char *redir_target);
 t_tempfile		*open_heredoc_dialog(t_vars *vars, char *delimiter);
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 11:32:19 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:53:19 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ void	reclassification(t_vars *vars)
 	{
 		if (tmp->type == TOKEN)
 			tmp->type = TOKEN_WORD;
-		if (tmp->next && *tmp->next->value == '~' && \
-		(tmp->type == TOKEN_REDIRECT_IN || tmp->type == TOKEN_REDIRECT_OUT \
-		|| tmp->type == TOKEN_REDIRECT_APPEND))
+		if (tmp->next && *tmp->next->value == '~' && (tmp->type == TOKEN_REDIRECT_IN \
+			|| tmp->type == TOKEN_REDIRECT_OUT || tmp->type == TOKEN_REDIRECT_APPEND))
 		{
 			ft_strlcpy(redir_target, vars->prompt->home, \
 			ft_strlen(vars->prompt->home) + 1);
@@ -63,7 +62,8 @@ void	reclassification(t_vars *vars)
 				error_exit(vars, "strdup failed to expand ~", EXIT_FAILURE);
 		}
 		if (tmp->type == TOKEN_HEREDOC && tmp->next && tmp->next->type == TOKEN)
-			heredoc_setup(vars, tmp->next, redir_target);
+			if (heredoc_setup(vars, tmp->next, redir_target) == 1)
+				break;
 		tmp = tmp->next;
 	}
 }

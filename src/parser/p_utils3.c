@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 20:22:50 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:39:22 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	remove_quotes(t_vars *vars)
 	while (tmp)
 	{
 		i = 0;
-		while (tmp->value[i])
+		while (tmp->value && tmp->value[i])
 		{
 			if (tmp->value[i] == '\'' && quote_is_closed(tmp->value, i))
 			{
