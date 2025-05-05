@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/05 03:20:12 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:51:52 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	expand_variables(t_vars *vars, char **pline)
 
 	ret = NULL;
 	i = 0;
-	while ((*pline)[i])
+	if ((*pline)[i])
 	{
 		j = 0;
 		while ((*pline)[i] && (*pline)[i] != '$')
@@ -64,8 +64,6 @@ void	expand_variables(t_vars *vars, char **pline)
 		start_substitution(vars, &substitute, parameter);
 		if (substitute)
 			ret = substitute_heredoc_var(*pline, substitute, parameter);
-		if ((*pline)[i])
-			i++;
 	}
 	if (ret)
 		fill_line(pline, ret);

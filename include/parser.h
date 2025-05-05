@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/05 03:23:14 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:05:14 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ int				heredoc_setup(t_vars *vars, t_token *target, \
 t_tempfile		*open_heredoc_dialog(t_vars *vars, char *delimiter);
 void			start_substitution(t_vars *vars, char **substitute, \
 				char *parameter);
+t_size			is_var_included(char **pline);
+
 
 //Debugging
 void			debug_lexer(t_vars *vars);

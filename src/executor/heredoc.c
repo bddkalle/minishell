@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/05 14:27:05 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/05 14:32:16 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del)
 		free_null((void **)line);
 		return (1);
 	}
-	expand_variables(vars, line);
+	while (is_var_included(line))
+		expand_variables(vars, line);
 	return (0);
 }
 
