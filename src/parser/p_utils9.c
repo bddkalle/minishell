@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils9.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/05 03:19:43 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:04:52 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,18 @@ void	start_substitution(t_vars *vars, char **substitute, char *parameter)
 		*substitute = vars->oldpwd;
 	else
 		*substitute = _getenv(vars, parameter);
+}
+
+t_size	is_var_included(char **pline)
+{
+	t_size	i;
+
+	i = 0;
+	while ((*pline)[i] && (*pline)[i] != '$')
+		i++;
+	if ((*pline)[i] == '$')
+		i++;
+	if ((*pline)[i] && is_valid_name((*pline)[i]))
+		return (1);
+	return (0);
 }
