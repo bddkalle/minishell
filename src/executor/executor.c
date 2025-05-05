@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/05 09:06:18 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/05 09:38:57 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	executor(t_vars *vars)
 		free_null_readline(vars);
 		g_received_signal = 0;
 	}
-	if (vars->ast != NULL && vars->ast->type == AST_COMMAND && vars->ast->u_data.s_command.argv)
+	if (vars->ast != NULL && vars->ast->type == AST_COMMAND \
+		&& vars->ast->u_data.s_command.argv)
 	{
 		if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "exit") == 0)
 		{

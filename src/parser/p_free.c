@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:13:48 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/05 09:01:27 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/05 09:37:48 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ void	free_cmd_node(t_ast_node **curr_node)
 	if (*curr_node && (*curr_node)->type == AST_COMMAND)
 	{
 		i = 0;
-		while ((*curr_node)->u_data.s_command.argv && (*curr_node)->u_data.s_command.argv[i])
+		while ((*curr_node)->u_data.s_command.argv && \
+		(*curr_node)->u_data.s_command.argv[i])
 			free_null((void **)&(*curr_node)->u_data.s_command.argv[i++]);
 		free_null((void **)&(*curr_node)->u_data.s_command.argv);
-		while ((*curr_node)->u_data.s_command.redirs && (*curr_node)->u_data.s_command.redirs)
+		while ((*curr_node)->u_data.s_command.redirs && \
+		(*curr_node)->u_data.s_command.redirs)
 		{
 			tmp = (*curr_node)->u_data.s_command.redirs->next;
 			free_null((void **)&(*curr_node)->u_data.s_command.redirs);

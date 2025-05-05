@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:46:33 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 21:11:05 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 09:38:24 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_vars(t_vars *vars)
 
 void	init_pwd_oldpwd(t_vars *vars)
 {
-	char *oldpwd;
+	char	*oldpwd;
 
 	getcwd(vars->pwd, PATH_MAX);
 	oldpwd = getenv("OLDPWD");
