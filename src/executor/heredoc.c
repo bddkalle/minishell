@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/05 00:27:45 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:27:05 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ void	heredoc_loop(t_vars *vars, char *delimiter, t_tempfile *tempfile)
 			while (line[i])
 				write(tempfile->fd, &line[i++], 1);
 			write(tempfile->fd, "\n", 1);
+			free_null((void **)&line);
 		}
 		else
 			break ;
-		free_null((void **)&line);
 	}
 	free_close_tempfile(tempfile);
 	free_all(vars);

@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/05 09:25:15 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/05 14:29:37 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ t_ast_node	*parse_or_and(t_vars *vars)
 		if (!vars->parser->curr_tok || is_op2(vars->parser->curr_tok->type))
 		{
 			handle_syntax_error(vars, vars->parser->curr_tok);
+			vars->ast = left;
+			free_null_readline(vars);
 			return (NULL);
 		}
 		right = parse_factor(vars);
 		op_node = _malloc(sizeof(t_ast_node), vars);
+		//error protect!
 		op_node->type = op_type;
 		op_node->u_data.s_operator.left = left;
 		op_node->u_data.s_operator.right = right;

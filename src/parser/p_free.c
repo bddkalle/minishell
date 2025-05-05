@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:13:48 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/05 09:37:48 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/05 11:59:01 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,14 @@ void	free_parser(t_vars *vars)
 	}
 	else if (vars->parser)
 	{
-		if (vars->parser->node && vars->parser->node->type == AST_COMMAND)
-			free_parser_cmd_node(vars);
+		free_ast_node(&vars->parser->node);
+
+		/* if (vars->parser->node && vars->parser->node->type == AST_PIPE || \
+			vars->parser->node->type == AST_AND || \
+			vars->parser->node->type == AST_OR)
+			free_op_node(curr_node); */
+		/* if (vars->parser->node && vars->parser->node->type == AST_COMMAND)
+			free_parser_cmd_node(vars); */
 	}
 	free_null_token(vars);
 	free_null((void **)&vars->line);

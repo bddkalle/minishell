@@ -6,13 +6,13 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/05 08:43:24 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/05 14:29:22 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/* void	debug_lexer(t_vars *vars)
+/*void	debug_lexer(t_vars *vars)
 {
 	t_token	*tmp;
 	int		i;
@@ -156,5 +156,4 @@ void	debug_parser(t_vars *vars)
 	if (!vars->ast)
 		printf("\nvars->ast = %p\n", vars->ast);
 	print_ast_node(tmp_ast, nodenum);
-}
-*/
+}*/
