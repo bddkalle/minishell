@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:13:48 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 23:47:37 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:24:22 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	free_cmd_node(t_ast_node **curr_node)
 		}
 		free_null((void **)curr_node);
 	}
-
 }
 
 void	free_ast_node(t_ast_node **curr_node)

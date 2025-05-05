@@ -3,31 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:16:55 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/05 00:27:31 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:00:35 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "p_structs.h"
-#ifndef T_VARS_FWD_H
-
-typedef struct s_vars		t_vars;
-typedef struct s_ast_node	t_ast_node;
-
-#define T_VARS_FWD_H
-#endif
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
 # include "e_structs.h"
 # include "structs.h"
+# include "p_structs.h"
 
 //executor
 void		executor(t_vars *vars);
-int			execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, int out_fd);
+int			execute_ast(t_vars *vars, t_ast_node *current_node, int in_fd, \
+			int out_fd);
 int			execute_command(t_vars *vars, struct s_command *curr_command_node, \
 								int in_fd, int out_fd);
 int			run_executable(t_vars *vars, struct s_command *curr_command_node, \
@@ -45,8 +38,8 @@ int			operator_subshell(t_vars *vars, t_ast_node *current_node, \
 int			search_env_path(t_vars *vars, char *command);
 
 //redirections
-int			parse_redirections(t_vars *vars, struct s_command *current_command_node, \
-								int *in_fd, int *out_fd);
+int			parse_redirections(t_vars *vars, \
+			struct s_command *current_command_node, int *in_fd, int *out_fd);
 //int	heredoc_redirection(t_vars *vars, char *delimiter, int old_in_fd);
 int			heredoc_redirection(char *target, int old_in_fd);
 
@@ -74,7 +67,8 @@ char		*get_home(t_vars *vars);
 void		update_oldpwd(t_vars *vars);
 void		update_pwd(t_vars *vars);
 int			within_long_long(char *str);
-int			analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, char *del);
+int			analyse_line(t_vars *vars, char **line, t_tempfile *tempfile, \
+			char *del);
 void		expand_variables(t_vars *vars, char **pline);
 char		*substitute_heredoc_var(char *s, char *substitute, char *parameter);
 void		fill_line(char **pline, char *ret);

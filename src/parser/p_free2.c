@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:13:48 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/03 22:17:41 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:20:49 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	free_null_token(t_vars *vars)
 
 	if (vars->lexer)
 		free_null((void **)&vars->lexer->curr_token);
-
 	while (vars->token)
 	{
 		free_null((void **)&vars->token->value);

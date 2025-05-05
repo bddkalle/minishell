@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:35:38 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/02 19:41:12 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:28:33 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "p_structs.h"
 # include "e_structs.h"
 # include <linux/limits.h>
-
 
 											//	AST	//
 
@@ -42,8 +41,8 @@ typedef struct s_redir
 {
 	int				fd;
 	t_redir_type	type;
-	char			*target;						//filename or heredoc delimiter
-	struct s_redir	*next;							//next redirection in list if any
+	char			*target;
+	struct s_redir	*next;
 }					t_redir;
 
 typedef struct s_ast_node
@@ -53,20 +52,30 @@ typedef struct s_ast_node
 	{
 		struct s_command
 		{
-			char				**argv;				//array of command/args strings (At this stage, the tokens have been processed so that single/double quotes are respected, and environment variables or wildcards might be marked for expansion)
-			t_redir				*redirs;			//linked list of redirections
-		} 	s_command;
+			char				**argv;
+			t_redir				*redirs;
+		}	s_command;
 		struct s_operator
 		{
 			struct s_ast_node	*left;
 			struct s_ast_node	*right;
-		}	s_operator;								//for operators "|" , "&&" and "||"
+		}	s_operator;
 		struct s_subshell
 		{
 			struct s_ast_node	*child;
-		} 	s_subshell;								//for parenthesized commands
+		}	s_subshell;
 	} u_data;
 }								t_ast_node;
+
+											//	PARSER	//
+
+typedef struct s_parser
+{
+	t_token		*curr_tok;
+	t_ast_node	*node;
+	t_redir		**next_redir_node;
+	t_size		tok_pos;
+}	t_parser;
 
 												//	MAIN  //
 

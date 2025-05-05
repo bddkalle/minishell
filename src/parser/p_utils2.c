@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:55:34 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 23:53:19 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:45:31 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	reclassification(t_vars *vars)
 	{
 		if (tmp->type == TOKEN)
 			tmp->type = TOKEN_WORD;
-		if (tmp->next && *tmp->next->value == '~' && (tmp->type == TOKEN_REDIRECT_IN \
-			|| tmp->type == TOKEN_REDIRECT_OUT || tmp->type == TOKEN_REDIRECT_APPEND))
+		if (tmp->next && *tmp->next->value == '~' && is_redirexh_op(tmp->type))
 		{
 			ft_strlcpy(redir_target, vars->prompt->home, \
 			ft_strlen(vars->prompt->home) + 1);
@@ -63,7 +62,7 @@ void	reclassification(t_vars *vars)
 		}
 		if (tmp->type == TOKEN_HEREDOC && tmp->next && tmp->next->type == TOKEN)
 			if (heredoc_setup(vars, tmp->next, redir_target) == 1)
-				break;
+				break ;
 		tmp = tmp->next;
 	}
 }

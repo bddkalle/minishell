@@ -6,7 +6,7 @@
 #    By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 14:10:53 by fschnorr          #+#    #+#              #
-#    Updated: 2025/05/04 21:01:41 by fschnorr         ###   ########.fr        #
+#    Updated: 2025/05/05 01:54:42 by fschnorr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRC =	$(addsuffix .c,							\
 								p_utils6		\
 								p_utils7		\
 								p_utils8		\
+								p_utils9		\
 								parser			\
 		))										\
 		$(addsuffix .c,							\
