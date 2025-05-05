@@ -6,11 +6,24 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:21:13 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/05 14:29:37 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/05/05 14:58:51 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_ast_node	*allocate_op_node(t_vars *vars, t_ast_node *left)
+{
+	t_ast_node	*op_node;
+
+	op_node = malloc(sizeof(t_ast_node));
+	if (!op_node)
+	{
+		free_ast_node(&left);
+		fatal_error(vars, "malloc: Cannot allocate memory");
+	}
+	return (op_node);
+}
 
 t_ast_node	*parse_or_and(t_vars *vars)
 {
@@ -32,8 +45,7 @@ t_ast_node	*parse_or_and(t_vars *vars)
 			return (NULL);
 		}
 		right = parse_factor(vars);
-		op_node = _malloc(sizeof(t_ast_node), vars);
-		//error protect!
+		op_node = allocate_op_node(vars, left);
 		op_node->type = op_type;
 		op_node->u_data.s_operator.left = left;
 		op_node->u_data.s_operator.right = right;
