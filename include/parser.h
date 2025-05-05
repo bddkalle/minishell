@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/05 00:01:40 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 03:23:14 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # define CONSEC_OP "|&"
 # define QUOTES "'\""
 # define DEL " \t\n"
-
 
 # include "minishell.h"
 # include "structs.h"
@@ -50,6 +49,7 @@ t_size			token_cof_digits(char *s);
 void			handle_quoted_input(t_vars *vars);
 void			handle_single_qt(t_vars *vars);
 void			handle_double_qt(t_vars *vars);
+void			syntax_error_double_quote(t_vars *vars);
 t_size			is_parameter(t_vars *vars);
 void			get_parameter(t_vars *vars, char *parameter);
 void			expand_parameter(t_vars *vars);
@@ -85,18 +85,18 @@ void			check_redir_syntax(t_vars *vars);
 void			handle_consecutive_op(t_vars *vars, t_token *curr_tok);
 t_size			is_invalid_leading_op(t_token_type type);
 t_size			is_consecutive_op(t_token_type type);
+void			handle_syntax_error(t_vars *vars, t_token *tok);
 int				closing_par(t_vars *vars, t_token *curr_tok);
-t_size			is_operator(t_token_type type);
+t_size			is_op2(t_token_type type);
 t_size			is_redir_op(t_token_type type);
-
-
-
+t_size			is_redirexh_op(t_token_type type);
 
 //Heredoc
-int				heredoc_setup(t_vars *vars, t_token *target, char *redir_target);
+int				heredoc_setup(t_vars *vars, t_token *target, \
+				char *redir_target);
 t_tempfile		*open_heredoc_dialog(t_vars *vars, char *delimiter);
-
-
+void			start_substitution(t_vars *vars, char **substitute, \
+				char *parameter);
 
 //Debugging
 void			debug_lexer(t_vars *vars);

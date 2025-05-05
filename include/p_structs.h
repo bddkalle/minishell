@@ -6,24 +6,14 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 13:26:20 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 20:24:42 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:07:44 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#ifndef T_AST_NODE_H
-
-typedef struct s_ast_node	t_ast_node;
-typedef struct s_redir		t_redir;
-
-#define T_AST_NODE_H
-
-#endif
 
 #ifndef P_STRUCTS_H
 
 # define P_STRUCTS_H
 
-# include "minishell.h"
 # include "structs.h"
 
 										//	LEXER	//
@@ -72,15 +62,5 @@ typedef struct s_lexer
 	t_size			token_pos;
 	t_size			line_pos;
 }					t_lexer;
-
-											//	PARSER	//
-
-typedef struct s_parser
-{
-	t_token		*curr_tok;
-	t_ast_node	*node;
-	t_redir		**next_redir_node;
-	t_size		tok_pos;
-}	t_parser;
 
 #endif

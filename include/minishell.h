@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:25:06 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/04 23:46:20 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:02:26 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,18 @@ void			_close(int fd);
 void			free_envp(t_envp *envp);
 
 //signals
-void		signal_handler_global(int signum);
-void		signal_readline_setup(void);
-void		signal_shell_setup(void);
-void		signal_heredoc_setup(void);
-void		sigint_shell_handler(int signum);
-void		signal_executable_setup(void);
-void		signal_pipe_setup(void);
-void		signal_ignore_setup(void);
-void		signal_heredoc_readline_setup(void);
-void		disable_echotcl(void);
-void		enable_echoctl(void);
-void		write_sigint(void);
+void			signal_handler_global(int signum);
+void			signal_readline_setup(void);
+void			signal_shell_setup(void);
+void			signal_heredoc_setup(void);
+void			sigint_shell_handler(int signum);
+void			signal_executable_setup(void);
+void			signal_pipe_setup(void);
+void			signal_ignore_setup(void);
+void			signal_heredoc_readline_setup(void);
+void			disable_echotcl(void);
+void			enable_echoctl(void);
+void			write_sigint(void);
 
 //Utils
 void			*_malloc(size_t size, t_vars *vars);

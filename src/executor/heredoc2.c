@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:32:10 by cdahne            #+#    #+#             */
-/*   Updated: 2025/05/05 00:03:29 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 03:20:12 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,15 @@ char	*substitute_heredoc_var(char *s, char *substitute, char *parameter)
 
 	ft_bzero(buffer, LINE_MAX);
 	ft_strlcpy(buffer, s, ft_strlen(s) + 1);
-	//printf("buffer = %s\n", buffer);
 	var = ft_strjoin("$", parameter);
-	//printf("var = %s\n", var);
 	ret = ft_strnstr(buffer, var, ft_strlen(buffer));
 	cont = ret + ft_strlen(var);
 	free_null((void **)&var);
 	*ret = '\0';
 	ret = ft_strjoin(buffer, substitute);
-	//printf("ret = %s\n", ret);
-	//printf("cont = %s\n", cont);
 	tmp = ret;
 	ret = ft_strjoin(tmp, cont);
-	free_null((void**)&tmp);
-	//printf("ret = %s\n", ret);
+	free_null((void **)&tmp);
 	return (ret);
 }
 
@@ -53,12 +48,6 @@ void	expand_variables(t_vars *vars, char **pline)
 	t_size	i;
 	t_size	j;
 
-/* 	if (!del_is_quoted(del))							//handle quoted DEL
-	{
-		printf("del is not quoted -> expand");
-		//get_parameter(vars, parameter);
-		return ;
-	} */
 	ret = NULL;
 	i = 0;
 	while ((*pline)[i])
@@ -72,12 +61,7 @@ void	expand_variables(t_vars *vars, char **pline)
 		while ((*pline)[i] && is_valid_name((*pline)[i]))
 			parameter[j++] = (*pline)[i++];
 		parameter[j] = '\0';
-		if (!ft_strcmp(parameter, "PWD"))
-			substitute = vars->pwd;
-		else if (!ft_strcmp(parameter, "OLDPWD"))
-			substitute = vars->oldpwd;
-		else
-			substitute = _getenv(vars, parameter);
+		start_substitution(vars, &substitute, parameter);
 		if (substitute)
 			ret = substitute_heredoc_var(*pline, substitute, parameter);
 		if ((*pline)[i])

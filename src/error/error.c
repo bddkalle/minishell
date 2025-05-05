@@ -6,7 +6,7 @@
 /*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:40:30 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/04/28 15:23:23 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 02:40:05 by fschnorr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	error_exit(t_vars *vars, char *s, int exit_code)
 		write(2, "\n", 1);
 	}
 	else
-	 	perror(s);
- 	free_all(vars);
+		perror(s);
+	free_all(vars);
 	exit (exit_code);
 }
 
