@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_debug.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fschnorr <fschnorr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:18:32 by fschnorr          #+#    #+#             */
-/*   Updated: 2025/05/05 00:18:59 by fschnorr         ###   ########.fr       */
+/*   Updated: 2025/05/05 08:43:24 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	print_op_node(t_ast_node *curr_node, int nodenum)
 {
 	t_ast_node	*tmp_node;
 	int			opnodes;
-	
+
 	printf("\n>>AST NODE %d = OPERATOR NODE<<\n", nodenum++);
 	if (curr_node->type == AST_PIPE)
 			printf("\ttype = AST_PIPE\n");
@@ -75,7 +75,7 @@ int	print_op_node(t_ast_node *curr_node, int nodenum)
 	printf("\tleft = AST NODE %d\n", nodenum);
 	if (curr_node->u_data.s_operator.left->type == AST_COMMAND)
 		printf("\tright = AST NODE %d\n", nodenum + 1);
-	else 
+	else
 	{
 		tmp_node = curr_node;
 		opnodes = 0;
@@ -157,4 +157,4 @@ void	debug_parser(t_vars *vars)
 		printf("\nvars->ast = %p\n", vars->ast);
 	print_ast_node(tmp_ast, nodenum);
 }
- */
+*/

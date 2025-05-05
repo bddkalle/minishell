@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:51:49 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/05/03 20:26:44 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/05 09:06:18 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,16 @@ int	execute_command(t_vars *vars, struct s_command *curr_command_node, \
 	exit_code = -1;
 	if (parse_redirections(vars, curr_command_node, &in_fd, &out_fd) == -1)
 		return (close_fds(in_fd, out_fd));
-	if (g_received_signal == 0)
+	if (g_received_signal == 0 && curr_command_node->argv)
 		exit_code = builtin_or_executable(vars, curr_command_node, \
 			in_fd, out_fd);
 	else if (g_received_signal == SIGINT)
+	{
 		g_received_signal = 0;
+		exit_code = 128 + SIGINT;
+	}
+	else if (!curr_command_node->argv)
+		exit_code = 0;
 	close_fds(in_fd, out_fd);
 	return (exit_code);
 }
@@ -83,7 +88,7 @@ void	executor(t_vars *vars)
 		free_null_readline(vars);
 		g_received_signal = 0;
 	}
-	if (vars->ast != NULL && vars->ast->type == AST_COMMAND)
+	if (vars->ast != NULL && vars->ast->type == AST_COMMAND && vars->ast->u_data.s_command.argv)
 	{
 		if (ft_strcmp(vars->ast->u_data.s_command.argv[0], "exit") == 0)
 		{
