@@ -1,147 +1,144 @@
-# Minishell
+*This project has been created as part of the 42 curriculum by bddkalle.*
 
-Eine eigene, vereinfachte Shell-Implementation nach POSIX-Prinzipien.  
-Ziel des Projekts ist es, das Verhalten eines UNIX-Shell-Interpreters möglichst realitätsnah nachzubilden — inkl. Tokenizing, Parsing, Pipes, Redirections, Builtins, Environment-Handling und Signal-Management.
+# Minishell — simplified POSIX-style shell implementation
 
-Minishell wurde im Rahmen des 42-Programms entwickelt und bildet die Grundlage für tiefes Verständnis von Prozesssteuerung, Dateideskriptoren, Signals & Shell-Parsing.
+## Description
 
----
+Minishell is a small, simplified shell implementation aiming to reproduce the behavior of a UNIX shell interpreter as realistically as possible. The project covers tokenizing, parsing, pipelines (pipes), redirections (including heredoc), builtin commands, environment handling and basic signal management. Minishell was developed as part of the 42 curriculum and is intended to provide deep, hands-on understanding of process control, file descriptors, signals and shell parsing.
 
 ## Features
 
-- **Bash-kompatible Eingabe** (mit grundlegender Syntax)
-- **Pipes**: `cmd1 | cmd2 | cmd3`
-- **Redirections**:  
-  - Output: `>` und `>>`  
-  - Input: `<`  
+- Basic Bash-compatible input parsing and syntax.
+- Pipes: `cmd1 | cmd2 | cmd3`.
+- Redirections:
+  - Output: `>` and `>>`
+  - Input: `<`
   - Heredoc: `<<`
-- **Umgebungsvariablen**: `$VAR` Expansion
-- **Builtins (ohne Fork)**  
-  - `cd`  
-  - `echo`  
-  - `pwd`  
-  - `export` / `unset`  
-  - `env`  
-  - `exit`
-- **Signals**  
-  - `Ctrl-C`: Unterbricht aktuelle Eingabe wie in Bash  
-  - `Ctrl-\`: Ignoriert (wie Bash im interaktiven Modus)
-- **Error-Handling**  
-  - Syntaxfehler  
-  - Command-not-found  
-  - Zugriff/Permission-Fehler
-- **Command execution pipeline** mit `fork`, `execve`, `dup2`, `pipe`
+- Environment variable expansion using `$VAR`.
+- Builtins (executed without forking): `cd`, `echo`, `pwd`, `export`, `unset`, `env`, `exit`.
+- Signal handling comparable to interactive Bash (`SIGINT`/Ctrl-C behavior, ignoring `SIGQUIT` in interactive mode, etc.).
+- Error handling for syntax errors, command-not-found, access/permission errors.
+- Command execution pipeline implemented with `fork`, `execve`, `dup2`, and `pipe`.
 
----
+## Instructions
 
-## Quickstart
+> **IMPORTANT:** This project depends on `libft` as a Git submodule. Clone with submodules to ensure `libft` is present.
 
-> **WICHTIG:** Dieses Projekt verwendet `libft` als **Git submodule**.  
-> Daher MUSST du beim Clone `--recurse-submodules` verwenden.
+1. Clone the repository (with submodules):
 
-### 1. Repository klonen
 ```bash
-git clone --recurse-submodules https://github.com/<dein-username>/minishell.git
+git clone --recurse-submodules https://github.com/bddkalle/minishell.git
 cd minishell
 ```
-Falls du das Repo bereits ohne Submodule geclont hast, hole es nach:
+
+If you already cloned without submodules, fetch them afterwards:
+
 ```bash
 git submodule update --init --recursive
 ```
 
-### 2. Kompilieren
-Das erzeugt das Binary:
+2. Compile the project:
+
 ```bash
 make
 ```
 
-### 3. Starten
+This produces the `minishell` binary in the repository root.
+
+3. Run the shell:
+
 ```bash
 ./minishell
 ```
-Jetzt kannst du Kommandos wie in einer realen Shell ausführen:
+
+Example commands to try inside the shell:
+
 ```bash
-echo Hallo Welt
+echo "Hello World"
 ls -l | grep minishell
 export TEST=42
 echo $TEST
 cat < input.txt | grep foo > out.txt
 ```
 
----
+## Architecture (short overview)
 
-## Architektur (Kurzüberblick)
-```bash
-minishell/
- ├── src/
- │    ├── lexer/        # Tokenizing input → Tokens
- │    ├── parser/       # AST bauen, Syntax prüfen
- │    ├── exec/         # Pipelines, Redirections, FD-Management
- │    ├── builtins/     # cd, echo, export, ...
- │    ├── env/          # Environment-Verwaltung
- │    └── signals/      # Signal-Handler wie Bash
- ├── libft/             # Submodule – Utility-Funktionen
- ├── includes/          # Header (Datenstrukturen, APIs)
- ├── Makefile
- └── minishell.c
 ```
-### Zentrale Konzepte
-- **Tokenizer**
-  Zerlegt Eingabezeichenketten in bedeutungsvolle Tokens (Wörter, Pipes, Redirections, Quotes).
-- **Parser / AST**
-  Baut eine interne Struktur der Kommandokette, überprüft Syntax und bereitet die Exec-Phase vor.
-- **Executor** Baut die Pipeline, erstellt Child-Prozesse, dupliziert Deskriptoren (dup2), öffnet Redirections, ruft execve() auf.
-- **Builtins ohne Fork**
-Bestimmte Kommandos müssen im Elternprozess laufen, damit sie das Environment ändern können.
-- **Signals**
-Angepasstes Verhalten für interaktiven Modus (ähnlich Bash).
+minishell/
+├── src/
+│   ├── lexer/       # Tokenizing input → tokens
+│   ├── parser/      # Build AST, check syntax
+│   ├── exec/        # Pipelines, redirections, FD management
+│   ├── builtins/    # cd, echo, export, ...
+│   ├── env/         # Environment management
+│   └── signals/     # Signal handlers (interactive behavior)
+├── libft/           # Submodule – utility functions
+├── includes/        # Headers (data structures, APIs)
+├── Makefile
+└── minishell.c
+```
 
----
+### Core concepts
 
-## Tests & Debugging
-### Minishell starten mit Debug-Ausgaben
+- **Tokenizer:** Splits the input string into meaningful tokens (words, pipes, redirections, quotes).
+- **Parser / AST:** Builds an internal representation of the command chain, validates syntax and prepares execution structures.
+- **Executor:** Constructs the pipeline, creates child processes, duplicates file descriptors (`dup2`), opens redirections and invokes `execve()`.
+- **Builtins without fork:** Certain builtins must run in the parent process so they can change the environment (e.g. `cd`, `export`).
+- **Signals:** Adjusted behavior for interactive mode to match common shell expectations.
+
+## Tests & debugging
+
+- Build a debug binary with additional logging:
+
 ```bash
 make debug
 ./minishell
 ```
 
-### Leaks prüfen (macOS)
+- Memory leak checks on macOS:
+
 ```bash
 leaks --atExit -- ./minishell
 ```
 
-### Leaks prüfen (Linux, z. B. WSL)
+- Memory leak checks on Linux (e.g. WSL):
+
 ```bash
 valgrind --leak-check=full ./minishell
 ```
-### Vergleich mit Bash → Verhalten testen
-```bash
-echo "> minishell vs bash"
-```
 
----
+- For behavioral comparison, test against Bash for various use cases.
 
-## Anforderungen aus dem originalen 42-Project (Kurzfassung)
-- Keine Nutzung von system()
-- korrekte Signals (SIGINT, SIGQUIT)
-- korrekte Exit-Status
-- Quotes-Handling ' ' / " "
-- Pipe-Handling
-- Redirection-Handling
-- Builtins
-- $? Expansion
-- Leaks-frei
+## Requirements from the original 42 project (summary)
 
----
+- Do not use `system()`.
+- Correct handling of signals (`SIGINT`, `SIGQUIT`).
+- Correct exit statuses.
+- Proper handling of single and double quotes.
+- Correct pipe handling.
+- Correct redirection handling (>, >>, <, <<).
+- Implement builtins and `$?` expansion.
+- Leak-free implementation.
+
+## Resources
+
+Classic references and documentation useful for this project:
+
+- POSIX and Shell specifications (man pages: `sh`, `bash`, `execve(2)`, `dup2(2)`, `pipe(2)`).
+- The GNU Bash Reference Manual — for expected interactive behavior and conventions.
+- `Advanced Programming in the UNIX Environment` (Stevens) — chapters on processes and I/O.
+- Valgrind documentation — for memory leak detection.
+- Tutorials and articles on shell parsing, tokenization and implementing toy shells.
+
+### AI usage disclosure
+
+- This README was translated and edited using an AI assistant to produce a clear English version and to ensure the README meets the 42 README requirements. The AI was used only for the README text (translation, restructuring, and wording). **No project source code was generated or modified by AI** — the implementation and logic remain the author's work.
 
 ## License
-Dieses Projekt folgt der Lizenz des 42-Curriculums.
 
-Optionale offene Lizenz kann ergänzt werden (z. B. MIT).
+This project follows the licensing terms of the 42 curriculum. Optionally, an open-source license (e.g. MIT) may be added by the author.
 
----
+## Author
 
-## Autor
+Felix Steinmann — GitHub: https://github.com/bddkalle
 
-Felix Steinmann
-GitHub: https://github.com/bddkalle
